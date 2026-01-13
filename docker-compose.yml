@@ -35,5 +35,14 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  node:
+    image: node:24-alpine
+    working_dir: /var/www/html/frontend
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - "3000:3000"
+    tty: true
+
 volumes:
   mysql_data:
