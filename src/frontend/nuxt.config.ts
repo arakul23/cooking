@@ -1,5 +1,15 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    app: {
+        head: {
+            script: [
+                { src: 'assets/js/jquery/jquery-2.2.4.min.js', type: 'text/javascript', defer: true },
+                { src: 'assets/js/bootstrap/popper.min.js', type: 'text/javascript', defer: true },
+                { src: 'assets/js/bootstrap/bootstrap.min.js', type: 'text/javascript', defer: true },
+                { src: 'assets/js/others/plugins.js', type: 'text/javascript', defer: true },
+                { src: 'assets/js/active.js', type: 'text/javascript', defer: true },
+            ]
+        }
+    },
     compatibilityDate: '2025-07-15',
     devtools: {enabled: true},
     vite: {
@@ -17,13 +27,7 @@ export default defineNuxtConfig({
     },
 
     css: [
-        '@/assets/css/bootstrap.min.css',
-        '@/assets/css/font-awesome.min.css',
-        '@/assets/css/magnific-popup.css',
-        '@/assets/css/meanmenu.min.css',
-        '@/assets/css/owl.carousel.min.css',
-        '@/assets/css/pe-icon-7-stroke.css',
-        '@/assets/css/responsive.css',
+        '@/assets/css/style.css',
     ],
 
     runtimeConfig: {
