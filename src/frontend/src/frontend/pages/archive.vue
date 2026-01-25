@@ -1,14 +1,8 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-    <!-- Preloader Start -->
     <div id="preloader">
         <div class="yummy-load"></div>
     </div>
 
-    <!-- Background Pattern Swither -->
     <div id="pattern-switcher">
         Bg Pattern
     </div>
@@ -16,12 +10,10 @@
         <i class="fa fa-times" aria-hidden="true"></i>
     </div>
 
-    <!-- ****** Top Header Area Start ****** -->
     <div class="top_header_area">
         <div class="container">
             <div class="row">
                 <div class="col-5 col-sm-6">
-                    <!--  Top Social bar start -->
                     <div class="top_social_bar">
                         <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                         <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
@@ -30,7 +22,7 @@
                         <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
                     </div>
                 </div>
-                <!--  Login Register Area -->
+
                 <div class="col-7 col-sm-6">
                     <div class="signup-search-area d-flex align-items-center justify-content-end">
                         <div class="login_register_area d-flex">
@@ -41,11 +33,11 @@
                                 <a href="register.html">Sing up</a>
                             </div>
                         </div>
-                        <!-- Search Button Area -->
+
                         <div class="search_button">
                             <a class="searchBtn" href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
                         </div>
-                        <!-- Search Form -->
+
                         <div class="search-hidden-form">
                             <form action="#" method="get">
                                 <input type="search" name="search" id="search-anything" placeholder="Search Anything...">
@@ -58,13 +50,10 @@
             </div>
         </div>
     </div>
-    <!-- ****** Top Header Area End ****** -->
 
-    <!-- ****** Header Area Start ****** -->
     <header class="header_area">
         <div class="container">
             <div class="row">
-                <!-- Logo Area Start -->
                 <div class="col-12">
                     <div class="logo_area text-center">
                         <a href="index.html" class="yummy-logo">Yummy Blog</a>
@@ -76,11 +65,10 @@
                 <div class="col-12">
                     <nav class="navbar navbar-expand-lg">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#yummyfood-nav" aria-controls="yummyfood-nav" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i> Menu</button>
-                        <!-- Menu Area Start -->
                         <div class="collapse navbar-collapse justify-content-center" id="yummyfood-nav">
                             <ul class="navbar-nav" id="yummy-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="yummyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
@@ -114,10 +102,8 @@
             </div>
         </div>
     </header>
-    <!-- ****** Header Area End ****** -->
 
-    <!-- ****** Breadcumb Area Start ****** -->
-    <div class="breadcumb-area" style="background-image: url(img/bg-img/breadcumb.jpg);">
+    <div class="breadcumb-area">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
@@ -154,7 +140,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.1s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/2.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -197,7 +183,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.2s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/3.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -240,7 +226,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.3s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/4.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -283,7 +269,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.4s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/5.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -326,7 +312,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.5s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/2.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -369,7 +355,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.6s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/3.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -412,7 +398,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.7s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/4.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -455,7 +441,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.8s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/5.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -498,7 +484,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.9s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/2.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -541,7 +527,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="1s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/3.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -584,7 +570,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="1.1s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/4.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -627,7 +613,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="1.2s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-                            <img src="img/blog-img/5.jpg" alt="">
+        <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -696,7 +682,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/1.jpg" alt="">
+            <img src="/assets/img/instagram-img/1.jpg" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -712,7 +698,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/2.jpg" alt="">
+            <img src="/assets/img/instagram-img/1.jpg" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -728,7 +714,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/3.jpg" alt="">
+            <img src="/assets/img/instagram-img/1.jpg" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -744,7 +730,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/4.jpg" alt="">
+            <img src="/assets/img/instagram-img/1.jpg" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -760,7 +746,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/5.jpg" alt="">
+            <img src="/assets/img/instagram-img/1.jpg" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -776,7 +762,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/6.jpg" alt="">
+            <img src="/assets/img/instagram-img/1.jpg" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -792,7 +778,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/1.jpg" alt="">
+            <img src="/assets/img/instagram-img/1.jpg" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -808,7 +794,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="img/instagram-img/2.jpg" alt="">
+            <img src="/assets/img/instagram-img/1.jpg" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -903,7 +889,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <!-- Copywrite Text -->
                     <div class="copy_right_text text-center">
                         <p>Copyright @2018 All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
                     </div>

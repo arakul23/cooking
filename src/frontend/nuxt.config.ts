@@ -29,11 +29,11 @@ export default defineNuxtConfig({
     css: [
         '@/assets/css/style.css',
     ],
-
+    srcDir: 'src/frontend/',
     runtimeConfig: {
         public: {
-            // А здесь то, что будет доступно и на клиенте, и на сервере
             apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8080/api'
         }
     }
 })
+
