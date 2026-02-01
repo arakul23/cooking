@@ -1,107 +1,6 @@
 <template>
-    <div id="preloader">
-        <div class="yummy-load"></div>
-    </div>
-
-    <div id="pattern-switcher">
-        Bg Pattern
-    </div>
-    <div id="patter-close">
-        <i class="fa fa-times" aria-hidden="true"></i>
-    </div>
-
-    <div class="top_header_area">
-        <div class="container">
-            <div class="row">
-                <div class="col-5 col-sm-6">
-                    <div class="top_social_bar">
-                        <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                        <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                        <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                        <a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a>
-                        <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-
-                <div class="col-7 col-sm-6">
-                    <div class="signup-search-area d-flex align-items-center justify-content-end">
-                        <div class="login_register_area d-flex">
-                            <div class="login">
-                                <a href="register.html">Sing in</a>
-                            </div>
-                            <div class="register">
-                                <a href="register.html">Sing up</a>
-                            </div>
-                        </div>
-
-                        <div class="search_button">
-                            <a class="searchBtn" href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
-                        </div>
-
-                        <div class="search-hidden-form">
-                            <form action="#" method="get">
-                                <input type="search" name="search" id="search-anything" placeholder="Search Anything...">
-                                <input type="submit" value="" class="d-none">
-                                <span class="searchBtn"><i class="fa fa-times" aria-hidden="true"></i></span>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <header class="header_area">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="logo_area text-center">
-                        <a href="index.html" class="yummy-logo">Yummy Blog</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <nav class="navbar navbar-expand-lg">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#yummyfood-nav" aria-controls="yummyfood-nav" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i> Menu</button>
-                        <div class="collapse navbar-collapse justify-content-center" id="yummyfood-nav">
-                            <ul class="navbar-nav" id="yummy-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="yummyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
-                                    <div class="dropdown-menu" aria-labelledby="yummyDropdown">
-                                        <a class="dropdown-item" href="index.html">Home</a>
-                                        <a class="dropdown-item" href="archive.html">Archive</a>
-                                        <a class="dropdown-item" href="single.html">Single Blog</a>
-                                        <a class="dropdown-item" href="static.html">Static Page</a>
-                                        <a class="dropdown-item" href="contact.html">Contact</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Features</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Categories</a>
-                                </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="archive.html">Archive</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">About</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="contact.html">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
+    <Preloader/>
+    <Header/>
 
     <div class="breadcumb-area">
         <div class="container h-100">
@@ -120,7 +19,8 @@
                 <div class="col-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                            <li class="breadcrumb-item"><a href="#"><i class="fa fa-home" aria-hidden="true"></i>
+                                Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Archive Page</li>
                         </ol>
                     </nav>
@@ -140,7 +40,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.1s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -183,7 +83,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.2s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -226,7 +126,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.3s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -269,7 +169,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.4s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -312,7 +212,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.5s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -355,7 +255,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.6s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -398,7 +298,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.7s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -441,7 +341,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.8s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -484,7 +384,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="0.9s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -527,7 +427,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="1s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -570,7 +470,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="1.1s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -613,7 +513,7 @@
                     <div class="single-post wow fadeInUp" data-wow-delay="1.2s">
                         <!-- Post Thumb -->
                         <div class="post-thumb">
-        <img src="/assets/img/instagram-img/1.jpg" alt="">
+                            <img src="/assets/img/instagram-img/1.jpg" alt="">
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
@@ -661,7 +561,8 @@
                                 <li class="page-item"><a class="page-link" href="#">2</a></li>
                                 <li class="page-item"><a class="page-link" href="#">3</a></li>
                                 <li class="page-item">
-                                    <a class="page-link" href="#">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                                    <a class="page-link" href="#">Next <i class="fa fa-angle-double-right"
+                                                                          aria-hidden="true"></i></a>
                                 </li>
                             </ul>
                         </nav>
@@ -826,7 +727,8 @@
                             <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i><span>GOOGLE+</span></a>
                         </div>
                         <div class="single-icon">
-                            <a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i><span>linkedin</span></a>
+                            <a href="#"><i class="fa fa-linkedin-square"
+                                           aria-hidden="true"></i><span>linkedin</span></a>
                         </div>
                         <div class="single-icon">
                             <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i><span>Instagram</span></a>
@@ -844,61 +746,16 @@
     </div>
     <!-- ****** Footer Social Icon Area End ****** -->
 
-    <!-- ****** Footer Menu Area Start ****** -->
-    <footer class="footer_area">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="footer-content">
-                        <!-- Logo Area Start -->
-                        <div class="footer-logo-area text-center">
-                            <a href="index.html" class="yummy-logo">Yummy Blog</a>
-                        </div>
-                        <!-- Menu Area Start -->
-                        <nav class="navbar navbar-expand-lg">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#yummyfood-footer-nav" aria-controls="yummyfood-footer-nav" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i> Menu</button>
-                            <!-- Menu Area Start -->
-                            <div class="collapse navbar-collapse justify-content-center" id="yummyfood-footer-nav">
-                                <ul class="navbar-nav">
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Features</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Categories</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Archive</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">About</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Contact</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="copy_right_text text-center">
-                        <p>Copyright @2018 All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <Footer/>
 
 </template>
 
 <style scoped>
 
 </style>
+
+<script setup>
+import Preloader from '@/app/components/layout/Preloader.vue'
+import Header from '@/app/components/layout/Header.vue'
+import Footer from '@/app/components/layout/Footer.vue'
+</script>
