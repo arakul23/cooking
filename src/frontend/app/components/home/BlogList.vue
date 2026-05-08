@@ -15,7 +15,7 @@ const posts = [
     {
         title: 'Boil The Kettle',
         excerpt: 'Big story is coming...',
-        image: '/img/blog-1.jpg'
+        image: 'https://placehold.co/960x640?text=Temp+Post'
     }
 ]
 </script>

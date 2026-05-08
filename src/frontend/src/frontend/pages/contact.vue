@@ -80,7 +80,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/1.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -96,7 +96,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/1.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -112,7 +112,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/1.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -128,7 +128,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/1.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -144,7 +144,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/1.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -160,7 +160,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/1.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -176,7 +176,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/1.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -192,7 +192,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/1.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
