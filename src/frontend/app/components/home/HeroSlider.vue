@@ -7,7 +7,7 @@
         <!-- Single Slide -->
         <div class="welcome-single-slide">
             <!-- Post Thumb -->
-            <img src='/assets/img/catagory-img/2.jpg' alt=''>
+            <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
             <!-- Overlay Text -->
             <div class="project_title">
                 <div class="post-date-commnents d-flex">
@@ -23,7 +23,7 @@
         <!-- Single Slide -->
         <div class="welcome-single-slide">
             <!-- Post Thumb -->
-            <img src='/assets/img/catagory-img/2.jpg' alt=''>
+            <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
             <!-- Overlay Text -->
             <div class="project_title">
                 <div class="post-date-commnents d-flex">
@@ -39,7 +39,7 @@
         <!-- Single Slide -->
         <div class="welcome-single-slide">
             <!-- Post Thumb -->
-            <img src='/assets/img/catagory-img/2.jpg' alt=''>
+            <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
             <!-- Overlay Text -->
             <div class="project_title">
                 <div class="post-date-commnents d-flex">
@@ -55,7 +55,7 @@
         <!-- Single Slide -->
         <div class="welcome-single-slide">
             <!-- Post Thumb -->
-            <img src='/assets/img/catagory-img/2.jpg' alt=''>
+            <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
             <!-- Overlay Text -->
             <div class="project_title">
                 <div class="post-date-commnents d-flex">
@@ -71,7 +71,7 @@
         <!-- Single Slide -->
         <div class="welcome-single-slide">
             <!-- Post Thumb -->
-            <img src='/assets/img/catagory-img/2.jpg' alt=''>
+            <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
             <!-- Overlay Text -->
             <div class="project_title">
                 <div class="post-date-commnents d-flex">
@@ -93,7 +93,7 @@
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single_catagory wow fadeInUp" data-wow-delay=".3s">
-                        <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                        <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                         <div class="catagory-title">
                             <a href="#">
                                 <h5>Food</h5>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single_catagory wow fadeInUp" data-wow-delay=".6s">
-                        <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                        <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                         <div class="catagory-title">
                             <a href="#">
                                 <h5>Cooking</h5>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single_catagory wow fadeInUp" data-wow-delay=".9s">
-                        <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                        <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                         <div class="catagory-title">
                             <a href="#">
                                 <h5>Life Style</h5>
@@ -138,7 +138,7 @@
                             <div class="single-post wow fadeInUp" data-wow-delay=".2s">
                                 <!-- Post Thumb -->
                                 <div class="post-thumb">
-                                    <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                    <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 </div>
                                 <!-- Post Content -->
                                 <div class="post-content">
@@ -183,7 +183,7 @@
                             <div class="single-post wow fadeInUp" data-wow-delay=".4s">
                                 <!-- Post Thumb -->
                                 <div class="post-thumb">
-                                    <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                    <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 </div>
                                 <!-- Post Content -->
                                 <div class="post-content">
@@ -226,7 +226,7 @@
                             <div class="single-post wow fadeInUp" data-wow-delay=".6s">
                                 <!-- Post Thumb -->
                                 <div class="post-thumb">
-                                    <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                    <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 </div>
                                 <!-- Post Content -->
                                 <div class="post-content">
@@ -269,7 +269,7 @@
                             <div class="single-post wow fadeInUp" data-wow-delay=".8s">
                                 <!-- Post Thumb -->
                                 <div class="post-thumb">
-                                    <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                    <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 </div>
                                 <!-- Post Content -->
                                 <div class="post-content">
@@ -312,7 +312,7 @@
                             <div class="single-post wow fadeInUp" data-wow-delay="1s">
                                 <!-- Post Thumb -->
                                 <div class="post-thumb">
-                                    <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                    <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 </div>
                                 <!-- Post Content -->
                                 <div class="post-content">
@@ -357,7 +357,7 @@
                             <div class="list-blog single-post d-sm-flex wow fadeInUpBig" data-wow-delay=".2s">
                                 <!-- Post Thumb -->
                                 <div class="post-thumb">
-                                    <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                    <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 </div>
                                 <!-- Post Content -->
                                 <div class="post-content">
@@ -402,7 +402,7 @@
                             <div class="list-blog single-post d-sm-flex wow fadeInUpBig" data-wow-delay=".4s">
                                 <!-- Post Thumb -->
                                 <div class="post-thumb">
-                                    <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                    <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 </div>
                                 <!-- Post Content -->
                                 <div class="post-content">
@@ -447,7 +447,7 @@
                             <div class="list-blog single-post d-sm-flex wow fadeInUpBig" data-wow-delay=".6s">
                                 <!-- Post Thumb -->
                                 <div class="post-thumb">
-                                    <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                    <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 </div>
                                 <!-- Post Content -->
                                 <div class="post-content">
@@ -492,7 +492,7 @@
                             <div class="list-blog single-post d-sm-flex wow fadeInUpBig" data-wow-delay=".8s">
                                 <!-- Post Thumb -->
                                 <div class="post-thumb">
-                                    <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                    <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 </div>
                                 <!-- Post Content -->
                                 <div class="post-content">
@@ -539,40 +539,13 @@
                 <div class="col-12 col-sm-8 col-md-6 col-lg-4">
                     <div class="blog-sidebar mt-5 mt-lg-0">
                         <!-- Single Widget Area -->
-                        <div class="single-widget-area about-me-widget text-center">
-                            <div class="widget-title">
-                                <h6>About Me</h6>
-                            </div>
-                            <div class="about-me-widget-thumb">
-                                <img src='/assets/img/catagory-img/2.jpg' alt=''>
-                            </div>
-                            <h4 class="font-shadow-into-light">Shopia Bernard</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt</p>
-                        </div>
-
-                        <!-- Single Widget Area -->
-                        <div class="single-widget-area subscribe_widget text-center">
-                            <div class="widget-title">
-                                <h6>Subscribe &amp; Follow</h6>
-                            </div>
-                            <div class="subscribe-link">
-                                <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-vimeo" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-
-                        <!-- Single Widget Area -->
                         <div class="single-widget-area popular-post-widget">
                             <div class="widget-title text-center">
                                 <h6>Populer Post</h6>
                             </div>
                             <!-- Single Popular Post -->
                             <div class="single-populer-post d-flex">
-                                <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 <div class="post-content">
                                     <a href="#">
                                         <h6>Top Wineries To Visit In England</h6>
@@ -582,7 +555,7 @@
                             </div>
                             <!-- Single Popular Post -->
                             <div class="single-populer-post d-flex">
-                                <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 <div class="post-content">
                                     <a href="#">
                                         <h6>The 8 Best Gastro Pubs In Bath</h6>
@@ -592,7 +565,7 @@
                             </div>
                             <!-- Single Popular Post -->
                             <div class="single-populer-post d-flex">
-                                <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 <div class="post-content">
                                     <a href="#">
                                         <h6>Zermatt Unplugged the best festival</h6>
@@ -602,7 +575,7 @@
                             </div>
                             <!-- Single Popular Post -->
                             <div class="single-populer-post d-flex">
-                                <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 <div class="post-content">
                                     <a href="#">
                                         <h6>Harrogate's Top 10 Independent Eats</h6>
@@ -612,28 +585,12 @@
                             </div>
                             <!-- Single Popular Post -->
                             <div class="single-populer-post d-flex">
-                                <img src='/assets/img/catagory-img/2.jpg' alt=''>
+                                <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
                                 <div class="post-content">
                                     <a href="#">
                                         <h6>Eating Out On A Budget In Oxford</h6>
                                     </a>
                                     <p>Tuesday, October 3, 2017</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Widget Area -->
-                        <div class="single-widget-area add-widget text-center">
-                            <div class="add-widget-area">
-                                <img src='/assets/img/catagory-img/2.jpg' alt=''>
-                                <div class="add-text">
-                                    <div class="yummy-table">
-                                        <div class="yummy-table-cell">
-                                            <h2>Cooking Book</h2>
-                                            <p>Buy Book Online Now!</p>
-                                            <a href="#" class="add-btn">Buy Now</a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -664,7 +621,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/1.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -680,7 +637,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/2.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -696,7 +653,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/3.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -712,7 +669,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/4.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -728,7 +685,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/5.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -744,7 +701,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/6.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -760,7 +717,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/1.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">
@@ -776,7 +733,7 @@
         <!-- Instagram Item -->
         <div class="instagram_gallery_item">
             <!-- Instagram Thumb -->
-            <img src="/assets/img/instagram-img/2.jpg" alt="">
+            <img src="https://placehold.co/600x600?text=Temp+Insta" alt="">
             <!-- Hover -->
             <div class="hover_overlay">
                 <div class="yummy-table">

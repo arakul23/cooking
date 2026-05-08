@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="LaravelPint">
+    <laravel_pint_settings>
+      <LaravelPintConfiguration tool_path="$PROJECT_DIR$/src/vendor/bin/pint" />
+    </laravel_pint_settings>
+  </component>
   <component name="MessDetectorOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
@@ -25,7 +30,6 @@
       <path value="$PROJECT_DIR$/src/vendor/symfony/polyfill-intl-normalizer" />
       <path value="$PROJECT_DIR$/src/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/src/vendor/symfony/polyfill-php80" />
-      <path value="$PROJECT_DIR$/src/vendor/symfony/polyfill-php83" />
       <path value="$PROJECT_DIR$/src/vendor/symfony/translation-contracts" />
       <path value="$PROJECT_DIR$/src/vendor/symfony/uid" />
       <path value="$PROJECT_DIR$/src/vendor/symfony/var-dumper" />
@@ -129,9 +133,11 @@
       <path value="$PROJECT_DIR$/src/vendor/phar-io/manifest" />
       <path value="$PROJECT_DIR$/src/vendor/phar-io/version" />
       <path value="$PROJECT_DIR$/src/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/src/vendor/_laravel_idea" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/polyfill-php86" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />
   <component name="PhpStan">
     <PhpStan_settings>
       <phpstan_by_interpreter asDefaultInterpreter="true" interpreter_id="24ecae55-4be6-458e-a623-44d3c0007875" timeout="60000" />
