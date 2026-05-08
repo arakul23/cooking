@@ -17,8 +17,8 @@
 
 <script setup>
 const categories = [
-    { title: 'Food', image: '/img/cat-1.jpg' },
-    { title: 'Cooking', image: '/img/cat-2.jpg' },
-    { title: 'Lifestyle', image: '/img/cat-3.jpg' }
+    { title: 'Food', image: 'https://placehold.co/640x420?text=Temp+Category' },
+    { title: 'Cooking', image: 'https://placehold.co/640x420?text=Temp+Category' },
+    { title: 'Lifestyle', image: 'https://placehold.co/640x420?text=Temp+Category' }
 ]
 </script>

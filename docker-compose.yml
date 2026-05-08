@@ -9,9 +9,13 @@ services:
       - ./src:/var/www/html
       - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     environment:
-      APP_ENV: local
+      DB_HOST: mysql
+      DB_PASSWORD: root
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+    user: "1000:1000"
 
   nginx:
     image: nginx:1.25
@@ -29,11 +33,15 @@ services:
       - "3306:3306"
     environment:
       MYSQL_DATABASE: cooking
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot --silent" ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
 
   node:
     image: node:24-alpine
