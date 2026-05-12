@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('content');
             $table->unsignedInteger('portions')->nullable();
             $table->unsignedInteger('calories')->nullable();
+            $table->unsignedInteger('views')->default(0);
             $table->timestamps();
         });
 

@@ -13,12 +13,12 @@ class ProductFactory extends Factory
     /**
      * Define the model's default state.
      *
-     * @return array<string, mixed>
+     * @return array<string>
      */
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->word(),
         ];
     }
 }

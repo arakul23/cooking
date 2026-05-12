@@ -538,64 +538,7 @@
                 <!-- ****** Blog Sidebar ****** -->
                 <div class="col-12 col-sm-8 col-md-6 col-lg-4">
                     <div class="blog-sidebar mt-5 mt-lg-0">
-                        <!-- Single Widget Area -->
-                        <div class="single-widget-area popular-post-widget">
-                            <div class="widget-title text-center">
-                                <h6>Populer Post</h6>
-                            </div>
-                            <!-- Single Popular Post -->
-                            <div class="single-populer-post d-flex">
-                                <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
-                                <div class="post-content">
-                                    <a href="#">
-                                        <h6>Top Wineries To Visit In England</h6>
-                                    </a>
-                                    <p>Tuesday, October 3, 2017</p>
-                                </div>
-                            </div>
-                            <!-- Single Popular Post -->
-                            <div class="single-populer-post d-flex">
-                                <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
-                                <div class="post-content">
-                                    <a href="#">
-                                        <h6>The 8 Best Gastro Pubs In Bath</h6>
-                                    </a>
-                                    <p>Tuesday, October 3, 2017</p>
-                                </div>
-                            </div>
-                            <!-- Single Popular Post -->
-                            <div class="single-populer-post d-flex">
-                                <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
-                                <div class="post-content">
-                                    <a href="#">
-                                        <h6>Zermatt Unplugged the best festival</h6>
-                                    </a>
-                                    <p>Tuesday, October 3, 2017</p>
-                                </div>
-                            </div>
-                            <!-- Single Popular Post -->
-                            <div class="single-populer-post d-flex">
-                                <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
-                                <div class="post-content">
-                                    <a href="#">
-                                        <h6>Harrogate's Top 10 Independent Eats</h6>
-                                    </a>
-                                    <p>Tuesday, October 3, 2017</p>
-                                </div>
-                            </div>
-                            <!-- Single Popular Post -->
-                            <div class="single-populer-post d-flex">
-                                <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
-                                <div class="post-content">
-                                    <a href="#">
-                                        <h6>Eating Out On A Budget In Oxford</h6>
-                                    </a>
-                                    <p>Tuesday, October 3, 2017</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Widget Area -->
+                        <PopularRecipes />
                         <div class="single-widget-area newsletter-widget">
                             <div class="widget-title text-center">
                                 <h6>Newsletter</h6>
@@ -784,5 +727,5 @@
 </template>
 
 <script setup>
-
+import PopularRecipes from '@/app/components/layout/PopularRecipes.vue'
 </script>

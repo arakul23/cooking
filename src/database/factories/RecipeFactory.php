@@ -18,7 +18,12 @@ class RecipeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->sentence(3),
+            'logo' => fake()->optional()->imageUrl(),
+            'description' => fake()->paragraph(),
+            'content' => implode("\n\n", fake()->paragraphs()),
+            'portions' => fake()->numberBetween(1, 8),
+            'calories' => fake()->numberBetween(150, 1000),
         ];
     }
 }
