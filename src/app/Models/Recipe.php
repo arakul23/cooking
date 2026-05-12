@@ -21,6 +21,11 @@ class Recipe extends Model
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(RecipeCategory::class, 'category_recipe', 'recipe_id', 'category_id');
+        return $this->belongsToMany(
+            RecipeCategory::class,
+            'category_recipe',
+            'recipe_id',
+            'category_id'
+        );
     }
 }

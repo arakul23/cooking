@@ -1,21 +1,48 @@
 <template>
-    <section class="blog_area">
+    <section class="blog_area section_padding_0_80">
         <div class="container">
-            <article v-for="post in posts" :key="post.title">
-                <img :src="post.image"  alt=""/>
-                <h2>{{ post.title }}</h2>
-                <p>{{ post.excerpt }}</p>
-            </article>
+            {{console.log(recipes)}}
+            <div v-if="pending">Loading recipes...</div>
+            <div v-else-if="error">Failed to load recipes</div>
+            <div v-else-if="recipes.length === 0">No recipes yet</div>
+            <div v-else class="row">
+                <div
+                    v-for="recipe in recipes"
+                    :key="recipe.id"
+                    class="col-12 col-md-6"
+                >
+                    <article class="single-post wow fadeInUp mb-4">
+                        <div class="post-thumb">
+                            <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
+                        </div>
+                        <div class="post-content">
+                            <h4 class="post-headline">{{ recipe.title }}</h4>
+                            <p>{{ recipe.description }}</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
         </div>
     </section>
 </template>
 
-<script setup>
-const posts = [
-    {
-        title: 'Boil The Kettle',
-        excerpt: 'Big story is coming...',
-        image: 'https://placehold.co/960x640?text=Temp+Post'
+<script setup lang="ts">
+const config = useRuntimeConfig()
+const fallbackImage = 'https://placehold.co/960x640?text=Recipe'
+
+type RecipeItem = {
+    id: number
+    title: string
+    logo: string | null
+    description: string
+}
+
+const { data, pending, error } = await useFetch<RecipeItem[]>(
+    `${config.public.apiBase}/recipes`, {
+        server: false
     }
-]
+)
+
+const recipes = computed(() => data.value ?? [])
+console.log(recipes);
 </script>
