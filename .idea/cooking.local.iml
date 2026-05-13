@@ -121,6 +121,11 @@
       <excludeFolder url="file://$MODULE_DIR$/src/storage/framework" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/_laravel_idea" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/symfony/polyfill-php86" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/paragonie/constant_time_encoding" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/paragonie/random_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/php-amqplib/php-amqplib" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/phpseclib/phpseclib" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/vladimir-yuldashev/laravel-queue-rabbitmq" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
