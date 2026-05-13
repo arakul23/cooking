@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   php:
     build:
@@ -11,6 +9,11 @@ services:
     environment:
       DB_HOST: mysql
       DB_PASSWORD: root
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+      RABBITMQ_VHOST: /
     depends_on:
       mysql:
         condition: service_healthy
@@ -51,6 +54,17 @@ services:
     ports:
       - "3000:3000"
     tty: true
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    hostname: "rabbit"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    labels:
+      NAME: "rabbitmq"
+    volumes:
+      - ./rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
 
 volumes:
   mysql_data:
