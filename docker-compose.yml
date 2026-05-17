@@ -49,6 +49,11 @@ services:
     working_dir: /var/www/html/frontend
     volumes:
       - ./src:/var/www/html
+    depends_on:
+      - nginx
+    environment:
+      NUXT_PUBLIC_API_BASE: /api
+      NUXT_API_INTERNAL_BASE: http://nginx/api
     ports:
       - "3000:3000"
     tty: true

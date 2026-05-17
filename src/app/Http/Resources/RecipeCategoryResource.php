@@ -15,6 +15,7 @@ class RecipeCategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'image' => $this->image,
+            'recipes_count' => $this->whenHas('recipes_count'),
         ];
     }
 }
