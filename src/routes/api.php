@@ -4,16 +4,13 @@ use App\Http\Controllers\Api\RecipeCategoryController;
 use App\Http\Controllers\Api\RecipeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/ping', function () {
-    return response()->json([
-        'status' => 'ok',
-        'message' => 'Laravel API works',
-    ]);
-});
-
 Route::prefix('/recipes')->controller(RecipeController::class)->group(function () {
     Route::get('/', 'getRecipes');
     Route::get('/popular', 'getPopularRecipes');
+    Route::get('/{recipe}', 'show');
 });
 
-Route::get('/categories/random', [RecipeCategoryController::class, 'getRandomCategories']);
+Route::prefix('/categories')->controller(RecipeCategoryController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/random', 'getRandomCategories');
+});

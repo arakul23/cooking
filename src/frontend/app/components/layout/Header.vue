@@ -17,14 +17,15 @@
                         <!-- Menu Area Start -->
                         <div class="collapse navbar-collapse justify-content-center" id="yummyfood-nav">
                             <ul class="navbar-nav" id="yummy-nav">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                                <li class="nav-item" :class="{ active: isActiveTab('/') }">
+                                    <a class="nav-link" href="/">Home</a>
                                 </li>
+
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Features</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Categories</a>
+                                <li class="nav-item"  :class="{ active: isActiveTab('/categories') }">
+                                    <a class="nav-link" href="/categories">Categories</a>
                                 </li>
                                 <li class="nav-item">
                                     <router-link to="/archive" class="nav-link">Archive</router-link>
@@ -32,7 +33,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">About</a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item" :class="{ active: isActiveTab('/contact') }">
                                     <router-link to="/contact" class="nav-link">Contact</router-link>
                                 </li>
                             </ul>
@@ -43,5 +44,12 @@
         </div>
     </header>
 </template>
+
 <script setup lang="ts">
+const route = useRoute();
+
+const isActiveTab = (tabName: string) => {
+    console.log(route.path === tabName);
+    return route.path === tabName;
+}
 </script>

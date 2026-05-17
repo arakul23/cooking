@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RecipeResource;
 use App\Jobs\SendNotification;
 use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class RecipeController extends Controller
 {
+    const int MAX_RANDOM_RECIPES = 5;
+
     public function getRecipes(): Collection
     {
         /*SendNotification::dispatch()->onQueue('testqueue');*/
@@ -16,8 +20,17 @@ class RecipeController extends Controller
         return Recipe::with('categories')->get();
     }
 
-    public function getPopularRecipes(): Collection
+    public function getPopularRecipes(): AnonymousResourceCollection
     {
-        return Recipe::with('categories')->limit(5)->get()->sortByDesc('views');
+        return RecipeResource::collection(
+            Recipe::with('categories')->limit(self::MAX_RANDOM_RECIPES)->get()->sortByDesc('views')
+        );
+    }
+
+    public function show(Recipe $recipe): RecipeResource
+    {
+        $recipe->loadMissing('categories');
+
+        return RecipeResource::make($recipe);
     }
 }
