@@ -70,8 +70,10 @@
     </section>
     <!-- ****** Welcome Area End ****** -->
 
-    <!-- ****** Categories Area Start ****** -->
-    <section class="categories_area clearfix" id="about">
+    <div v-if="pending" class="recipes-loading">
+        <div class="yummy-load"></div>
+    </div>
+    <section v-else class="categories_area clearfix" id="about">
         <div class="container">
             <div class="row">
                 <div v-for="category in categories" class="col-12 col-md-6 col-lg-4">
@@ -87,7 +89,6 @@
             </div>
         </div>
     </section>
-    <!-- ****** Categories Area End ****** -->
 
     <!-- ****** Blog Area Start ****** -->
     <section class="blog_area section_padding_0_80">
@@ -698,7 +699,7 @@ type CategoryItem = {
     image: string
 }
 
-const { data } = await useFetch<{ data: CategoryItem[] }>(
+const { data, pending } = await useFetch<{ data: CategoryItem[] }>(
     `${config.public.apiBase}/categories/random`,
     { server: false }
 )

@@ -1,7 +1,9 @@
 <template>
     <section class="blog_area section_padding_0_80">
         <div class="container">
-            <div v-if="pending">Loading recipes...</div>
+            <div v-if="pending" class="recipes-loading">
+                <div class="yummy-load"></div>
+            </div>
             <div v-else-if="error">Failed to load recipes</div>
             <div v-else-if="recipes.length === 0">No recipes yet</div>
             <div v-else class="row">
@@ -45,3 +47,18 @@ const { data, pending, error } = await useFetch<RecipeItem[]>(
 const recipes = computed(() => data.value ?? [])
 console.log(recipes);
 </script>
+
+<style scoped>
+.recipes-loading {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recipes-loading .yummy-load {
+    position: static;
+    left: auto;
+    top: auto;
+}
+</style>

@@ -25,6 +25,7 @@ class RecipeResource extends JsonResource
             'portions' => $this->portions,
             'calories' => $this->calories,
             'views' => $this->views,
+            'created_at' => $this->created_at,
             'categories' => RecipeCategoryResource::collection($this->whenLoaded('categories')),
         ];
     }
