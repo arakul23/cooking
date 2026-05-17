@@ -11,7 +11,7 @@ class RecipeController extends Controller
 {
     public function getRecipes(): Collection
     {
-        SendNotification::dispatch()->onQueue('testqueue');
+        /*SendNotification::dispatch()->onQueue('testqueue');*/
 
         return Recipe::with('categories')->get();
     }
