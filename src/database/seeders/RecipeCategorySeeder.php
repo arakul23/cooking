@@ -21,6 +21,7 @@ class RecipeCategorySeeder extends Seeder
         foreach ($categories as $category) {
             RecipeCategory::query()->create([
                 'name' => $category,
+                'image' => fake()->optional()->imageUrl()
             ]);
         }
     }

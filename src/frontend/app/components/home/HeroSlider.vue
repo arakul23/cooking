@@ -3,23 +3,6 @@
 
     <!-- ****** Welcome Post Area Start ****** -->
     <section class="welcome-post-sliders owl-carousel">
-
-        <!-- Single Slide -->
-        <div class="welcome-single-slide">
-            <!-- Post Thumb -->
-            <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
-            <!-- Overlay Text -->
-            <div class="project_title">
-                <div class="post-date-commnents d-flex">
-                    <a href="#">May 19, 2017</a>
-                    <a href="#">5 Comment</a>
-                </div>
-                <a href="#">
-                    <h5>“I’ve Come and I’m Gone”: A Tribute to Istanbul’s Street</h5>
-                </a>
-            </div>
-        </div>
-
         <!-- Single Slide -->
         <div class="welcome-single-slide">
             <!-- Post Thumb -->
@@ -91,32 +74,12 @@
     <section class="categories_area clearfix" id="about">
         <div class="container">
             <div class="row">
-                <div class="col-12 col-md-6 col-lg-4">
+                <div v-for="category in categories" class="col-12 col-md-6 col-lg-4">
                     <div class="single_catagory wow fadeInUp" data-wow-delay=".3s">
-                        <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
+                        <img :src="category.image" alt=''>
                         <div class="catagory-title">
                             <a href="#">
-                                <h5>Food</h5>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single_catagory wow fadeInUp" data-wow-delay=".6s">
-                        <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
-                        <div class="catagory-title">
-                            <a href="#">
-                                <h5>Cooking</h5>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single_catagory wow fadeInUp" data-wow-delay=".9s">
-                        <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
-                        <div class="catagory-title">
-                            <a href="#">
-                                <h5>Life Style</h5>
+                                <h5>{{ category.name }}</h5>
                             </a>
                         </div>
                     </div>
@@ -726,6 +689,22 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+const config = useRuntimeConfig()
+
+type CategoryItem = {
+    id: number
+    name: string,
+    image: string
+}
+
+const { data } = await useFetch<{ data: CategoryItem[] }>(
+    `${config.public.apiBase}/categories/random`,
+    { server: false }
+)
+
+
+const categories = computed(() => data.value?.data ?? [])
+
 import PopularRecipes from '@/app/components/layout/PopularRecipes.vue'
 </script>

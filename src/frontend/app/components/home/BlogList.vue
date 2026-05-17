@@ -1,7 +1,6 @@
 <template>
     <section class="blog_area section_padding_0_80">
         <div class="container">
-            {{console.log(recipes)}}
             <div v-if="pending">Loading recipes...</div>
             <div v-else-if="error">Failed to load recipes</div>
             <div v-else-if="recipes.length === 0">No recipes yet</div>

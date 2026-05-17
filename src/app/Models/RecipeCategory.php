@@ -11,7 +11,7 @@ class RecipeCategory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'name', 'image'
     ];
 
     public function recipes(): BelongsToMany
