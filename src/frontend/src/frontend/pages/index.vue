@@ -5,7 +5,6 @@
     <HeroSlider />
     <Categories />
     <BlogList />
-    <Instagram />
 
     <Footer />
 </template>
@@ -18,5 +17,4 @@ import Footer from '@/app/components/layout/Footer.vue'
 import HeroSlider from '@/app/components/home/HeroSlider.vue'
 import Categories from '@/app/components/home/Categories.vue'
 import BlogList from '@/app/components/home/BlogList.vue'
-import Instagram from '@/app/components/home/Instagram.vue'
 </script>

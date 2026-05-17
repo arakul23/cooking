@@ -16,9 +16,7 @@ const { data, pending, error } = await useFetch<RecipeItem[]>(
     }
 )
 
-
 const recipes = computed(() => data.value ?? [])
-console.log(recipes);
 </script>
 
 <template>
