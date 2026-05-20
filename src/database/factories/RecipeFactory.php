@@ -19,7 +19,7 @@ class RecipeFactory extends Factory
     {
         return [
             'title' => fake()->sentence(3),
-            'logo' => fake()->optional()->imageUrl(),
+            'logo' => 'https://placehold.co/1200x800?text=Temp+Image',
             'description' => fake()->paragraph(),
             'content' => implode("\n\n", fake()->paragraphs()),
             'portions' => fake()->numberBetween(1, 8),

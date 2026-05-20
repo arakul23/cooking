@@ -17,6 +17,13 @@ return new class extends Migration
             $table->unsignedInteger('portions')->nullable();
             $table->unsignedInteger('calories')->nullable();
             $table->unsignedInteger('views')->default(0);
+            $table->unsignedBigInteger('author_id')->nullable();
+            $table
+                ->foreign('author_id')
+                ->references('id')
+                ->on('users')
+                ->noActionOnDelete()
+                ->nullOnDelete();
             $table->timestamps();
         });
 

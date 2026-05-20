@@ -33,4 +33,9 @@ class RecipeController extends Controller
 
         return RecipeResource::make($recipe);
     }
+
+    public function getRandomRecipe(): RecipeResource
+    {
+        return RecipeResource::make(Recipe::inRandomOrder()->limit(1)->first());
+    }
 }
