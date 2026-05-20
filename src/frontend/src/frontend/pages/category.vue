@@ -3,8 +3,14 @@ import Preloader from '@/app/components/layout/Preloader.vue'
 import Header from '@/app/components/layout/Header.vue'
 import Footer from '@/app/components/layout/Footer.vue'
 
+const route = useRoute()
 const config = useRuntimeConfig()
-const fallbackImage = 'https://placehold.co/640x420?text=Category'
+const fallbackImage = 'https://placehold.co/640x420?text=Recipe'
+
+const categoryId = computed(() => {
+    const id = route.query.id
+    return Array.isArray(id) ? id[0] : String(id ?? '')
+})
 
 type CategoryItem = {
     id: number;
@@ -14,28 +20,22 @@ type CategoryItem = {
     recipesCount?: number | null;
 }
 
-const {data, pending, error} = await useFetch<{ data: CategoryItem[] }>(
-    `${config.public.apiBase}/categories`
+const { data, pending, error } = await useFetch<{ data: CategoryItem[] }>(
+    `${config.public.apiBase}/categories/${categoryId.value}`
 )
 
-const categories = computed(() => data.value?.data ?? [])
-
-const getRecipeCount = (category: CategoryItem) => {
-    const count = category.recipes_count ?? category.recipesCount
-    return typeof count === 'number' ? count : '-'
-}
+const category = computed(() => data.value?.data ?? [])
 </script>
 
 <template>
-    <Preloader/>
-    <Header/>
-
+    <Preloader />
+    <Header />
     <div class="breadcumb-area">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>Categories</h2>
+                        <h2>{{ category.name }}</h2>
                     </div>
                 </div>
             </div>
@@ -55,6 +55,7 @@ const getRecipeCount = (category: CategoryItem) => {
                                 </NuxtLink>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Categories</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -64,32 +65,24 @@ const getRecipeCount = (category: CategoryItem) => {
 
     <section class="categories_area">
         <div class="container">
-            <div v-if="pending" class="text-center">Loading categories...</div>
-            <div v-else-if="error" class="text-center">Failed to load categories</div>
-            <div v-else-if="categories.length === 0" class="text-center">No categories yet</div>
+            <div v-if="pending" class="text-center">Loading category..</div>
+            <div v-else-if="error" class="text-center">Failed to load category</div>
             <div v-else class="row">
                 <div
-                    v-for="category in categories"
-                    :key="category.id"
+                    v-for="recipe in category.recipes"
+                    :key="recipe.id"
                     class="col-12 col-md-6 col-lg-4"
                 >
-                    <NuxtLink :to="{ path: '/category', query: { id: category.id } }">
-                        <article class="single_catagory wow fadeInUp">
-                            <img :src="category.image || fallbackImage" :alt="category.name">
-                            <div class="catagory-title">
-                                <a>
-                                    <h5>{{ category.name }}</h5>
-                                </a>
-                            </div>
-                            <p class="category-recipes">Recipes: {{ getRecipeCount(category) }}</p>
-                        </article>
-                    </NuxtLink>
+                    <article class="single_catagory wow fadeInUp">
+                        <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
+                        <h5>{{ recipe.title }}</h5>
+                    </article>
                 </div>
             </div>
         </div>
     </section>
 
-    <Footer/>
+    <Footer />
 </template>
 
 <style scoped>
