@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ContactUsController;
 use App\Http\Controllers\Api\RecipeCategoryController;
 use App\Http\Controllers\Api\RecipeController;
 use Illuminate\Support\Facades\Route;
@@ -16,3 +17,5 @@ Route::prefix('/categories')->controller(RecipeCategoryController::class)->group
     Route::get('/random', 'getRandomCategories');
     Route::get('/{category}', 'show');
 });
+
+Route::post('/contact/send', [ContactUsController::class, 'handleContactUsRequest']);
