@@ -49,7 +49,6 @@
 const route = useRoute();
 
 const isActiveTab = (tabName: string) => {
-    console.log(route.path === tabName);
     return route.path === tabName;
 }
 </script>
