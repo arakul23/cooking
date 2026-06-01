@@ -10,6 +10,9 @@
         "laravel/framework": "^13.0",
         "laravel/passport": "^13.0",
         "laravel/tinker": "^3.0",
+        "symfony/css-selector": "^8.1",
+        "symfony/dom-crawler": "^8.1",
+        "symfony/http-client": "^8.1",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "*"
     },
     "require-dev": {
