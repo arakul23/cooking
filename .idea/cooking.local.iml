@@ -137,6 +137,9 @@
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/psr/http-server-handler" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/psr/http-server-middleware" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/symfony/psr-http-message-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/symfony/dom-crawler" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/symfony/http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/symfony/http-client-contracts" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
