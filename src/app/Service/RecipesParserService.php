@@ -88,8 +88,8 @@ class RecipesParserService implements SiteParserInterface
             $hoursText = $m[1] . ' час' . ((int)$m[1] === 1 ? '' : ((int)$m[1] < 5 ? 'а' : 'ов'));
         }
 
+        $minutes = $this->toMinutes($subInfoHtml);
 
-        $minutes = $this->toMinutes($hoursText);
 
         if (preg_match('/\b(\d+)\s*порц(?:ия|ии|ий)\b/ui', $subInfoHtml, $match)) {
             $portions = (int)$match[1];
@@ -118,19 +118,17 @@ class RecipesParserService implements SiteParserInterface
 
     private function toMinutes(string $raw): ?int
     {
-        $hours = 0;
-        $minutes = 0;
+        // Нормализация пробелов (включая NBSP)
+        $raw = str_replace("\xC2\xA0", ' ', mb_strtolower($raw));
+        $raw = preg_replace('/\s+/u', ' ', trim($raw));
 
-        if (preg_match('/(\d+)\s*час(?:а|ов)?/u', $raw, $match)) {
-            $hours = (int)$match[1];
+        if (preg_match('/\b(?:(\d+)\s*час(?:а|ов)?(?:\s+(\d+)\s*мин(?:ут[аы]?|\.?)?)?|(\d+)\s*мин(?:ут[аы]?|\.?)?)\b/u', $raw, $m)) {
+            $hours = ($m[1] ?? '') !== '' ? (int)$m[1] : 0;
+            $mins  = ($m[2] ?? '') !== '' ? (int)$m[2] : (int)($m[3] ?? 0);
+
+            return $hours * 60 + $mins;
         }
 
-        if (preg_match('/(\d+)\s*мин(?:ут[аы]?|\.?)?/u', $raw, $match)) {
-            $minutes = (int)$match[1];
-        }
-
-        $total = $hours * 60 + $minutes;
-
-        return $total > 0 ? $total : null;
+        return null;
     }
 }
