@@ -45,9 +45,10 @@ class RecipesParserService implements SiteParserInterface
         return $categoryUrls;
     }
 
-    public function parseRecipesList(array $categoryUrls)
+    public function parseRecipesList(array $categoryUrls): array
     {
         $baseUrl = parse_url(config('app.site_parse'));
+        $recipes = [];
 
         foreach ($categoryUrls as $url) {
             $response = $this->httpClient->request('GET', $url);
@@ -59,23 +60,77 @@ class RecipesParserService implements SiteParserInterface
 
             foreach ($recipeElements as $recipeElement) {
                 $element = new Crawler($recipeElement);
-                $this->parseRecipeData($baseUrl['scheme'] . '://'. $baseUrl['host'] . $element->attr('href'));
+                $recipes[] = $this->parseRecipeData($baseUrl['scheme'] . '://'. $baseUrl['host'] . $element->attr('href'));
             }
         }
+
+        return $recipes;
     }
 
-    public function parseRecipeData(string $url)
+    public function parseRecipeData(string $url): array
     {
+        $recipeProducts = [];
+        $content = '';
         $response = $this->httpClient->request('GET', $url);
         $crawler = new Crawler($response->getContent());
         $recipeHtml = $crawler->filter('table.recipe_new');
         $title = $recipeHtml->filter('h1.title')->text();
-        $subInfo = $recipeHtml->filter('div.sub_info');
-        $subInfo = str_replace("\xC2\xA0", ' ', $subInfo->text());   // \u00A0
-        $subInfo = preg_replace('/\s+/u', ' ', trim($subInfo));
-        if (preg_match('/\b(\d+)\s*порц(?:ия|ии|ий)\b/ui', $subInfo, $match)) {
+        $subInfoHtml = $recipeHtml->filter('div.sub_info');
+        $subInfoHtml = str_replace("\xC2\xA0", ' ', $subInfoHtml->text());   // \u00A0
+        $subInfoHtml = preg_replace('/\s+/u', ' ', trim($subInfoHtml));
+
+        $productsHtml = $recipeHtml->filter('table.ingr_block .padding_l.padding_r');
+        $contentHtml = $recipeHtml->filter('div.step_images_n div.step_n p');
+
+        $hoursText = null;
+
+        if (preg_match('/\b(\d+)\s*час(?:а|ов)?\b/ui', $subInfoHtml, $m)) {
+            $hoursText = $m[1] . ' час' . ((int)$m[1] === 1 ? '' : ((int)$m[1] < 5 ? 'а' : 'ов'));
+        }
+
+
+        $minutes = $this->toMinutes($hoursText);
+
+        if (preg_match('/\b(\d+)\s*порц(?:ия|ии|ий)\b/ui', $subInfoHtml, $match)) {
             $portions = (int)$match[1];
         }
-        dd($portions);
+
+        foreach ($contentHtml as $contentNode) {
+            $content .= trim($contentNode->nodeValue) . PHP_EOL;
+        }
+
+        foreach ($productsHtml as $productNode) {
+            $explodedProductText = explode('-', $productNode->nodeValue);
+            $recipeProducts[] = ['name' => trim($explodedProductText[0])];
+        }
+
+        return [
+            'title' => $title,
+            'logo' => 'https://placehold.co/1200x800?text=Temp+Image',
+            'portions' => $portions ?? null,
+            'description' => fake()->sentence(),
+            'products' => $recipeProducts,
+            'content' => $content,
+            'total_time_minues' => $minutes,
+            'time_raw' => $hoursText
+        ];
+    }
+
+    private function toMinutes(string $raw): ?int
+    {
+        $hours = 0;
+        $minutes = 0;
+
+        if (preg_match('/(\d+)\s*час(?:а|ов)?/u', $raw, $match)) {
+            $hours = (int)$match[1];
+        }
+
+        if (preg_match('/(\d+)\s*мин(?:ут[аы]?|\.?)?/u', $raw, $match)) {
+            $minutes = (int)$match[1];
+        }
+
+        $total = $hours * 60 + $minutes;
+
+        return $total > 0 ? $total : null;
     }
 }
