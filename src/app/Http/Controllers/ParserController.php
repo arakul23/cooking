@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Jobs\RecipeParserJob;
 use App\Service\RecipesParserService;
 class ParserController extends Controller
 {
@@ -12,6 +13,8 @@ class ParserController extends Controller
 
     public function parse()
     {
+        RecipeParserJob::dispatch();
+
         $this->recipesParser->parse();
     }
 }

@@ -36,6 +36,9 @@
                                 <li class="nav-item" :class="{ active: isActiveTab('/contact') }">
                                     <router-link to="/contact" class="nav-link">Contact</router-link>
                                 </li>
+                                <li class="nav-item" :class="{ active: isActiveTab('/register') }">
+                                    <NuxtLink to="/register" class="nav-link">Register</NuxtLink>
+                                </li>
                             </ul>
                         </div>
                     </nav>
