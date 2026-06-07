@@ -10,13 +10,8 @@ class Recipe extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'logo',
-        'description',
-        'content',
-        'portions',
-        'calories',
+    protected $guarded = [
+        'id'
     ];
 
     public function categories(): BelongsToMany
