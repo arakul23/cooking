@@ -1,57 +1,45 @@
 <?php
 
-declare(strict_types=1);
+namespace App\Jobs;
 
-namespace App\Service;
-
-use App\Http\Interfaces\SiteParserInterface;
+use App\Models\Recipe;
+use App\Models\RecipeCategory;
+use App\Service\UserAgentGenerator;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class RecipesParserService
+class RecipeDataParserJob implements ShouldQueue
 {
-    private HttpClientInterface $httpClient;
+    use Queueable;
 
-    public function __construct()
+    private string $userAgent;
+
+    /**
+     * Create a new job instance.
+     */
+    public function __construct(readonly private string $url, readonly private string $categoryName)
     {
-        $this->httpClient = HttpClient::create();
+        $this->userAgent = UserAgentGenerator::getRandom();
     }
 
-    public function parse()
-    {
-        $categories = $this->parseCategories();
-
-        $this->parseRecipesList($categories);
-    }
-
-    public function parseRecipesList(array $categoryUrls): array
-    {
-        $baseUrl = parse_url(config('app.site_parse'));
-        $recipes = [];
-
-        foreach ($categoryUrls as $url) {
-            $response = $this->httpClient->request('GET', $url);
-            $crawler = new Crawler($response->getContent());
-            $recipeElements = $crawler
-                ->filter('div.recipe_list_new.recipe_list_new2')
-                ->first()
-                ->filter('[itemprop="itemListElement"] a');
-
-            foreach ($recipeElements as $recipeElement) {
-                $element = new Crawler($recipeElement);
-                $recipes[] = $this->parseRecipeData($baseUrl['scheme'] . '://'. $baseUrl['host'] . $element->attr('href'));
-            }
-        }
-
-        return $recipes;
-    }
-
-    public function parseRecipeData(string $url): array
+    /**
+     * Execute the job.
+     */
+    public function handle(): void
     {
         $recipeProducts = [];
         $content = '';
-        $response = $this->httpClient->request('GET', $url);
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request('GET', $this->url, [
+            'headers' => [
+                'User-Agent' => $this->userAgent,
+                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language' => 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+            ]
+        ]);
         $crawler = new Crawler($response->getContent());
         $recipeHtml = $crawler->filter('table.recipe_new');
         $title = $recipeHtml->filter('h1.title')->text();
@@ -69,7 +57,8 @@ class RecipesParserService
         }
 
         $minutes = $this->toMinutes($subInfoHtml);
-
+        Log::channel('stderr')->info("$minutes");
+        Log::channel('stderr')->info("$subInfoHtml");
 
         if (preg_match('/\b(\d+)\s*порц(?:ия|ии|ий)\b/ui', $subInfoHtml, $match)) {
             $portions = (int)$match[1];
@@ -84,16 +73,22 @@ class RecipesParserService
             $recipeProducts[] = ['name' => trim($explodedProductText[0])];
         }
 
-        return [
+        $recipe = Recipe::create([
             'title' => $title,
             'logo' => 'https://placehold.co/1200x800?text=Temp+Image',
             'portions' => $portions ?? null,
             'description' => fake()->sentence(),
             'products' => $recipeProducts,
             'content' => $content,
-            'total_time_minues' => $minutes,
+            'total_time_minutes' => $minutes,
             'time_raw' => $hoursText
-        ];
+        ]);
+
+        $category = RecipeCategory::firstOrCreate(
+            ['name' => $this->categoryName]
+        );
+
+        $recipe->categories()->attach($category);
     }
 
     private function toMinutes(string $raw): ?int
