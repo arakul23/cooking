@@ -20,7 +20,7 @@ type CategoryItem = {
     recipesCount?: number | null;
 }
 
-const { data, pending, error } = await useFetch<{ data: CategoryItem[] }>(
+const {data, pending, error} = await useFetch<{ data: CategoryItem[] }>(
     `${config.public.apiBase}/categories/${categoryId.value}`
 )
 
@@ -28,8 +28,8 @@ const category = computed(() => data.value?.data ?? [])
 </script>
 
 <template>
-    <Preloader />
-    <Header />
+    <Preloader/>
+    <Header/>
     <div class="breadcumb-area">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
@@ -73,16 +73,19 @@ const category = computed(() => data.value?.data ?? [])
                     :key="recipe.id"
                     class="col-12 col-md-6 col-lg-4"
                 >
-                    <article class="single_catagory wow fadeInUp">
-                        <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
-                        <h5>{{ recipe.title }}</h5>
-                    </article>
+                    <NuxtLink :to="{ path: '/recipe', query: { id: recipe.id } }">
+                        <article class="single_catagory wow fadeInUp">
+                            <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
+                            <h5>{{ recipe.title }}</h5>
+                        </article>
+                    </NuxtLink>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <Footer />
+    <Footer/>
 </template>
 
 <style scoped>

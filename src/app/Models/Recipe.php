@@ -23,4 +23,11 @@ class Recipe extends Model
             'category_id'
         );
     }
+
+    public function products(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(Product::class, 'recipe_product')
+            ->withPivot('amount', 'unit_id', 'amount_base', 'note');
+    }
 }
