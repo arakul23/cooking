@@ -43,7 +43,7 @@ class RecipeCategoriesParserJob implements ShouldQueue
                 'Accept-Language' => 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
             ]
         ]);
-        Log::info("=== Начинаю парсить ===");
+
         $htmlContent = $response->getContent();
         $crawler = new Crawler($htmlContent);
         $baseUrl = parse_url(config('app.site_parse'));

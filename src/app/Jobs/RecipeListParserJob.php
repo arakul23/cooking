@@ -45,7 +45,7 @@ class RecipeListParserJob implements ShouldQueue
             ->filter('div.recipe_list_new.recipe_list_new2')
             ->first()
             ->filter('[itemprop="itemListElement"] a');
-        Log::channel('stderr')->info("=== Начинаю парсить категорию: {$categoryName} ===");
+
         foreach ($recipeElements as $recipeElement) {
             $element = new Crawler($recipeElement);
             RecipeDataParserJob::dispatch($baseUrl['scheme'] . '://' . $baseUrl['host'] . $element->attr('href'), $categoryName);

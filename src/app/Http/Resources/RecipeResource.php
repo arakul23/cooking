@@ -27,6 +27,20 @@ class RecipeResource extends JsonResource
             'views' => $this->views,
             'created_at' => $this->created_at,
             'categories' => RecipeCategoryResource::collection($this->whenLoaded('categories')),
+            'products' => $this->whenLoaded('products', function () {
+                return $this->products->map(function ($product) {
+                    return [
+                        'id' => $product->id,
+                        'name' => $product->name,
+                        'pivot' => [
+                            'amount' => $product->pivot->amount,
+                            'unit_id' => $product->pivot->unit_id,
+                            'amount_base' => $product->pivot->amount_base,
+                            'note' => $product->pivot->note,
+                        ],
+                    ];
+                });
+            }),
         ];
     }
 }

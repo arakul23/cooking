@@ -26,7 +26,19 @@ type RecipeItem = {
     content: string | null;
     created_at: string;
     categories: RecipeCategory[];
-    views: number
+    views: number;
+    products?: Array<{
+        id?: number;
+        name?: string | null;
+        amount?: number | string | null;
+        unit?: {
+            id?: number;
+            name?: string | null;
+            short_name?: string | null;
+            shortName?: string | null;
+        } | string | null;
+        note?: string | null;
+    }>;
 }
 
 type ApiResponse<T> = {
@@ -47,6 +59,7 @@ const { data: recipe, pending, error } = await useFetch<RecipeItem | null>(
 )
 
 const recipeCategories = computed(() => recipe.value?.categories ?? [])
+const recipeProducts = computed(() => recipe.value?.products ?? [])
 
 const formattedCreatedAt = computed(() => {
     const value = recipe.value?.created_at
@@ -61,6 +74,20 @@ const formattedCreatedAt = computed(() => {
         year: 'numeric',
     }).format(date)
 })
+
+const formatProductAmount = (product: NonNullable<RecipeItem['products']>[number]) => {
+    const amount = product.amount
+
+    if (amount === null || amount === undefined || amount === '') {
+        return ''
+    }
+
+    const unit = typeof product.unit === 'string'
+        ? product.unit
+        : (product.unit?.short_name ?? product.unit?.shortName ?? product.unit?.name ?? '')
+
+    return `${amount}${unit ? ` ${unit}` : ''}`
+}
 
 </script>
 
@@ -126,12 +153,25 @@ const formattedCreatedAt = computed(() => {
                                 </div>
                                 <div class="post-comment-share-area d-flex">
                                     <div class="post-comments">
-                                        <a><i class="fa fa-eye" aria-hidden="true"></i> {{ recipe.views }}</a>
+                                        <a><i class="fa fa-eye" aria-hidden="true"></i> Views: {{ recipe.views }}</a>
                                     </div>
                                 </div>
                             </div>
                             <h4 class="post-headline">{{ recipe.title }}</h4>
                             <p>{{ recipe.description }}</p>
+                            <div v-if="recipeProducts.length > 0" class="recipe-products">
+                                <h5 class="recipe-products-title">Products</h5>
+                                <ul class="recipe-products-list">
+                                    <li
+                                        v-for="(product, index) in recipeProducts"
+                                        :key="product.id ?? `${product.name}-${index}`"
+                                        class="recipe-products-item"
+                                    >
+                                        <span class="product-name">{{ product.name || `Product ${index + 1}` }}</span>
+                                        <span class="product-amount">{{ formatProductAmount(product) }}</span>
+                                    </li>
+                                </ul>
+                            </div>
                             <p v-if="recipe.content" class="recipe-content">{{ recipe.content }}</p>
                         </div>
                     </article>
@@ -144,6 +184,49 @@ const formattedCreatedAt = computed(() => {
 </template>
 
 <style scoped>
+.recipe-products {
+    margin: 22px 0 26px;
+    padding: 22px 24px;
+    border: 1px solid #ebebeb;
+    border-radius: 16px;
+}
+
+.recipe-products-title {
+    margin: 0 0 14px;
+    color: #232d37;
+    font-size: 20px;
+}
+
+.recipe-products-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.recipe-products-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1edf7;
+}
+
+.recipe-products-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.product-name {
+    color: #232d37;
+    font-weight: 500;
+}
+
+.product-amount {
+    color: #8a8494;
+    white-space: nowrap;
+}
+
 .recipe-content {
     white-space: pre-line;
 }

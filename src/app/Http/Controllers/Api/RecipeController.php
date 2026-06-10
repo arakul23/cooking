@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -20,13 +22,17 @@ class RecipeController extends Controller
     public function getPopularRecipes(): AnonymousResourceCollection
     {
         return RecipeResource::collection(
-            Recipe::with('categories')->limit(self::MAX_RANDOM_RECIPES)->get()->sortByDesc('views')
+            Recipe::with('categories')
+                ->limit(self::MAX_RANDOM_RECIPES)
+                ->get()
+                ->sortByDesc('views')
         );
     }
 
     public function show(Recipe $recipe): RecipeResource
     {
-        $recipe->loadMissing('categories');
+        $recipe->increment('views');
+        $recipe->loadMissing(['categories', 'products']);
 
         return RecipeResource::make($recipe);
     }
