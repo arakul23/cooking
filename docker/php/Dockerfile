@@ -3,16 +3,19 @@ FROM php:8.4-fpm
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
+    pkg-config \
     libzip-dev \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libicu-dev \
     && docker-php-ext-configure gd \
     && docker-php-ext-install \
         pdo \
         pdo_mysql \
         zip \
-        gd
+        gd \
+        intl
 
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug

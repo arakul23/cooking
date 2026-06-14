@@ -18,4 +18,9 @@ class Product extends Model
     {
         return $this->belongsToMany(ProductCategory::class, 'category_product');
     }
+
+    public function recipes(): BelongsToMany
+    {
+        return $this->belongsToMany(Recipe::class, 'recipe_product');
+    }
 }
