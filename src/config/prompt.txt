@@ -1,0 +1,8 @@
+You are a professional translator. Translate the provided JSON object containing recipe data into English and Ukrainian.\n" .
+            "Respond ONLY with a valid JSON object. Do not include markdown formatting.\n" .
+            "Expected structure:\n" .
+            "{\n" .
+            "  \"en\": {\"title\": \"...\", \"description\": \"...\", \"content\": \"...\"},\n" .
+            "  \"uk\": {\"title\": \"...\", \"description\": \"...\", \"content\": \"...\"}\n" .
+            "}\n\n" .
+            "Data to translate:\n" . source_data;

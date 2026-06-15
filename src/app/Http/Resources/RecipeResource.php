@@ -34,7 +34,6 @@ class RecipeResource extends JsonResource
                         'name' => $product->name,
                         'amount' => $product->pivot->amount,
                         'amount_unit' => $product->pivot->amount_unit,
-                        'calculated_amount' => $product->pivot->calculated_amount,
                         'unit_id' => $product->pivot->unit_id,
                         'amount_base' => $product->pivot->amount_base,
                         'note' => $product->pivot->note,

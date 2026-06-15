@@ -190,6 +190,8 @@
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/web-auth/cose-lib" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/web-auth/webauthn-lib" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/google-gemini-php/client" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/google-gemini-php/laravel" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -26,7 +26,7 @@ class RecipeProduct extends Pivot
         $amount = $this->attributes['amount'] ?? null;
         $unitName = $this->unit?->name ?? '';
 
-        return trim($amount . ' ' . $unitName);
+        return trim(floatval($amount) . ' ' . $unitName);
     }
 
     public function getCalculatedAmountAttribute(): ?float
@@ -39,6 +39,6 @@ class RecipeProduct extends Pivot
 
         $amountBase = $this->attributes['amount_base'] ?? 0;
 
-        return round((float) $amountBase / (float) $factor, 3);
+        return number_format(round((float) $amountBase / (float) $factor, 3), 3, '.', '');
     }
 }
