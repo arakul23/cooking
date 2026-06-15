@@ -31,6 +31,7 @@ type RecipeItem = {
         id?: number;
         name?: string | null;
         amount?: number | string | null;
+        amount_unit?: string | null;
         unit?: {
             id?: number;
             name?: string | null;
@@ -168,7 +169,7 @@ const formatProductAmount = (product: NonNullable<RecipeItem['products']>[number
                                         class="recipe-products-item"
                                     >
                                         <span class="product-name">{{ product.name || `Product ${index + 1}` }}</span>
-                                        <span class="product-amount">{{ formatProductAmount(product) }}</span>
+                                        <span class="product-amount">{{ product.amount_unit }}</span>
                                     </li>
                                 </ul>
                             </div>

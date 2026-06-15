@@ -29,6 +29,7 @@ class Recipe extends Model
     {
         return $this
             ->belongsToMany(Product::class, 'recipe_product')
+            ->using(RecipeProduct::class)
             ->withPivot('amount', 'unit_id', 'amount_base', 'note');
     }
 

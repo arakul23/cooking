@@ -32,12 +32,12 @@ class RecipeResource extends JsonResource
                     return [
                         'id' => $product->id,
                         'name' => $product->name,
-                        'pivot' => [
-                            'amount' => $product->pivot->amount,
-                            'unit_id' => $product->pivot->unit_id,
-                            'amount_base' => $product->pivot->amount_base,
-                            'note' => $product->pivot->note,
-                        ],
+                        'amount' => $product->pivot->amount,
+                        'amount_unit' => $product->pivot->amount_unit,
+                        'calculated_amount' => $product->pivot->calculated_amount,
+                        'unit_id' => $product->pivot->unit_id,
+                        'amount_base' => $product->pivot->amount_base,
+                        'note' => $product->pivot->note,
                     ];
                 });
             }),
