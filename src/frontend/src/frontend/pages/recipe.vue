@@ -154,6 +154,12 @@ const formatProductAmount = (product: NonNullable<RecipeItem['products']>[number
                                 </div>
                                 <div class="post-comment-share-area d-flex">
                                     <div class="post-comments">
+                                        <a><i class="fa fa-eye" aria-hidden="true"></i> Calories: {{ recipe.calories }}</a>
+                                    </div>
+                                    <div class="post-comments">
+                                        <a><i class="fa fa-eye" aria-hidden="true"></i> Portions: {{ recipe.portions }}</a>
+                                    </div>
+                                    <div class="post-comments">
                                         <a><i class="fa fa-eye" aria-hidden="true"></i> Views: {{ recipe.views }}</a>
                                     </div>
                                 </div>

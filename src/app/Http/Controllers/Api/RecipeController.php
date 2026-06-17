@@ -32,7 +32,7 @@ class RecipeController extends Controller
     public function show(Recipe $recipe): RecipeResource
     {
         $recipe->increment('views');
-        $recipe->loadMissing(['categories', 'products']);
+        $recipe->loadMissing(['categories', 'products', 'translations']);
 
         return RecipeResource::make($recipe);
     }

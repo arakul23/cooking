@@ -25,13 +25,13 @@ class RecipeCategoryController extends Controller
 
     public function show(RecipeCategory $category): RecipeCategoryResource
     {
-        $category->load('recipes');
+        $category->load('recipes.translations');
 
         return RecipeCategoryResource::make($category);
     }
 
     public function getRandomCategories(): AnonymousResourceCollection
     {
-        return RecipeCategoryResource::collection(RecipeCategory::inRandomOrder()->limit(self::MAX_RANDOM_CATEGORIES)->get());
+        return RecipeCategoryResource::collection(RecipeCategory::has('recipes')->inRandomOrder()->limit(self::MAX_RANDOM_CATEGORIES)->get());
     }
 }

@@ -7,17 +7,15 @@ namespace App\Jobs;
 use App\Models\Recipe;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Gemini\Enums\ModelVariation;
-use Gemini\GeminiHelper;
 use Gemini\Laravel\Facades\Gemini;
 
 class TranslateRecipeData implements ShouldQueue
 {
     use Queueable;
 
-    public int $tries = 5;
+    public int $tries = 10;
 
-    public int $backoff = 20;
+    public int $backoff = 60;
 
     /**
      * Create a new job instance.
@@ -36,9 +34,32 @@ class TranslateRecipeData implements ShouldQueue
             $recipe->translations->pluck('value', 'key')->toArray()
         ], JSON_UNESCAPED_UNICODE);
 
-
         $prompt = str_replace('source_data', $sourceData, file_get_contents(config_path('prompt.txt')));
 
-        $result = Gemini::generativeModel(model: config('gemini.model'))->generateContent($prompt)->json(true);
+        $translations = Gemini::generativeModel(model: config('gemini.model'))->generateContent($prompt)->json(true);
+
+        foreach($translations as $lang => $translation) {
+            $createData = [
+                [
+                    'locale' => $lang,
+                    'key' => 'title',
+                    'value' => $translation['title'],
+                ],
+                [
+                    'locale' => $lang,
+                    'key' => 'description',
+                    'value' => $translation['description'],
+                ],
+                [
+                    'locale' => $lang,
+                    'key' => 'content',
+                    'value' => $translation['content'],
+                ]
+            ];
+
+            $recipe->translations()->createMany($createData);
+        }
+
+
     }
 }

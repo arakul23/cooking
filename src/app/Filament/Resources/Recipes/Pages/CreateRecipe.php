@@ -15,20 +15,21 @@ class CreateRecipe extends CreateRecord
     protected function afterCreate(): void
     {
         $model = $this->record;
+        $locale = data_get($this, 'data.locale');
 
         $model->translations()->createMany([
             [
-                'locale' => 'ua',
+                'locale' => $locale,
                 'key' => 'title',
                 'value' => data_get($this, 'data.title'),
             ],
             [
-                'locale' => 'ua',
+                'locale' => $locale,
                 'key' => 'description',
                 'value' => data_get($this, 'data.description'),
             ],
             [
-                'locale' => 'ua',
+                'locale' => $locale,
                 'key' => 'content',
                 'value' => data_get($this, 'data.content'),
             ]

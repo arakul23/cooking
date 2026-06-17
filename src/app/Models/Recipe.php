@@ -41,6 +41,7 @@ class Recipe extends Model
 
     public function translations(): MorphMany
     {
-        return $this->morphMany(Translation::class, 'translatable');
+        return $this->morphMany(Translation::class, 'translatable')
+            ->orderByRaw("CASE WHEN locale = ? THEN 0 ELSE 1 END", [App()->getLocale()]);
     }
 }

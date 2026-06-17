@@ -16,12 +16,16 @@ class RecipeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $translations = $this->whenLoaded('translations');
+
+        $translations = $translations->pluck('value', 'key');
+
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'title' => $translations['title'] ?? '',
             'logo' => $this->logo,
-            'description' => $this->description,
-            'content' => $this->content,
+            'description' =>  $translations['description'] ?? '',
+            'content' =>  $translations['content'] ?? '',
             'portions' => $this->portions,
             'calories' => $this->calories,
             'views' => $this->views,
