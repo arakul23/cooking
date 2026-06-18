@@ -2,10 +2,14 @@
 import Preloader from '@/app/components/layout/Preloader.vue'
 import Header from '@/app/components/layout/Header.vue'
 import Footer from '@/app/components/layout/Footer.vue'
+import { useAuth } from '@/app/composables/useAuth'
 
 const route = useRoute()
 const config = useRuntimeConfig()
 const fallbackImage = 'https://placehold.co/960x640?text=Recipe'
+const { isAuthenticated } = useAuth()
+const isFavorite = ref(false)
+const favoriteMessage = ref('')
 
 const recipeId = computed(() => {
     const id = route.query.id
@@ -90,6 +94,28 @@ const formatProductAmount = (product: NonNullable<RecipeItem['products']>[number
     return `${amount}${unit ? ` ${unit}` : ''}`
 }
 
+let favoriteMessageTimer: ReturnType<typeof window.setTimeout> | null = null
+
+const toggleFavorite = async () => {
+    if (!isAuthenticated.value) {
+        await navigateTo('/login')
+        return
+    }
+
+    isFavorite.value = !isFavorite.value
+    favoriteMessage.value = isFavorite.value
+        ? 'Рецепт добавлен в избранное'
+        : 'Рецепт удален из избранного'
+
+    if (favoriteMessageTimer) {
+        window.clearTimeout(favoriteMessageTimer)
+    }
+
+    favoriteMessageTimer = window.setTimeout(() => {
+        favoriteMessage.value = ''
+    }, 1800)
+}
+
 </script>
 
 <template>
@@ -140,6 +166,9 @@ const formatProductAmount = (product: NonNullable<RecipeItem['products']>[number
                             <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
                         </div>
                         <div class="post-content">
+                            <div v-if="favoriteMessage" class="favorite-message" role="status">
+                                {{ favoriteMessage }}
+                            </div>
                             <div class="post-meta d-flex flex-wrap align-items-center">
                                 <div class="post-author-date-area d-flex flex-wrap align-items-center">
                                     <div class="post-author" v-if="recipeCategories.length > 0">
@@ -164,7 +193,22 @@ const formatProductAmount = (product: NonNullable<RecipeItem['products']>[number
                                     </div>
                                 </div>
                             </div>
-                            <h4 class="post-headline">{{ recipe.title }}</h4>
+                            <div class="recipe-title-row">
+                                <h4 class="post-headline">{{ recipe.title }}</h4>
+                                <button
+                                    class="favorite-toggle"
+                                    :class="{ active: isFavorite }"
+                                    type="button"
+                                    :aria-pressed="isFavorite"
+                                    :aria-label="isFavorite ? 'Убрать из избранного' : 'Добавить в избранное'"
+                                    @click="toggleFavorite"
+                                >
+                                    <span class="favorite-heart" aria-hidden="true">
+                                        {{ isFavorite ? '♥' : '♡' }}
+                                    </span>
+                                    <span>{{ isFavorite ? 'В избранном' : 'В избранное' }}</span>
+                                </button>
+                            </div>
                             <p>{{ recipe.description }}</p>
                             <div v-if="recipeProducts.length > 0" class="recipe-products">
                                 <h5 class="recipe-products-title">Products</h5>
@@ -191,6 +235,62 @@ const formatProductAmount = (product: NonNullable<RecipeItem['products']>[number
 </template>
 
 <style scoped>
+.recipe-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 16px;
+}
+
+.recipe-title-row .post-headline {
+    margin-bottom: 0;
+}
+
+.favorite-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    gap: 8px;
+    min-height: 42px;
+    padding: 9px 14px;
+    border: 1px solid #f5c6b6;
+    border-radius: 4px;
+    background: #fff4ef;
+    color: #fc6c3f;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.favorite-toggle:hover {
+    transform: translateY(-1px);
+}
+
+.favorite-toggle.active {
+    background: #fc6c3f;
+    border-color: #fc6c3f;
+    color: #fff;
+}
+
+.favorite-heart {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.favorite-message {
+    margin-bottom: 18px;
+    padding: 12px 14px;
+    border: 1px solid #f5c6b6;
+    border-radius: 6px;
+    background: #fff4ef;
+    color: #b84b24;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 .recipe-products {
     margin: 22px 0 26px;
     padding: 22px 24px;
@@ -236,5 +336,11 @@ const formatProductAmount = (product: NonNullable<RecipeItem['products']>[number
 
 .recipe-content {
     white-space: pre-line;
+}
+
+@media only screen and (max-width: 767px) {
+    .recipe-title-row {
+        flex-direction: column;
+    }
 }
 </style>

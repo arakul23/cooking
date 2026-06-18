@@ -3,7 +3,12 @@
 use App\Http\Controllers\Api\ContactUsController;
 use App\Http\Controllers\Api\RecipeCategoryController;
 use App\Http\Controllers\Api\RecipeController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::prefix('/recipes')->controller(RecipeController::class)->group(function () {
     Route::get('/', 'getRecipes');

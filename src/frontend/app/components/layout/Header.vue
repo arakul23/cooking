@@ -18,26 +18,37 @@
                         <div class="collapse navbar-collapse justify-content-center" id="yummyfood-nav">
                             <ul class="navbar-nav" id="yummy-nav">
                                 <li class="nav-item" :class="{ active: isActiveTab('/') }">
-                                    <a class="nav-link" href="/">Home</a>
+                                    <NuxtLink class="nav-link" to="/">Home</NuxtLink>
                                 </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Features</a>
                                 </li>
                                 <li class="nav-item"  :class="{ active: isActiveTab('/categories') }">
-                                    <a class="nav-link" href="/categories">Categories</a>
+                                    <NuxtLink class="nav-link" to="/categories">Categories</NuxtLink>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link to="/archive" class="nav-link">Archive</router-link>
+                                    <NuxtLink to="/archive" class="nav-link">Archive</NuxtLink>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">About</a>
                                 </li>
                                 <li class="nav-item" :class="{ active: isActiveTab('/contact') }">
-                                    <router-link to="/contact" class="nav-link">Contact</router-link>
+                                    <NuxtLink to="/contact" class="nav-link">Contact</NuxtLink>
                                 </li>
-                                <li class="nav-item" :class="{ active: isActiveTab('/register') }">
+                                <li v-if="!isAuthenticated" class="nav-item" :class="{ active: isActiveTab('/login') }">
+                                    <NuxtLink to="/login" class="nav-link">Login</NuxtLink>
+                                </li>
+                                <li v-if="!isAuthenticated" class="nav-item" :class="{ active: isActiveTab('/register') }">
                                     <NuxtLink to="/register" class="nav-link">Register</NuxtLink>
+                                </li>
+                                <li v-if="isAuthenticated" class="nav-item" :class="{ active: isAccountActive() }">
+                                    <NuxtLink to="/account" class="nav-link">Личный кабинет</NuxtLink>
+                                </li>
+                                <li v-if="isAuthenticated" class="nav-item">
+                                    <button class="nav-link auth-nav-button" type="button" @click="handleLogout">
+                                        Logout
+                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -49,9 +60,29 @@
 </template>
 
 <script setup lang="ts">
+import { useAuth } from '../../composables/useAuth'
+
 const route = useRoute();
+const { isAuthenticated, logout } = useAuth()
 
 const isActiveTab = (tabName: string) => {
     return route.path === tabName;
 }
+
+const isAccountActive = () => {
+    return route.path.startsWith('/account')
+}
+
+const handleLogout = async () => {
+    await logout()
+    await navigateTo('/')
+}
 </script>
+
+<style scoped>
+.auth-nav-button {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+</style>

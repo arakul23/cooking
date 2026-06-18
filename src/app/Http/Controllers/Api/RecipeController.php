@@ -39,6 +39,6 @@ class RecipeController extends Controller
 
     public function getRandomRecipe(): RecipeResource
     {
-        return RecipeResource::make(Recipe::inRandomOrder()->limit(1)->first());
+        return RecipeResource::make(Recipe::inRandomOrder()->with('translations')->limit(1)->first());
     }
 }
