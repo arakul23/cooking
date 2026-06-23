@@ -19,6 +19,7 @@ Route::prefix('/recipes')->controller(RecipeController::class)->group(function (
     Route::get('/popular', 'getPopularRecipes');
     Route::get('/random', 'getRandomRecipe');
     Route::get('/{recipe}', 'show')->whereNumber('recipe');
+    Route::post('/{recipe}/rating', 'setRating')->whereNumber('recipe');
 });
 
 Route::middleware('auth:api,sanctum')->prefix('/recipes/favourite')->controller(UserFavoritesController::class)->group(function () {

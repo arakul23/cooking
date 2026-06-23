@@ -49,4 +49,9 @@ class Recipe extends Model
     {
         return $this->belongsToMany(User::class, 'favourites_recipes');
     }
+
+    public function ratingByUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'recipe_ratings');
+    }
 }

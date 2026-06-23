@@ -7,11 +7,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
+use App\Service\RatingService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class RecipeController extends Controller
 {
+    public function __construct(readonly private RatingService $ratingService)
+    {
+    }
+
     const int MAX_RANDOM_RECIPES = 5;
 
     public function getRecipes(): Collection
@@ -40,5 +46,10 @@ class RecipeController extends Controller
     public function getRandomRecipe(): RecipeResource
     {
         return RecipeResource::make(Recipe::inRandomOrder()->with('translations')->limit(1)->first());
+    }
+
+    public function setRating(Request $request, Recipe $recipe)
+    {
+        $this->ratingService->updateAverageRating($recipe, $request->rating);
     }
 }

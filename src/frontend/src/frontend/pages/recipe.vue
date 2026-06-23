@@ -3,6 +3,9 @@ import Preloader from '@/app/components/layout/Preloader.vue'
 import Header from '@/app/components/layout/Header.vue'
 import Footer from '@/app/components/layout/Footer.vue'
 import { useAuth } from '@/app/composables/useAuth'
+import { defineAsyncComponent } from 'vue'
+
+const StarRating = defineAsyncComponent(() => import('vue-star-rating'))
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -10,6 +13,7 @@ const fallbackImage = 'https://placehold.co/960x640?text=Recipe'
 const { isAuthenticated } = useAuth()
 const isFavorite = ref(false)
 const favoriteMessage = ref('')
+const rating = ref(0)
 
 const recipeId = computed(() => {
     const id = route.query.id
@@ -116,6 +120,18 @@ const toggleFavorite = async () => {
     }, 1800)
 }
 
+const setRating = async () => {
+    const {data, pending, error} = await useFetch<{ data: RecipeItem[] }>(
+        `${config.public.apiBase}/recipes/${recipeId.value}/rating`,
+        {
+            method: 'POST',
+            body: {
+                rating: rating.value,
+            },
+        }
+    )
+}
+
 </script>
 
 <template>
@@ -162,6 +178,9 @@ const toggleFavorite = async () => {
             <div v-else-if="recipe" class="row justify-content-center">
                 <div class="col-12 col-lg-10">
                     <article class="single-post wow fadeInUp">
+                        <ClientOnly>
+                            <StarRating v-model:rating="rating" :increment="0.01" class="recipe-rating" @click="setRating" />
+                        </ClientOnly>
                         <div class="post-thumb">
                             <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
                         </div>
