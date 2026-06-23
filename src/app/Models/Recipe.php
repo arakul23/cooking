@@ -44,4 +44,9 @@ class Recipe extends Model
         return $this->morphMany(Translation::class, 'translatable')
             ->orderByRaw("CASE WHEN locale = ? THEN 0 ELSE 1 END", [App()->getLocale()]);
     }
+
+    public function favouriteByUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'favourites_recipes');
+    }
 }

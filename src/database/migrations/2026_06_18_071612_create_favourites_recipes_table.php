@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('favourites_recipes', function (Blueprint $table) {
             $table->foreignId('recipe_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->unique(['user_id', 'recipe_id']);
         });
     }
 

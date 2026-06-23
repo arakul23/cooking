@@ -19,7 +19,9 @@ export default defineEventHandler(async (event) => {
 
     const apiBase = config.apiInternalBase.replace(/\/+$/, '')
     const appBase = apiBase.replace(/\/api$/, '')
-    const target = `${appBase}/${path}`
+    const target = path === 'sanctum/csrf-cookie'
+        ? `${appBase}/${path}`
+        : `${apiBase}/auth/${path}`
     const xsrfToken = decodeCookieValue(parseCookies(event)['XSRF-TOKEN'])
     const headers: Record<string, string> = {
         accept: 'application/json',
