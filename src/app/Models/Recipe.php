@@ -54,4 +54,9 @@ class Recipe extends Model
     {
         return $this->belongsToMany(User::class, 'recipe_ratings');
     }
+
+    public function getTitleAttribute(): ?string
+    {
+        return $this->translations->firstWhere('key', 'title')?->value;
+    }
 }

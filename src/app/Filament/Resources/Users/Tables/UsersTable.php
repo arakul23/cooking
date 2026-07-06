@@ -1,36 +1,29 @@
 <?php
 
-namespace App\Filament\Resources\Recipes\Tables;
+namespace App\Filament\Resources\Users\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class RecipesTable
+class UsersTable
 {
     public static function configure(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn ($query) => $query->with('translations'))
             ->columns([
-                TextColumn::make('title')
+                TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('logo')
+                TextColumn::make('email')
+                    ->label('Email address')
                     ->searchable(),
-                TextColumn::make('portions')
-                    ->numeric()
+                TextColumn::make('email_verified_at')
+                    ->dateTime()
                     ->sortable(),
-                TextColumn::make('calories')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('views')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('author_id')
-                    ->numeric()
+                TextColumn::make('two_factor_confirmed_at')
+                    ->dateTime()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -40,20 +33,11 @@ class RecipesTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('total_time_minutes')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('time_raw')
-                    ->searchable(),
-                TextColumn::make('rating')
-                    ->numeric()
-                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([
