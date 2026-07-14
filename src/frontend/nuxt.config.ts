@@ -28,8 +28,10 @@ export default defineNuxtConfig({
 
     css: [
         '@/assets/css/style.css',
+        '@/assets/css/main.css'
     ],
     srcDir: 'src/frontend/',
+    modules: ['@nuxt/ui'],
     runtimeConfig: {
         apiInternalBase: process.env.NUXT_API_INTERNAL_BASE || 'http://nginx/api',
         public: {

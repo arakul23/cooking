@@ -20,6 +20,7 @@ Route::prefix('/recipes')->controller(RecipeController::class)->group(function (
     Route::get('/random', 'getRandomRecipe');
     Route::get('/{recipe}', 'show')->whereNumber('recipe');
     Route::post('/{recipe}/rating', 'setRating')->whereNumber('recipe');
+    Route::post('/create', 'create');
 });
 
 Route::middleware('auth:api,sanctum')->prefix('/recipes/favourite')->controller(UserFavoritesController::class)->group(function () {

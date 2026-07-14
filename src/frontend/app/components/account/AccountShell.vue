@@ -59,6 +59,13 @@
                             >
                                 Любимые рецепты
                             </NuxtLink>
+                            <NuxtLink
+                                to="/account/create-recipe"
+                                class="account-menu-link"
+                                :class="{ active: route.path === '/account/create-recipe' }"
+                            >
+                                Добавить рецепт
+                            </NuxtLink>
                         </nav>
                     </aside>
                 </div>

@@ -1,5 +1,7 @@
 <template>
-    <Index />
+    <UApp>
+        <Index/>
+    </UApp>
 </template>
 
 <script setup>

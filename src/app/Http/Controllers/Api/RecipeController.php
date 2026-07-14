@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Recipe\CreateRequest;
 use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 use App\Service\RatingService;
@@ -15,8 +16,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class RecipeController extends Controller
 {
     public function __construct(readonly private RatingService $ratingService)
-    {
-    }
+    {}
 
     const int MAX_RANDOM_RECIPES = 5;
 
@@ -41,6 +41,13 @@ class RecipeController extends Controller
         $recipe->loadMissing(['categories', 'products', 'translations']);
 
         return RecipeResource::make($recipe);
+    }
+
+    public function create(CreateRequest $request): RecipeResource
+    {
+        $request = $request->validated();
+
+        $recipe = Recipe::create($request);
     }
 
     public function getRandomRecipe(): RecipeResource

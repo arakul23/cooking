@@ -69,6 +69,7 @@ import { useApi } from '../../../../app/composables/useApi'
 
 const config = useRuntimeConfig()
 const api = useApi()
+const favoriteRecipes = ref<FavoriteRecipe[]>([])
 
 definePageMeta({
     middleware: 'auth',
@@ -90,6 +91,7 @@ onMounted(async () => {
         favoriteRecipes.value = data
     } catch (error) {
         console.error('Failed to load favorites:', error)
+        favoriteRecipes.value = []
     }
 })
 </script>

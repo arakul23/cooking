@@ -16,7 +16,7 @@ class RecipeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $translations = $this->load('translations')->get();
+        $translations = $this->whenLoaded('translations', fn () => $this->translations, collect());
 
         $translations = $translations->pluck('value', 'key');
 
