@@ -28,9 +28,6 @@ services:
     image: nginx:1.25
     ports:
       - "8080:80"
-    depends_on:
-      php:
-        condition: service_healthy
     restart: unless-stopped
     volumes:
       - ./src:/var/www/html

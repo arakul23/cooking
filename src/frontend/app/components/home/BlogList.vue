@@ -39,9 +39,7 @@ type RecipeItem = {
 }
 
 const { data, pending, error } = await useFetch<RecipeItem[]>(
-    `${config.public.apiBase}/recipes`, {
-        server: false
-    }
+    `${config.public.apiBase}/recipes`
 )
 
 const recipes = computed(() => data.value ?? [])

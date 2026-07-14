@@ -81,9 +81,7 @@
                         <img :src="category.image" alt=''>
                         <div class="catagory-title">
                             <NuxtLink :to="{ path: '/category', query: { id: category.id } }">
-                                <a href="#">
-                                    <h5>{{ category.name }}</h5>
-                                </a>
+                                <h5>{{ category.name }}</h5>
                             </NuxtLink>
                         </div>
                     </div>
@@ -136,9 +134,7 @@
                                         </div>
                                     </div>
                                     <NuxtLink :to="{ path: '/recipe', query: { id: recipe.id } }">
-                                        <a href="#">
-                                            <h2 class="post-headline">{{ recipe['title'] }}</h2>
-                                        </a>
+                                        <h2 class="post-headline">{{ recipe['title'] }}</h2>
                                         <p>{{ recipe['title'] }}</p>
                                     </NuxtLink>
 
@@ -550,13 +546,11 @@ type RecipeItem = {
 }
 
 const {data, pending} = await useFetch<{ data: CategoryItem[] }>(
-    `${config.public.apiBase}/categories/random`,
-    {server: false}
+    `${config.public.apiBase}/categories/random`
 )
 
 const {data: recipeData, recipePending} = await useFetch<{ data: RecipeItem[] }>(
-    `${config.public.apiBase}/recipes/random`,
-    {server: false}
+    `${config.public.apiBase}/recipes/random`
 )
 
 const categories = computed(() => data.value?.data ?? [])
