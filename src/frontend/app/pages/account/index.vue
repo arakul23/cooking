@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import AccountShell from '@/app/components/account/AccountShell.vue'
+import AccountShell from '~/components/account/AccountShell.vue'
 
 definePageMeta({
     middleware: 'auth',

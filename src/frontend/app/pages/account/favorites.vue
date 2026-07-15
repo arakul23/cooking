@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 import AccountShell from '@/app/components/account/AccountShell.vue'
-import { useApi } from '../../../../app/composables/useApi'
+import { useApi } from '../../composables/useApi'
 
 const config = useRuntimeConfig()
 const api = useApi()

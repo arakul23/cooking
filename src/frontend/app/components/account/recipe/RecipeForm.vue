@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import TiptapEditor from "../../TiptapEditor.vue";
+import {recipeSchema} from "../../../composables/useRecipeValidation"
+import type {FormSubmitEvent} from '@nuxt/ui'
 
 const config = useRuntimeConfig();
 
@@ -7,8 +9,6 @@ type CategoryItem = {
     id: number;
     name: string;
     image: string | null;
-    recipes_count?: number | null;
-    recipesCount?: number | null;
 }
 
 const {data, error} = await useFetch<{ data: CategoryItem[] }>(
@@ -21,97 +21,95 @@ if (error.value) {
 
 const categories = computed(() => data.value?.data ?? [])
 
-type Recipe = {
-    title: string
-    description: string
-    logo: string
-    categories: number[]
-    cookingTime: string
-    portions: number
-    time_raw: string
-}
-
 const emit = defineEmits<{
-    create: [recipe: Recipe]
+    create: [recipe: any,]
 }>()
 
 const recipe = reactive({
     title: '',
     description: '',
-    logo: '',
-    categories: [],
-    cookingTime: '',
-    portions: 0,
-    time_raw: ''
+    content: '',
+    categories: [] as number[],
+    total_time_minutes: null as number | null,
+    portions: null as number | null,
+    calories: null as number | null,
+    logo: null as File | null,
 })
 
-function create() {
-    emit('create', recipe)
+async function onSubmit(event: FormSubmitEvent<typeof recipe>) {
+    emit('create', event.data)
 }
 </script>
 
 <template>
-    <form @submit.prevent="create" method="post">
-        <div class="form-group">
-            <label for="title">Название рецепта</label>
-            <input v-model="recipe.title" class="form-control" type="text" id="title" name="title"
-                   placeholder="Например, Тирамису классический">
+
+    <UForm :schema="recipeSchema" :state="recipe" @submit="onSubmit">
+        <UFormField label="Название рецепта" name="title" class="form-group">
+            <UInput v-model="recipe.title" class="w-full" size="xl"/>
+        </UFormField>
+
+        <div class="row-2">
+            <UFormField label="Категория" name="categories" class="form-group">
+                <USelectMenu
+                    v-model="recipe.categories"
+                    label-key="name"
+                    color="neutral"
+                    variant="outline"
+                    value-key="id"
+                    multiple
+                    :items="categories"
+                    class="w-full"
+                    size="xl"
+                />
+            </UFormField>
+            <UFormField label="Каллории" name="calories" class="form-group">
+                <UInputNumber v-model="recipe.calories" color="neutral" variant="outline" class="w-full" size="xl"/>
+            </UFormField>
         </div>
 
         <div class="row-2">
-            <div class="form-group">
-                <label for="category">Категория</label>
-                <USelectMenu v-model="recipe.categories" label-key="name" color="neutral"
-                             variant="outline" value-key="id" multiple :items="categories" class="w-48" size="xl"/>
-            </div>
-
+            <UFormField label="Время готовки (мин)" name="total_time_minutes" class="form-group">
+                <UInputNumber v-model="recipe.total_time_minutes" color="neutral" variant="outline" class="w-full"
+                              size="xl" placeholder="45"/>
+            </UFormField>
+            <UFormField label="Кол-во порций" name="portions" class="form-group">
+                <UInputNumber v-model="recipe.portions" color="neutral" variant="outline" class="w-full" size="xl"/>
+            </UFormField>
         </div>
 
-        <div class="row-2">
-            <div class="form-group">
-                <label for="cook_time">Время готовки (мин)</label>
-                <input v-model="recipe.cookingTime" class="form-control" type="number" id="cook_time" name="cook_time"
-                       placeholder="45">
-            </div>
-            <div class="form-group">
-                <label for="portions">кол-во порций</label>
-                <UInputNumber v-model="recipe.portions" color="neutral" variant="outline" class="w-48" size="xl"/>
-            </div>
-        </div>
+        <UFormField label="Краткое описание" name="description" class="form-group">
+            <UTextarea v-model="recipe.description" color="neutral" variant="outline" class="w-full" size="xl"/>
+        </UFormField>
 
-        <!--                <div class="form-group">
-                            <label for="ingredients">Ингредиенты</label>
-                            <textarea class="form-control" id="ingredients" name="ingredients" placeholder="Каждый ингредиент с новой строки"></textarea>
-                            <span class="hint">Один ингредиент на строку — так удобнее парсить на бэке.</span>
-                        </div>-->
+        <client-only>
+            <UFormField label="Описание / шаги приготовления" name="content" class="form-group">
+                <TiptapEditor v-model="recipe.content"/>
+            </UFormField>
 
-        <div class="form-group">
-            <client-only>
-                <label for="description">Описание / шаги приготовления</label>
-                <TiptapEditor v-model="recipe.description"/>
-            </client-only>
-        </div>
+            <template #fallback>
+                <div class="form-group">
+                    <label>Описание / шаги приготовления</label>
+                    <div style="height: 200px; background: #f5f5f8; border-radius: 8px;"/>
+                </div>
+            </template>
+        </client-only>
 
-        <!--
-                            <textarea class="form-control" id="description" name="description" placeholder="Опишите процесс приготовления шаг за шагом"></textarea>
-        -->
-
-
-        <div class="form-group">
-            <label>Photo</label>
+        <UFormField label="Photo" name="logo" class="form-group">
             <UFileUpload
                 v-model="recipe.logo"
                 label="Drop your image here"
                 description="PNG or JPG (max. 2MB)"
                 class="w-96 min-h-48"
             />
-        </div>
+        </UFormField>
 
         <div class="form-actions">
             <button type="button" class="btn btn-outline">Отмена</button>
             <button type="submit" class="btn btn-primary">Опубликовать рецепт</button>
         </div>
-    </form>
+    </UForm>
+
+
 </template>
 
 <style>
@@ -182,45 +180,6 @@ h1, h2, h3, h4, label {
     letter-spacing: .5px;
 }
 
-.form-group .hint {
-    display: block;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    text-transform: none;
-    color: #b5aec4;
-    font-size: 12px;
-    margin-top: 4px;
-    letter-spacing: 0;
-}
-
-.form-control,
-textarea.form-control {
-    width: 100%;
-    border: 1px solid #ebebeb;
-    border-radius: 8px;
-    padding: 0 20px;
-    height: 50px;
-    font-size: 14px;
-    font-family: 'Poppins', sans-serif;
-    color: #51545f;
-    background-color: #f5f5f8;
-    transition: border-color .3s ease;
-}
-
-textarea.form-control {
-    height: auto;
-    padding: 15px 20px;
-    resize: vertical;
-    min-height: 130px;
-}
-
-.form-control:focus,
-textarea.form-control:focus {
-    outline: none;
-    border-color: #fc6c3f;
-    background-color: #fff;
-}
-
 .row-2 {
     display: flex;
     gap: 20px;
@@ -228,32 +187,6 @@ textarea.form-control:focus {
 
 .row-2 .form-group {
     flex: 1;
-}
-
-.upload-box {
-    border: 2px dashed #ebebeb;
-    border-radius: 8px;
-    padding: 30px;
-    text-align: center;
-    cursor: pointer;
-    background-color: #f5f5f8;
-    transition: border-color .3s ease;
-}
-
-.upload-box:hover {
-    border-color: #fc6c3f;
-}
-
-.upload-box i {
-    font-size: 30px;
-    color: #fc6c3f;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.upload-box span {
-    font-size: 13px;
-    color: #b5aec4;
 }
 
 .form-actions {

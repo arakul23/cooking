@@ -24,8 +24,9 @@ class CreateRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'description' => 'required|string',
-            'logo' => 'nullable|string|max:255',
+            'description' => 'required|string:max:255',
+            'content' => 'required|string:max:255',
+            'logo' => 'nullable|file|mimes:jpg,jpeg,png',
             'portions' => 'nullable|integer',
             'calories' => 'nullable|integer',
             'total_time_minutes' => 'nullable|integer',

@@ -9,6 +9,8 @@ use App\Http\Requests\Recipe\CreateRequest;
 use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 use App\Service\RatingService;
+use App\Service\RecipeService;
+use http\Client\Response;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -16,7 +18,8 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class RecipeController extends Controller
 {
     public function __construct(readonly private RatingService $ratingService)
-    {}
+    {
+    }
 
     const int MAX_RANDOM_RECIPES = 5;
 
@@ -43,11 +46,17 @@ class RecipeController extends Controller
         return RecipeResource::make($recipe);
     }
 
-    public function create(CreateRequest $request): RecipeResource
+    public function create(CreateRequest $request, RecipeService $recipeService): \Illuminate\Http\JsonResponse
     {
-        $request = $request->validated();
+        $dataArray = $request->validated();
 
-        $recipe = Recipe::create($request);
+        if ($request->hasFile('logo')) {
+            $dataArray['logo'] = $request->file('logo')->store('recipes/logos', 'public'); // сохранится что-то вроде "recipes/logos/abc123.jpg"
+        }
+
+        $recipe = $recipeService->createRecipe($dataArray);
+
+        return response()->json($recipe, 201);
     }
 
     public function getRandomRecipe(): RecipeResource

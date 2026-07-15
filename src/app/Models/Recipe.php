@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\Storage;
 
 class Recipe extends Model
 {
@@ -15,6 +16,17 @@ class Recipe extends Model
     protected $guarded = [
         'id'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (auth()->check()) {
+                $model->author_id = auth()->id();
+            }
+        });
+    }
 
     public function categories(): BelongsToMany
     {
@@ -58,5 +70,12 @@ class Recipe extends Model
     public function getTitleAttribute(): ?string
     {
         return $this->translations->firstWhere('key', 'title')?->value;
+    }
+
+    public function getLogoAttribute(): ?string
+    {
+        $logo = $this->attributes['logo'] ?? null;
+
+        return $logo ? Storage::disk('public')->url($logo) : null;
     }
 }

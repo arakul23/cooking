@@ -49,7 +49,7 @@ const category = computed(() => data.value?.data ?? [])
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <NuxtLink to="/">
+                                <NuxtLink to="/src/frontend/public">
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                     Home
                                 </NuxtLink>

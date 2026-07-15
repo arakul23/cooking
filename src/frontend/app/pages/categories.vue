@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Preloader from '@/app/components/layout/Preloader.vue'
-import Header from '@/app/components/layout/Header.vue'
-import Footer from '@/app/components/layout/Footer.vue'
+import Preloader from '~/components/layout/Preloader.vue'
+import Header from '~/components/layout/Header.vue'
+import Footer from '~/components/layout/Footer.vue'
 
 const config = useRuntimeConfig()
 const fallbackImage = 'https://placehold.co/640x420?text=Category'
@@ -49,7 +49,7 @@ const getRecipeCount = (category: CategoryItem) => {
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <NuxtLink to="/">
+                                <NuxtLink to="/src/frontend/public">
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                     Home
                                 </NuxtLink>

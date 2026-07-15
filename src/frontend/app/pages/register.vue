@@ -7,7 +7,7 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>Login</h2>
+                        <h2>Create Account</h2>
                     </div>
                 </div>
             </div>
@@ -21,12 +21,12 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <NuxtLink to="/">
+                                <NuxtLink to="/src/frontend/public">
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                     Home
                                 </NuxtLink>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Login</li>
+                            <li class="breadcrumb-item active" aria-current="page">Register</li>
                         </ol>
                     </nav>
                 </div>
@@ -39,16 +39,32 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-8">
                     <div class="contact-form wow fadeInUpBig">
-                        <h2 class="contact-form-title mb-30">Welcome Back</h2>
+                        <h2 class="contact-form-title mb-30">Join Yummy Blog</h2>
 
+                        <div v-if="successMessage" class="status-message status-success" role="status" aria-live="polite">
+                            {{ successMessage }}
+                        </div>
                         <div v-if="errorMessage" class="status-message status-error" role="alert">
                             {{ errorMessage }}
                         </div>
 
-                        <form @submit.prevent="handleLogin">
+                        <form @submit.prevent="handleRegister">
                             <div class="form-group">
                                 <input
-                                    id="login-email"
+                                    id="register-name"
+                                    v-model="form.name"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Name"
+                                    autocomplete="name"
+                                    required
+                                >
+                                <small v-if="fieldError('name')" class="field-error">{{ fieldError('name') }}</small>
+                            </div>
+
+                            <div class="form-group">
+                                <input
+                                    id="register-email"
                                     v-model="form.email"
                                     type="email"
                                     class="form-control"
@@ -61,34 +77,31 @@
 
                             <div class="form-group">
                                 <input
-                                    id="login-password"
+                                    id="register-password"
                                     v-model="form.password"
                                     type="password"
                                     class="form-control"
                                     placeholder="Password"
-                                    autocomplete="current-password"
+                                    autocomplete="new-password"
                                     required
                                 >
                                 <small v-if="fieldError('password')" class="field-error">{{ fieldError('password') }}</small>
                             </div>
 
-                            <div class="form-group auth-options">
-                                <label class="remember-option" for="login-remember">
-                                    <input
-                                        id="login-remember"
-                                        v-model="form.remember"
-                                        type="checkbox"
-                                    >
-                                    Remember me
-                                </label>
-
-                                <NuxtLink to="/register" class="auth-link">
-                                    Create account
-                                </NuxtLink>
+                            <div class="form-group">
+                                <input
+                                    id="register-password-confirmation"
+                                    v-model="form.password_confirmation"
+                                    type="password"
+                                    class="form-control"
+                                    placeholder="Confirm password"
+                                    autocomplete="new-password"
+                                    required
+                                >
                             </div>
 
                             <button type="submit" class="btn contact-btn" :disabled="isSubmitting">
-                                {{ isSubmitting ? 'Signing in...' : 'Login' }}
+                                {{ isSubmitting ? 'Creating account...' : 'Create account' }}
                             </button>
                         </form>
                     </div>
@@ -110,46 +123,56 @@ definePageMeta({
     middleware: 'guest',
 })
 
-type LoginForm = {
+type RegisterForm = {
+    name: string
     email: string
     password: string
-    remember: boolean
+    password_confirmation: string
 }
 
-const form = reactive<LoginForm>({
+const form = reactive<RegisterForm>({
+    name: '',
     email: '',
     password: '',
-    remember: false,
+    password_confirmation: '',
 })
 
 const validationErrors = ref<Record<string, string[]>>({})
 const errorMessage = ref('')
+const successMessage = ref('')
 const isSubmitting = ref(false)
-const { login } = useAuth()
+const { register } = useAuth()
 
 const fieldError = (field: string): string => {
     return validationErrors.value[field]?.[0] ?? ''
 }
 
-const handleLogin = async () => {
+const handleRegister = async () => {
     isSubmitting.value = true
     errorMessage.value = ''
+    successMessage.value = ''
     validationErrors.value = {}
 
     try {
-        await login({
+        await register({
+            name: form.name,
             email: form.email,
             password: form.password,
-            remember: form.remember,
+            password_confirmation: form.password_confirmation,
         })
 
+        successMessage.value = 'Registration completed successfully.'
+        form.name = ''
+        form.email = ''
+        form.password = ''
+        form.password_confirmation = ''
         await navigateTo('/')
     } catch (error: any) {
-        console.error('Login failed:', error)
+        console.error('Register failed:', error)
         validationErrors.value = error?.data?.errors ?? {}
         const responseStatus = error?.status ?? error?.statusCode ?? error?.response?.status
         const status = responseStatus ? ` (status ${responseStatus})` : ''
-        errorMessage.value = error?.data?.message ?? `Unable to login right now${status}.`
+        errorMessage.value = error?.data?.message ?? `Unable to register right now${status}.`
     } finally {
         isSubmitting.value = false
     }
@@ -165,6 +188,12 @@ const handleLogin = async () => {
     line-height: 1.4;
 }
 
+.status-success {
+    border: 1px solid #a7e5b4;
+    background: #ecfdf2;
+    color: #1f7a35;
+}
+
 .status-error {
     border: 1px solid #efb5b5;
     background: #fff2f2;
@@ -178,25 +207,8 @@ const handleLogin = async () => {
     font-size: 13px;
 }
 
-.auth-options {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-}
-
-.remember-option {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 0;
-    color: #51545f;
-    font-size: 14px;
-}
-
-.auth-link {
-    color: #fc6c3f;
-    font-size: 14px;
+.auth-hint {
+    margin-top: 20px;
 }
 
 .contact-btn[disabled] {

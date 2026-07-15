@@ -2,11 +2,7 @@ export default defineNuxtConfig({
     app: {
         head: {
             script: [
-                { src: 'assets/js/jquery/jquery-2.2.4.min.js', type: 'text/javascript', defer: true },
-                { src: 'assets/js/bootstrap/popper.min.js', type: 'text/javascript', defer: true },
-                { src: 'assets/js/bootstrap/bootstrap.min.js', type: 'text/javascript', defer: true },
-                { src: 'assets/js/others/plugins.js', type: 'text/javascript', defer: true },
-                { src: 'assets/js/active.js', type: 'text/javascript', defer: true },
+
             ]
         }
     },
@@ -30,7 +26,7 @@ export default defineNuxtConfig({
         '@/assets/css/style.css',
         '@/assets/css/main.css'
     ],
-    srcDir: 'src/frontend/',
+    srcDir: 'app/',
     modules: ['@nuxt/ui'],
     runtimeConfig: {
         apiInternalBase: process.env.NUXT_API_INTERNAL_BASE || 'http://nginx/api',
