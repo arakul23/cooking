@@ -192,6 +192,8 @@
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/google-gemini-php/client" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/google-gemini-php/laravel" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/laravel/socialite" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/league/oauth1-client" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

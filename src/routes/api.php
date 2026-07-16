@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ContactUsController;
 use App\Http\Controllers\Api\RecipeCategoryController;
 use App\Http\Controllers\Api\RecipeController;
 use App\Http\Controllers\Api\UserFavoritesController;
+use App\Http\Controllers\GoogleAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +36,5 @@ Route::prefix('/categories')->controller(RecipeCategoryController::class)->group
 });
 
 Route::post('/contact/send', [ContactUsController::class, 'handleContactUsRequest']);
+
+Route::post('/auth/google/callback', [GoogleAuthController::class, 'callback']);

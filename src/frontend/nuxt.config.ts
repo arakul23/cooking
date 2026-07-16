@@ -28,6 +28,11 @@ export default defineNuxtConfig({
     ],
     srcDir: 'app/',
     modules: ['@nuxt/ui'],
+    colorMode: {
+        preference: 'light',
+        fallback: 'light',
+        classSuffix: ''
+    },
     runtimeConfig: {
         apiInternalBase: process.env.NUXT_API_INTERNAL_BASE || 'http://nginx/api',
         public: {

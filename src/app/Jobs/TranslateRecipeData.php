@@ -34,7 +34,7 @@ class TranslateRecipeData implements ShouldQueue
             $recipe->translations->pluck('value', 'key')->toArray()
         ], JSON_UNESCAPED_UNICODE);
 
-        $prompt = str_replace('source_data', $sourceData, file_get_contents(config_path('prompt.txt')));
+        $prompt = str_replace('source_data', $sourceData, file_get_contents(config_path('translationPrompt.txt')));
 
         $translations = Gemini::generativeModel(model: config('gemini.model'))->generateContent($prompt)->json(true);
 

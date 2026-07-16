@@ -91,6 +91,11 @@
                                 {{ isSubmitting ? 'Signing in...' : 'Login' }}
                             </button>
                         </form>
+
+                        <button type="submit" class="btn contact-btn" @click="loginWithGoogle()">
+                            Google
+                        </button>
+
                     </div>
                 </div>
             </div>
@@ -129,6 +134,18 @@ const { login } = useAuth()
 
 const fieldError = (field: string): string => {
     return validationErrors.value[field]?.[0] ?? ''
+}
+
+const loginWithGoogle = () => {
+    const params = new URLSearchParams({
+        client_id: "198694372353-iqi8t0eb53u31spd5eo83g9a40i17rkk.apps.googleusercontent.com",
+        redirect_uri: 'http://localhost:3000/auth/google/callback',
+        response_type: 'code',
+        scope: 'openid profile email',
+        access_type: 'offline',
+        prompt: 'consent',
+    })
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params}`
 }
 
 const handleLogin = async () => {

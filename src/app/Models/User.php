@@ -63,4 +63,16 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Recipe::class, 'recipe_ratings');
     }
+
+    public function oauthProviders(): HasMany
+    {
+        return $this->hasMany(OAuthProvider::class);
+    }
+
+    public function oauthProvider(string $provider): ?OAuthProvider
+    {
+        return $this->oauthProviders()
+            ->where('provider', $provider)
+            ->first();
+    }
 }
