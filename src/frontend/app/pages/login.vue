@@ -1,6 +1,6 @@
 <template>
-    <Preloader />
-    <Header />
+    <Preloader/>
+    <Header/>
 
     <div class="breadcumb-area">
         <div class="container h-100">
@@ -45,7 +45,7 @@
                             {{ errorMessage }}
                         </div>
 
-                        <form @submit.prevent="handleLogin">
+                        <form @submit.prevent="handleLogin" class="auth-form">
                             <div class="form-group">
                                 <input
                                     id="login-email"
@@ -69,7 +69,9 @@
                                     autocomplete="current-password"
                                     required
                                 >
-                                <small v-if="fieldError('password')" class="field-error">{{ fieldError('password') }}</small>
+                                <small v-if="fieldError('password')" class="field-error">{{
+                                        fieldError('password')
+                                    }}</small>
                             </div>
 
                             <div class="form-group auth-options">
@@ -91,10 +93,21 @@
                                 {{ isSubmitting ? 'Signing in...' : 'Login' }}
                             </button>
                         </form>
-
-                        <button type="submit" class="btn contact-btn" @click="loginWithGoogle()">
-                            Google
-                        </button>
+                        <div>
+                            <button type="button" class="google-signin-btn" @click="loginWithGoogle()">
+                                <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill="#4285F4"
+                                          d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+                                    <path fill="#34A853"
+                                          d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+                                    <path fill="#FBBC05"
+                                          d="M3.964 10.71A5.41 5.41 0 0 1 3.68 9c0-.593.102-1.17.284-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+                                    <path fill="#EA4335"
+                                          d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+                                </svg>
+                                <span>Continue with Google</span>
+                            </button>
+                        </div>
 
                     </div>
                 </div>
@@ -102,14 +115,14 @@
         </div>
     </section>
 
-    <Footer />
+    <Footer/>
 </template>
 
 <script setup lang="ts">
 import Preloader from '~/components/layout/Preloader.vue'
 import Header from '~/components/layout/Header.vue'
 import Footer from '~/components/layout/Footer.vue'
-import { useAuth } from '~/composables/useAuth'
+import {useAuth} from '~/composables/useAuth'
 
 definePageMeta({
     middleware: 'guest',
@@ -130,7 +143,7 @@ const form = reactive<LoginForm>({
 const validationErrors = ref<Record<string, string[]>>({})
 const errorMessage = ref('')
 const isSubmitting = ref(false)
-const { login } = useAuth()
+const {login} = useAuth()
 
 const fieldError = (field: string): string => {
     return validationErrors.value[field]?.[0] ?? ''
@@ -219,5 +232,28 @@ const handleLogin = async () => {
 .contact-btn[disabled] {
     cursor: not-allowed;
     opacity: 0.75;
+}
+
+.google-signin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    color: #3c4043;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-family: 'Roboto', arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.google-signin-btn:hover {
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+}
+
+.auth-form {
+    padding-bottom: 10px;
 }
 </style>
