@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
@@ -38,8 +41,9 @@ class GoogleAuthController extends Controller
             ]);
         }
 
-        $token = $user->createToken('api-token')->plainTextToken;
+        Auth::login($user, remember: true);
+        $request->session()->regenerate();
 
-        return response()->json(['token' => $token, 'user' => $user]);
+        return response()->json(['user' => $user]);
     }
 }

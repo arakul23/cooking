@@ -34,6 +34,8 @@ const fetchCsrfCookie = async () => {
     }
 }
 
+
+
 export const useAuth = () => {
     const user = useState<AuthUser | null>('auth:user', () => null)
     const initialized = useState('auth:initialized', () => false)
@@ -65,6 +67,17 @@ export const useAuth = () => {
         }
 
         return user.value
+    }
+
+    const loginWithGoogle = async (code: string) => {
+        const api = useApi()
+        await fetchCsrfCookie()
+        await api<void>('/api/auth/google/callback', {
+            method: 'POST',
+            body: { code },
+        })
+
+        return await fetchUser(true)
     }
 
     const register = async (payload: RegisterPayload) => {
@@ -108,5 +121,6 @@ export const useAuth = () => {
         register,
         login,
         logout,
+        loginWithGoogle
     }
 }
