@@ -27,7 +27,7 @@ class GoogleAuthController extends Controller
                 ->where('provider_id', $googleUser->getId());
         })->first();
 
-        if (! $user) {
+        if (!$user) {
             $user = User::firstOrCreate(
                 ['email' => $googleUser->getEmail()],
                 ['name' => $googleUser->getName(), 'password' => null]
