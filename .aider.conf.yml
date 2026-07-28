@@ -1,0 +1,9 @@
+model: ollama/qwen3:8b
+weak-model: qwen2.5:14b
+auto-commits: false
+gitignore: true
+lint-cmd: "php -l {file}"
+dark-mode: true
+read: CONVENTIONS.md
+show-diffs: true
+yes-always: true
