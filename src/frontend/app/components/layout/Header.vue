@@ -5,7 +5,9 @@
                 <!-- Logo Area Start -->
                 <div class="col-12">
                     <div class="logo_area text-center">
-                        <NuxtLink to="/" class="yummy-logo">Yummy Blog</NuxtLink>
+                        <NuxtLink to="/" class="yummy-logo">
+                            <img alt="logo" src="@assets/images/logo_ua.svg" />
+                        </NuxtLink>
                     </div>
                 </div>
             </div>
@@ -80,6 +82,22 @@ const handleLogout = async () => {
 </script>
 
 <style scoped>
+/* Переопределяем стили родительского контейнера */
+.logo_area .yummy-logo {
+    display: inline-block;
+    padding: 30px 0 0 0; /* Убрали нижний отступ (был 20px) */
+    margin-bottom: 0;
+}
+
+/* Настраиваем ширину самой картинки */
+.logo_area .yummy-logo img {
+    width: 360px; /* Сделали значительно побольше и пошире */
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
 .auth-nav-button {
     border: 0;
     background: transparent;

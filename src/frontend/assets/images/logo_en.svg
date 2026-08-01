@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" font-family="'Caveat', cursive">
+    <defs>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&amp;display=swap');
+            .wordmark { font-family: 'Caveat', cursive; font-weight: 700; fill: #2d3748; }
+            .tagline { font-family: 'Caveat', cursive; font-weight: 600; fill: #4a5568; }
+        </style>
+    </defs>
+
+    <g transform="translate(120,300)" fill="none" stroke="#e08a4f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="60" cy="60" r="54" />
+        <line x1="112" y1="82" x2="185" y2="112" />
+        <path d="M40 60 a20 20 0 0 1 40 0" stroke="#f2c299" stroke-width="4"/>
+    </g>
+
+    <text x="350" y="345" class="wordmark" font-size="96">Skillet</text>
+    <text x="350" y="390" class="tagline" font-size="34" fill="#a0522d">recipes that feel like home</text>
+
+</svg>

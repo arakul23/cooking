@@ -438,15 +438,6 @@ li {
 :: 3.0 Menu Area CSS
 -------------------- */
 
-.logo_area .yummy-logo {
-    font-family: 'Shadows Into Light Two', cursive;
-    font-size: 60px;
-    margin-bottom: 0;
-    padding: 35px 0 20px 0;
-    display: inline-block;
-    color: #232d37;
-}
-
 .navbar.navbar-expand-lg {
     padding: 0;
 }
