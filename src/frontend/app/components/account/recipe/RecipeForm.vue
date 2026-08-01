@@ -1,29 +1,10 @@
 <script setup lang="ts">
 import TiptapEditor from "../../TiptapEditor.vue";
-import {recipeSchema} from "../../../composables/useRecipeValidation"
-import type {FormSubmitEvent} from '@nuxt/ui'
+import {recipeSchema} from "../../../composables/useRecipeValidation";
+import type {FormSubmitEvent} from '@nuxt/ui';
+import {ref, reactive, computed} from 'vue';
 
 const config = useRuntimeConfig();
-
-type CategoryItem = {
-    id: number;
-    name: string;
-    image: string | null;
-}
-
-const {data, error} = await useFetch<{ data: CategoryItem[] }>(
-    `${config.public.apiBase}/categories`
-)
-
-if (error.value) {
-    console.error('Failed to load categories:', error.value)
-}
-
-const categories = computed(() => data.value?.data ?? [])
-
-const emit = defineEmits<{
-    create: [recipe: any,]
-}>()
 
 const recipe = reactive({
     title: '',
@@ -34,15 +15,92 @@ const recipe = reactive({
     portions: null as number | null,
     calories: null as number | null,
     logo: null as File | null,
-})
+});
+
+const finalTranscript = ref('')
+const isListening = ref(false)
+const isSupported = ref(false)
+
+let recognition: any = null
+
+if (import.meta.client) {
+    const SpeechRecognitionCtor =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+
+    isSupported.value = !!SpeechRecognitionCtor
+
+    if (isSupported.value) {
+        recognition = new SpeechRecognitionCtor()
+        recognition.lang = 'ru-RU'
+        recognition.continuous = true
+        recognition.interimResults = true
+
+        recognition.onend = () => {
+            if (isListening.value) {
+                recognition.start()
+            }
+        }
+
+        recognition.onresult = (event: any) => {
+            let interimTranscript = ''
+
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const chunk = event.results[i][0].transcript
+                if (event.results[i].isFinal) {
+                    finalTranscript.value += chunk + ' '
+                } else {
+                    interimTranscript += chunk
+                }
+            }
+
+            recipe.content = finalTranscript.value + interimTranscript
+        }
+
+        recognition.onerror = (e: any) => {
+            console.error('SpeechRecognition error:', e.error)
+        }
+    }
+}
+
+function toggleListening() {
+    if (!recognition) return
+
+    if (isListening.value) {
+        isListening.value = false
+        recognition.stop()
+    } else {
+        isListening.value = true
+        finalTranscript.value = recipe.content ? recipe.content.trim() + ' ' : ''
+        recognition.start()
+    }
+}
+
+type CategoryItem = {
+    id: number;
+    name: string;
+    image: string | null;
+};
+
+const {data, error} = await useFetch<{ data: CategoryItem[] }>(
+    `${config.public.apiBase}/categories`
+);
+
+if (error.value) {
+    console.error('Failed to load categories:', error.value);
+}
+
+const categories = computed(() => data.value?.data ?? []);
+
+const emit = defineEmits<{
+    create: [recipe: any];
+}>();
 
 async function onSubmit(event: FormSubmitEvent<typeof recipe>) {
-    emit('create', event.data)
+    emit('create', event.data);
 }
 </script>
 
 <template>
-
     <UForm :schema="recipeSchema" :state="recipe" @submit="onSubmit">
         <UFormField label="Название рецепта" name="title" class="form-group">
             <UInput v-model="recipe.title" class="w-full" size="xl"/>
@@ -92,6 +150,21 @@ async function onSubmit(event: FormSubmitEvent<typeof recipe>) {
                     <div style="height: 200px; background: #f5f5f8; border-radius: 8px;"/>
                 </div>
             </template>
+
+            <button
+                v-if="isSupported"
+                type="button"
+                @click="toggleListening"
+                class="mt-2 flex items-center gap-2 px-3 py-1 rounded"
+                :class="isListening ? 'bg-red-500 text-white' : 'bg-gray-200'"
+            >
+                <span v-if="isListening">🔴 Остановить запись</span>
+                <span v-else>🎤 Голосовой ввод</span>
+            </button>
+
+            <p v-else class="text-sm text-gray-500 mt-2">
+                Голосовой ввод не поддерживается вашим браузером
+            </p>
         </client-only>
 
         <UFormField label="Photo" name="logo" class="form-group">
@@ -104,20 +177,14 @@ async function onSubmit(event: FormSubmitEvent<typeof recipe>) {
         </UFormField>
 
         <div class="form-actions">
-            <button type="button" class="btn btn-outline">Отмена</button>
-            <button type="submit" class="btn btn-primary">Опубликовать рецепт</button>
+            <button type="button" class="btn btn-outline">{{ $t('cancel_btn') }}</button>
+            <button type="submit" class="btn btn-primary">{{ $t('create_recipe_btn') }}</button>
         </div>
     </UForm>
-
-
 </template>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+
 
 body {
     font-family: 'Poppins', sans-serif;
@@ -141,12 +208,6 @@ h1, h2, h3, h4, label {
 .breadcumb-area h2 {
     color: #fff;
     font-size: 40px;
-}
-
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 60px 15px;
 }
 
 .card {

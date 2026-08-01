@@ -7,7 +7,7 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>Личный кабинет</h2>
+                        <h2>{{ $t('account') }}</h2>
                     </div>
                 </div>
             </div>
@@ -97,72 +97,5 @@ const { user } = useAuth()
 </script>
 
 <style scoped>
-.account-area {
-    background: #fff;
-}
-
-.account-sidebar,
-.account-content {
-    border: 1px solid #ebebeb;
-    border-radius: 6px;
-    background: #fff;
-}
-
-.account-sidebar {
-    padding: 28px;
-    margin-bottom: 30px;
-}
-
-.account-user {
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ebebeb;
-}
-
-.account-user h3 {
-    margin-bottom: 6px;
-    color: #232d37;
-    font-size: 20px;
-    line-height: 1.3;
-}
-
-.account-user p {
-    margin-bottom: 0;
-    color: #888;
-    font-size: 14px;
-    word-break: break-word;
-}
-
-.account-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.account-menu-link {
-    display: block;
-    padding: 12px 14px;
-    border-radius: 4px;
-    color: #51545f;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.account-menu-link:hover,
-.account-menu-link.active {
-    background: #fc6c3f;
-    color: #fff;
-}
-
-.account-content {
-    min-height: 320px;
-    padding: 32px;
-}
-
-@media only screen and (max-width: 767px) {
-    .account-sidebar,
-    .account-content {
-        padding: 22px;
-    }
-}
+@import '@assets/css/account/style.css';
 </style>

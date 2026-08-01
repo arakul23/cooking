@@ -12,6 +12,7 @@ export default defineNuxtConfig({
         resolve: {
             alias: {
                 '@': '/var/www/html/frontend',
+                '@assets': '/var/www/html/frontend/assets'
             },
         },
         server: {
@@ -27,11 +28,20 @@ export default defineNuxtConfig({
         '@/assets/css/main.css'
     ],
     srcDir: 'app/',
-    modules: ['@nuxt/ui'],
+    modules: ['@nuxt/ui', '@nuxtjs/i18n'],
     colorMode: {
         preference: 'light',
         fallback: 'light',
         classSuffix: ''
+    },
+    i18n: {
+        lazy: true,
+        langDir: 'locales',
+        defaultLocale: 'en',
+        strategy: 'prefix_except_default',
+        locales: [
+            { code: 'en', iso: 'en-US', file: 'en.json', name: 'English' },
+        ]
     },
     runtimeConfig: {
         apiInternalBase: process.env.NUXT_API_INTERNAL_BASE || 'http://nginx/api',

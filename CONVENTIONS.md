@@ -44,3 +44,14 @@
 - Run existing tests/linters after making a change, when available.
 - Do not remove or weaken existing tests to make them pass.
 - Flag any change that could have side effects on unrelated features (e.g. shared services, global config, queued jobs).
+
+## Scope discipline
+- Only change what was explicitly asked for. If the task seems to require changes
+  elsewhere, ask first or clearly flag it — don't silently do it "while you're at it."
+- Don't refactor, reformat, or "improve" code near the task unless asked.
+- Don't add new dependencies, files, or configs without an explicit request.
+- If you spot an unrelated bug or issue, report it separately — don't fix it yourself.
+- When editing a file, minimize the diff: make targeted line changes instead of
+  rewriting a whole function/file if not necessary.
+- If a task is ambiguous and could be solved with either a small or large change,
+  default to the smaller one and ask before doing the larger one.

@@ -1,12 +1,5 @@
 import { useApi } from './useApi'
 
-export type AuthUser = {
-    id: number
-    name: string
-    email: string
-    email_verified_at?: string | null
-}
-
 export type LoginPayload = {
     email: string
     password: string
@@ -18,6 +11,18 @@ export type RegisterPayload = {
     email: string
     password: string
     password_confirmation: string
+}
+
+export type AuthUser = {
+    id: number
+    name: string
+    email: string
+    email_verified_at?: string | null
+}
+
+export type AuthPayloads = {
+    login: LoginPayload,
+    register: RegisterPayload,
 }
 
 const fetchCsrfCookie = async () => {
@@ -33,8 +38,6 @@ const fetchCsrfCookie = async () => {
         await new Promise((resolve) => window.setTimeout(resolve, 0))
     }
 }
-
-
 
 export const useAuth = () => {
     const user = useState<AuthUser | null>('auth:user', () => null)
@@ -80,7 +83,7 @@ export const useAuth = () => {
         return await fetchUser(true)
     }
 
-    const register = async (payload: RegisterPayload) => {
+    const register = async (payload: AuthPayloads['register']) => {
         await fetchCsrfCookie()
         await api<void>('/api/auth/register', {
             method: 'POST',
@@ -90,7 +93,7 @@ export const useAuth = () => {
         return await fetchUser(true)
     }
 
-    const login = async (payload: LoginPayload) => {
+    const login = async (payload: AuthPayloads['login']) => {
         await fetchCsrfCookie()
         await api<void>('/api/auth/login', {
             method: 'POST',
