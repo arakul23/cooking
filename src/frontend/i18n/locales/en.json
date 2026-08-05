@@ -2,5 +2,13 @@
     "create_recipe_btn": "Create recipe",
     "create_recipe_title": "Create recipe",
     "account": "Account",
-    "cancel_btn": "Cancel"
+    "cancel_btn": "Cancel",
+    "continue_reading": "Continue Reading..",
+    "popular_posts": "Popular Posts",
+    "no_recipes_yet": "No recipes yet",
+    "random_recipe_title": "Random recipe",
+    "recipe_title_1": "The 10 Best Bars By The Seaside In Blackpool, UK",
+    "recipe_title_2": "How To Get a Narcissist to Feel Empathy",
+    "recipe_title_3": "Bristol's 10 Amazing Weekend Brunches And Late Breakfasts",
+    "recipe_title_4": "10 Of The Best Places To Eat In Liverpool, England"
 }

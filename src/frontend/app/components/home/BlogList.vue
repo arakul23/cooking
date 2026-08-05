@@ -5,7 +5,7 @@
                 <div class="yummy-load"></div>
             </div>
             <div v-else-if="error">Failed to load recipes</div>
-            <div v-else-if="recipes.length === 0">No recipes yet</div>
+            <div v-else-if="recipes.length === 0">{{ $t('no_recipes_yet') }}</div>
             <div v-else class="row">
                 <div
                     v-for="recipe in recipes"

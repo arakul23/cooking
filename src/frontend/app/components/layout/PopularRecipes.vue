@@ -34,7 +34,7 @@ const formatCreatedAt = (value: string) => {
     </div>
     <div v-else class="single-widget-area popular-post-widget">
         <div class="widget-title text-center">
-            <h6>Popular Posts</h6>
+            <h6>{{ $t('popular_posts') }}</h6>
         </div>
         <div v-for="(recipe, index) in recipes.data" class="single-populer-post d-flex">
             <img :src="recipe.logo" alt=''>

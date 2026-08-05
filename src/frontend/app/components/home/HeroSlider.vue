@@ -97,7 +97,6 @@
                 <div class="col-12 col-lg-8">
                     <div class="row">
 
-                        Random recipe
                         <div class="col-12">
                             <div class="single-post wow fadeInUp" data-wow-delay=".2s">
                                 <!-- Post Thumb -->
@@ -185,7 +184,7 @@
                                     </a>
                                     <p>Tiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
                                         veniam, quis nostrud exercitation</p>
-                                    <a href="#" class="read-more">Continue Reading..</a>
+                                    <a href="#" class="read-more">{{ $t('continue_reading') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -231,7 +230,7 @@
                                     </a>
                                     <p>Tiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
                                         veniam, quis nostrud exercitation</p>
-                                    <a href="#" class="read-more">Continue Reading..</a>
+                                    <a href="#" class="read-more">{{ $t('continue_reading') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -278,7 +277,7 @@
                                     </a>
                                     <p>Tiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
                                         veniam, quis nostrud exercitation</p>
-                                    <a href="#" class="read-more">Continue Reading..</a>
+                                    <a href="#" class="read-more">{{ $t('continue_reading') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -325,7 +324,7 @@
                                     </a>
                                     <p>Tiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
                                         veniam, quis nostrud exercitation</p>
-                                    <a href="#" class="read-more">Continue Reading..</a>
+                                    <a href="#" class="read-more">{{ $t('continue_reading') }}</a>
                                 </div>
                             </div>
                         </div>

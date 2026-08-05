@@ -10,7 +10,7 @@ const recipe = reactive({
     title: '',
     description: '',
     content: '',
-    categories: [] as number[],
+    categories: [] as CategoryItem[],
     total_time_minutes: null as number | null,
     portions: null as number | null,
     calories: null as number | null,
