@@ -1,22 +1,22 @@
 {
-    // https://nuxt.com/docs/guide/concepts/typescript
-    "files": [],
     "compilerOptions": {
-        // ...
-        "strict": true
+        "target": "ES2022",
+        "module": "ESNext",
+        "strict": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve"
     },
-    "references": [
-        {
-            "path": "./.nuxt/tsconfig.app.json"
-        },
-        {
-            "path": "./.nuxt/tsconfig.server.json"
-        },
-        {
-            "path": "./.nuxt/tsconfig.shared.json"
-        },
-        {
-            "path": "./.nuxt/tsconfig.node.json"
-        }
+    "include": [
+        "src/frontend/**/*.ts",
+        "src/frontend/**/*.vue"
+    ],
+    "exclude": [
+        "node_modules",
+        ".nuxt"
     ]
 }

@@ -1,0 +1,15 @@
+{
+  "id" : "e041e865-35f5-49c5-8d6e-3d038427f9f3",
+  "title" : "[Agent] Что можно улучшить в docker-compose.yml?",
+  "createdAt" : 1785219453038,
+  "updatedAt" : 1785219469011,
+  "messages" : [ {
+    "role" : "USER",
+    "content" : "[Agent] Что можно улучшить в docker-compose.yml?",
+    "timestamp" : 1785219454238
+  }, {
+    "role" : "ASSISTANT",
+    "content" : "Discovering relevant files...\nGenerating plan...\nВ docker-compose.yml можно улучшить следующее:\n1. Убедиться, что указан верный версия композера (например, '3.8')\n2. Добавить healthcheck для контейнеров\n3. Использовать volumes для сохранения данных\n4. Настроить networks между сервисами\n5. Добавить environment variables для конфигурации\n6. Использовать build: ./ путь для локального сборки\n7. Добавить restart: always для надежности\n8. Настроить ports для отображения портов\n9. Использовать depends_on для порядка запуска сервисов\n10. Добавить logging для логирования",
+    "timestamp" : 1785219469011
+  } ]
+}

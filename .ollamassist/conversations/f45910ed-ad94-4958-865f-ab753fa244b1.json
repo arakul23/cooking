@@ -1,0 +1,27 @@
+{
+  "id" : "f45910ed-ad94-4958-865f-ab753fa244b1",
+  "title" : "[Agent] Подскажи какие свойства модели",
+  "createdAt" : 1782301511557,
+  "updatedAt" : 1782301669342,
+  "messages" : [ {
+    "role" : "USER",
+    "content" : "[Agent] Подскажи какие свойства модели",
+    "timestamp" : 1782301596832
+  }, {
+    "role" : "ASSISTANT",
+    "content" : "Discovering relevant files...\nGenerating plan...\nВ модели Recipe из файла src/app/Models/Recipe.php есть следующие свойства и методы:\n\n- `$guarded`: массив, содержащий имя поля 'id', которое не будет массово присваиваться.\n\nМетоды:\n- `categories()`: возвращает отношения BelongsToMany с моделью RecipeCategory через таблицу category_recipe.\n- `products()`: возвращает отношения BelongsToMany с моделью Product через таблицу recipe_product, использует связующую модель RecipeProduct и содержит поля 'amount', 'unit_id', 'amount_base' и 'note'.\n- `author()`: возвращает отношения BelongsTo с моделью User по полю 'author_id'.\n- `translations()`: возвращает отношения MorphMany с моделью Translation, используя связующее поле 'translatable' и упорядочивает результаты по текущему локализованному языку.\n- `favouriteByUsers()`: возвращает отношения BelongsToMany с моделью User через таблицу favourites_recipes.\n- `ratingByUsers()`: возвращает отношения BelongsToMany с моделью User через таблицу recipe_ratings.",
+    "timestamp" : 1782301611032
+  }, {
+    "role" : "USER",
+    "content" : "[Agent] Сделай так чтобы при добавлении категории вызывался метод который будет делать 2 + 2",
+    "timestamp" : 1782301646912
+  }, {
+    "role" : "ASSISTANT",
+    "content" : "Discovering relevant files...\nGenerating plan...",
+    "timestamp" : 1782301649306
+  }, {
+    "role" : "USER",
+    "content" : "[Agent] Сделай так чтобы при добавлении категории вызывался метод который будет делать 2 + 2",
+    "timestamp" : 1782301669342
+  } ]
+}

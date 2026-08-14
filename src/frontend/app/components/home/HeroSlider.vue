@@ -336,20 +336,6 @@
                 <div class="col-12 col-sm-8 col-md-6 col-lg-4">
                     <div class="blog-sidebar mt-5 mt-lg-0">
                         <PopularRecipes/>
-                        <div class="single-widget-area newsletter-widget">
-                            <div class="widget-title text-center">
-                                <h6>Newsletter</h6>
-                            </div>
-                            <p>Subscribe our newsletter gor get notification about new updates, information discount,
-                                etc.</p>
-                            <div class="newsletter-form">
-                                <form action="#" method="post">
-                                    <input type="email" name="newsletter-email" id="email" placeholder="Your email">
-                                    <button type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

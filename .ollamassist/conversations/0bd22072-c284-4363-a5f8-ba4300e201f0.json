@@ -1,0 +1,15 @@
+{
+  "id" : "0bd22072-c284-4363-a5f8-ba4300e201f0",
+  "title" : "Почему в nginx контейнере ошибка host not found in upstream...",
+  "createdAt" : 1784012231700,
+  "updatedAt" : 1784012469834,
+  "messages" : [ {
+    "role" : "USER",
+    "content" : "Почему в nginx контейнере ошибка host not found in upstream \"php\" in /etc/nginx/conf.d/default.conf:14 при том что php контейнер уже запущен?",
+    "timestamp" : 1784012421855
+  }, {
+    "role" : "ASSISTANT",
+    "content" : "- **Reasoning:** The error occurs because Nginx cannot resolve the 'php' upstream hostname, likely due to incorrect configuration or network issues.  \n- **Solution:** Ensure the upstream block in `/etc/nginx/conf.d/default.conf` is correctly defined as `server php:9000;` and verify the PHP container is running on port 9000.  \n- **Justification:** Docker Compose services are on the same network by default, allowing hostname resolution. If the PHP container is not exposing port 9000 or the upstream is misconfigured, Nginx cannot connect. Check the Nginx config and PHP container's port settings.",
+    "timestamp" : 1784012469834
+  } ]
+}

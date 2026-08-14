@@ -1,0 +1,55 @@
+{
+  "id" : "3d49d85f-b613-42ff-8fb6-d9b51aa12e26",
+  "title" : "[Agent] Сделай так чтобы при добавлении рецепта вызывался ме...",
+  "createdAt" : 1782301877049,
+  "updatedAt" : 1782302593378,
+  "messages" : [ {
+    "role" : "USER",
+    "content" : "[Agent] Сделай так чтобы при добавлении рецепта вызывался метод который делает 2 + 2",
+    "timestamp" : 1782301903967
+  }, {
+    "role" : "ASSISTANT",
+    "content" : "Discovering relevant files...\nGenerating plan...\nPlanning timed out.",
+    "timestamp" : 1782301969350
+  }, {
+    "role" : "USER",
+    "content" : "[Agent] Сделай так чтобы при добавлении рецепта вызывался метод который делает 2 + 2",
+    "timestamp" : 1782302059393
+  }, {
+    "role" : "ASSISTANT",
+    "content" : "Discovering relevant files...\nGenerating plan...\nPlanning timed out.",
+    "timestamp" : 1782302203973
+  }, {
+    "role" : "USER",
+    "content" : "[Agent] Дай код который при создании рецепта будет выполнять метод который будет делать 2 + 2",
+    "timestamp" : 1782302258863
+  }, {
+    "role" : "USER",
+    "content" : "[Agent] Дай код который при создании рецепта будет выполнять метод который будет делать 2 + 2",
+    "timestamp" : 1782302335375
+  }, {
+    "role" : "ASSISTANT",
+    "content" : "Discovering relevant files...\nGenerating plan...\nPlanning timed out.",
+    "timestamp" : 1782302359396
+  }, {
+    "role" : "USER",
+    "content" : "Дай код который при создании рецепта будет выполнять метод который будет делать 2 + 2",
+    "timestamp" : 1782302371828
+  }, {
+    "role" : "USER",
+    "content" : "Дай код который при создании рецепта будет выполнять метод который будет делать 2 + 2",
+    "timestamp" : 1782302488058
+  }, {
+    "role" : "ASSISTANT",
+    "content" : "- **Reasoning:** Используем события Eloquent для вызова метода при создании рецепта. Метод `addNumbers()` выполняет 2+2, а событие `creating` гарантирует его выполнение при сохранении модели.\n- **Solution:**  \n  ```php\n  <?php\n\n  namespace App\\Models;\n\n  use Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\n  use Illuminate\\Database\\Eloquent\\Model;\n  use Illuminate\\Database\\Eloquent\\Relations\\BelongsTo;\n  use Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany;\n  use Illuminate\\Database\\Eloquent\\Relations\\MorphMany;\n\n  class Recipe extends Model\n  {\n      use HasFactory;\n\n      protected $guarded = [\n          'id'\n      ];\n\n      // ... (существующие методы)\n\n      protected static function boot()\n      {\n          parent::boot();\n\n          static::creating(function ($recipe) {\n              $recipe->addNumbers();\n          });\n      }\n\n      protected function addNumbers()\n      {\n          $result = 2 + 2;\n          // Можно использовать $result для дальнейших действий\n      }\n  }\n  ```\n- **Justification:** Событие `creating` активируется перед сохранением модели, гарантируя выполнение метода `addNumbers()` при создании рецепта. Реализация соответствует структуре Laravel и не нарушает существующую логику.",
+    "timestamp" : 1782302511326
+  }, {
+    "role" : "USER",
+    "content" : "А ещё добавь код который будет атрибут title переделывать в слаг",
+    "timestamp" : 1782302554647
+  }, {
+    "role" : "ASSISTANT",
+    "content" : "- **Reasoning:** Добавляем мутатор для атрибута `title`, который генерирует слаг с помощью `Str::slug()`. Используем событие `creating` для выполнения `addNumbers()` и генерации слага из `title`.  \n- **Solution:**  \n  ```php\n  <?php\n\n  namespace App\\Models;\n\n  use Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\n  use Illuminate\\Database\\Eloquent\\Model;\n  use Illuminate\\Database\\Eloquent\\Relations\\BelongsTo;\n  use Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany;\n  use Illuminate\\Database\\Eloquent\\Relations\\MorphMany;\n  use Illuminate\\Support\\Str;\n\n  class Recipe extends Model\n  {\n      use HasFactory;\n\n      protected $guarded = [\n          'id'\n      ];\n\n      // ... (существующие методы)\n\n      public function setTitleAttribute($value)\n      {\n          $this->attributes['title'] = $value;\n          $this->attributes['slug'] = Str::slug($value);\n      }\n\n      protected static function boot()\n      {\n          parent::boot();\n\n          static::creating(function ($recipe) {\n              $recipe->addNumbers();\n          });\n      }\n\n      protected function addNumbers()\n      {\n          $result = 2 + 2;\n          // Можно использовать $result для дальнейших действий\n      }\n  }\n  ```\n- **Justification:** Мутатор `setTitleAttribute()` автоматически преобразует `title` в слаг при установке значения. Событие `creating` гарантирует выполнение `addNumbers()` при создании записи. Использование `Str::slug()` соответствует стандартной практике в Laravel.",
+    "timestamp" : 1782302593378
+  } ]
+}

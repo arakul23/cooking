@@ -2,12 +2,11 @@ export default defineNuxtConfig({
     app: {
         head: {
             script: [
-
             ]
         }
     },
     compatibilityDate: '2025-07-15',
-    devtools: {enabled: true},
+    devtools: { enabled: true },
     vite: {
         resolve: {
             alias: {
@@ -38,10 +37,17 @@ export default defineNuxtConfig({
         lazy: true,
         langDir: 'locales',
         defaultLocale: 'en',
-        strategy: 'prefix_except_default',
+        strategy: 'no_prefix',
         locales: [
-            { code: 'en', iso: 'en-US', file: 'en.json', name: 'English' },
-        ]
+            { code: 'en', file: 'en.json', name: 'English' },
+            { code: 'uk', file: 'uk.json', name: 'Українська' },
+        ],
+        detectBrowserLanguage: {
+       useCookie: true,
+       cookieKey: 'i18n_redirected',
+       redirectOn: 'root',
+       alwaysRedirect: false,
+    },
     },
     runtimeConfig: {
         apiInternalBase: process.env.NUXT_API_INTERNAL_BASE || 'http://nginx/api',
