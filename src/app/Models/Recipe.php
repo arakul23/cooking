@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,6 +38,11 @@ class Recipe extends Model
             'recipe_id',
             'category_id'
         );
+    }
+
+    public function recipe_ratings(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'recipe_ratings')->withPivot('rating');
     }
 
     public function products(): BelongsToMany

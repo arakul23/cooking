@@ -15,8 +15,9 @@ class RatingService
 
     public function updateAverageRating(Recipe $recipe, float $rating): void
     {
-        $recipe->ratingByUsers()->attach(auth()->id() ?? 1, ['rating' => $rating]);
+        $recipe->ratingByUsers()->syncWithoutDetaching([
+            auth()->id() ?? 1 => ['rating' => $rating]
+        ]);
         $avgRating = $this->calculateAverageRating($recipe);
-        $recipe->update(['rating_avg' => $avgRating]);
     }
 }

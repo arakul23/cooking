@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\Recipe;
@@ -29,6 +31,7 @@ class RecipeResource extends JsonResource
             'portions' => $this->portions,
             'calories' => $this->calories,
             'views' => $this->views,
+            'rating_avg' => $this->rating_avg,
             'created_at' => $this->created_at,
             'categories' => RecipeCategoryResource::collection($this->whenLoaded('categories')),
             'products' => $this->whenLoaded('products', function () {

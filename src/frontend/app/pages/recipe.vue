@@ -35,6 +35,7 @@ type RecipeItem = {
     created_at: string;
     categories: RecipeCategory[];
     views: number;
+    rating_avg: number;
     products?: Array<{
         id?: number;
         name?: string | null;
@@ -66,6 +67,12 @@ const { data: recipe, pending, error } = await useFetch<RecipeItem | null>(
         default: () => null
     }
 )
+
+console.log('recipe.value', recipe.value);
+
+if (recipe.value?.rating_avg) {
+    rating.value = recipe.value.rating_avg
+}
 
 const recipeCategories = computed(() => recipe.value?.categories ?? [])
 const recipeProducts = computed(() => recipe.value?.products ?? [])
@@ -173,13 +180,14 @@ const setRating = async () => {
     <section class="blog_area section_padding_80">
         <div class="container">
             <div v-if="!recipeId" class="text-center">Recipe id is missing</div>
-            <div v-else-if="pending" class="text-center">Loading...</div>
-            <div v-else-if="error" class="text-center">Error loading recipe</div>
+            <div v-else-if="pending" class="text-center">{{ $t('loading') }}</div>
+            <div v-else-if="error" class="text-center">Error loading recipe {{ error }}</div>
             <div v-else-if="recipe" class="row justify-content-center">
                 <div class="col-12 col-lg-10">
                     <article class="single-post wow fadeInUp">
                         <ClientOnly>
-                            <StarRating v-model:rating="rating" :increment="0.01" class="recipe-rating" @click="setRating" />
+                            {{ $t('rate_recipe') }}
+                            <StarRating v-model:rating="rating" :increment="0.01" class="recipe-rating" @click="setRating" disabled/>
                         </ClientOnly>
                         <div class="post-thumb">
                             <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
@@ -202,13 +210,16 @@ const setRating = async () => {
                                 </div>
                                 <div class="post-comment-share-area d-flex">
                                     <div class="post-comments">
-                                        <a><i class="fa fa-eye" aria-hidden="true"></i> Calories: {{ recipe.calories }}</a>
+                                        <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('recipe_calories')}}: {{ recipe.calories }}</a>
                                     </div>
                                     <div class="post-comments">
-                                        <a><i class="fa fa-eye" aria-hidden="true"></i> Portions: {{ recipe.portions }}</a>
+                                        <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('recipe_portions')}}: {{ recipe.portions }}</a>
                                     </div>
                                     <div class="post-comments">
-                                        <a><i class="fa fa-eye" aria-hidden="true"></i> Views: {{ recipe.views }}</a>
+                                        <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('views')}}: {{ recipe.views }}</a>
+                                    </div>
+                                    <div class="post-comments">
+                                        <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('rating')}}: {{ rating }}</a>
                                     </div>
                                 </div>
                             </div>
