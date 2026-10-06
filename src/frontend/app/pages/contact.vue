@@ -1,6 +1,30 @@
 <template>
-    <Preloader />
-    <Header />
+    <div class="breadcumb-area">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="bradcumb-title text-center">
+                        <h2>Contact</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="breadcumb-nav">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <NuxtLink to="/">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            Home
+                        </NuxtLink>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
     <!-- ****** Contatc Area Start ****** -->
     <div class="contact-area section_padding_80">
         <div class="container">
@@ -195,11 +219,20 @@
 
     </div>
     <!-- ****** Our Creative Portfolio Area End ****** -->
-
-    <Footer />
 </template>
 
 <style scoped>
+.instagram_gallery_item {
+    overflow: hidden;
+    aspect-ratio: 1;
+}
+
+.instagram_gallery_item > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .success-message {
     margin-bottom: 24px;
     padding: 16px 20px;
@@ -215,9 +248,6 @@
 </style>
 
 <script setup>
-import Preloader from '@/app/components/layout/Preloader.vue'
-import Header from '@/app/components/layout/Header.vue'
-import Footer from '@/app/components/layout/Footer.vue'
 import { ref } from 'vue'
 const config = useRuntimeConfig()
 const isSubmitting = ref(false)

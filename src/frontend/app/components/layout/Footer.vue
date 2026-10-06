@@ -8,3 +8,10 @@
         </div>
     </footer>
 </template>
+
+<style scoped>
+.footer_area .yummy-logo {
+    display: inline-block;
+    text-decoration: none;
+}
+</style>

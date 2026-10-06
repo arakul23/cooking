@@ -78,7 +78,11 @@
             <div class="row">
                 <div v-for="category in categories" class="col-12 col-md-6 col-lg-4">
                     <div class="single_catagory wow fadeInUp" data-wow-delay=".3s">
-                        <img :src="category.image" alt=''>
+                        <img
+                            :src="category.image?.trim() || fallbackImage"
+                            :alt="category.name"
+                            @error="handleCategoryImageError"
+                        >
                         <div class="catagory-title">
                             <NuxtLink :to="{ path: '/category', query: { id: category.id } }">
                                 <h5>{{ category.name }}</h5>
@@ -514,11 +518,12 @@
 
 <script setup lang="ts">
 const config = useRuntimeConfig()
+const fallbackImage = 'https://placehold.co/640x420?text=Category'
 
 type CategoryItem = {
     id: number
     name: string,
-    image: string
+    image: string | null
 }
 
 type RecipeItem = {
@@ -540,6 +545,14 @@ const {data: recipeData, recipePending} = await useFetch<{ data: RecipeItem[] }>
 
 const categories = computed(() => data.value?.data ?? [])
 const recipe = computed(() => recipeData.value?.data ?? [])
+
+const handleCategoryImageError = (event: Event) => {
+    const image = event.currentTarget
+
+    if (image instanceof HTMLImageElement && image.src !== fallbackImage) {
+        image.src = fallbackImage
+    }
+}
 
 const formatCreatedAt = (value: string) => {
     const date = new Date(value)

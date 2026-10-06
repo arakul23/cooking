@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import Preloader from '~/components/layout/Preloader.vue'
-import Header from '~/components/layout/Header.vue'
-import Footer from '~/components/layout/Footer.vue'
-
 const config = useRuntimeConfig()
 const fallbackImage = 'https://placehold.co/640x420?text=Category'
 
@@ -27,9 +23,6 @@ const getRecipeCount = (category: CategoryItem) => {
 </script>
 
 <template>
-    <Preloader/>
-    <Header/>
-
     <div class="breadcumb-area">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
@@ -49,7 +42,7 @@ const getRecipeCount = (category: CategoryItem) => {
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <NuxtLink to="/src/frontend/public">
+                                <NuxtLink to="/">
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                     Home
                                 </NuxtLink>
@@ -74,7 +67,7 @@ const getRecipeCount = (category: CategoryItem) => {
                     class="col-12 col-md-6 col-lg-4"
                 >
                     <NuxtLink :to="{ path: '/category', query: { id: category.id } }">
-                        <article class="single_catagory wow fadeInUp">
+                        <article class="single_catagory categories-page-card wow fadeInUp">
                             <img :src="category.image || fallbackImage" :alt="category.name">
                             <div class="catagory-title">
                                 <a>
@@ -89,12 +82,23 @@ const getRecipeCount = (category: CategoryItem) => {
         </div>
     </section>
 
-    <Footer/>
 </template>
 
 <style scoped>
 .category-recipes {
     margin-bottom: 0;
     text-align: center;
+}
+
+.categories-page-card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.categories-page-card .catagory-title h5 {
+    margin: 0;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
 }
 </style>

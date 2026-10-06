@@ -11,7 +11,6 @@ use App\Models\Recipe;
 use App\Service\RatingService;
 use App\Service\RecipeService;
 use http\Client\Response;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -23,15 +22,25 @@ class RecipeController extends Controller
 
     const int MAX_RANDOM_RECIPES = 5;
 
-    public function getRecipes(): Collection
+    public function getRecipes(Request $request): AnonymousResourceCollection
     {
-        return Recipe::with('categories')->get();
+        $search = trim((string) $request->query('search', ''));
+        $recipes = Recipe::with(['categories', 'translations']);
+
+        if ($search !== '') {
+            $recipes->whereHas('translations', function ($query) use ($search) {
+                $query->whereIn('key', ['title', 'description'])
+                    ->where('value', 'like', "%{$search}%");
+            });
+        }
+
+        return RecipeResource::collection($recipes->get());
     }
 
     public function getPopularRecipes(): AnonymousResourceCollection
     {
         return RecipeResource::collection(
-            Recipe::with('categories')
+            Recipe::with(['categories', 'translations'])
                 ->limit(self::MAX_RANDOM_RECIPES)
                 ->get()
                 ->sortByDesc('views')

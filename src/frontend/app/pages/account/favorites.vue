@@ -14,7 +14,7 @@
             </div>
             <h3>Пока ничего нет</h3>
             <p>Добавьте рецепты в любимые, и они появятся здесь.</p>
-            <NuxtLink to="/archive" class="btn contact-btn">Смотреть рецепты</NuxtLink>
+            <NuxtLink to="/categories" class="btn contact-btn">Смотреть рецепты</NuxtLink>
         </div>
 
         <div v-else class="favorites-grid">

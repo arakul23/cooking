@@ -1,4 +1,4 @@
-import { getRequestHeaders, parseCookies, proxyRequest } from 'h3'
+import { getRequestHeaders, getRequestURL, parseCookies, proxyRequest } from 'h3'
 
 const decodeCookieValue = (value?: string) => {
     if (!value) {
@@ -32,8 +32,8 @@ export default defineEventHandler(async (event) => {
     const apiBase = config.apiInternalBase.replace(/\/+$/, '')
     const appBase = apiBase.replace(/\/api$/, '')
     const target = path === 'sanctum/csrf-cookie'
-        ? `${appBase}/${path}`
-        : `${apiBase}/auth/${path}`
+        ? `${appBase}/${path}${getRequestURL(event).search}`
+        : `${apiBase}/auth/${path}${getRequestURL(event).search}`
     const xsrfToken = decodeCookieValue(parseCookies(event)['XSRF-TOKEN'])
     const headers: Record<string, string> = {
         accept: 'application/json',

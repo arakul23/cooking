@@ -1,7 +1,4 @@
 <template>
-    <Preloader />
-    <Header />
-
     <div class="breadcumb-area">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
@@ -21,7 +18,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <NuxtLink to="/src/frontend/public">
+                                <NuxtLink to="/">
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                     Home
                                 </NuxtLink>
@@ -109,14 +106,9 @@
             </div>
         </div>
     </section>
-
-    <Footer />
 </template>
 
 <script setup lang="ts">
-import Preloader from '@/app/components/layout/Preloader.vue'
-import Header from '@/app/components/layout/Header.vue'
-import Footer from '@/app/components/layout/Footer.vue'
 import { useAuth } from '@/app/composables/useAuth'
 
 definePageMeta({

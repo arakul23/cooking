@@ -3,6 +3,7 @@ import RecipeForm from "~~/app/components/account/recipe/RecipeForm.vue";
 
 const toast = useToast()
 const config = useRuntimeConfig();
+const { t } = useI18n()
 
 definePageMeta({
     middleware: 'auth',
@@ -40,14 +41,14 @@ const create = async (recipe) => {
         )
 
         toast.add({
-            title: 'Успешно!',
-            description: 'Рецепт добавлен',
+            title: t('recipe_create_success_title'),
+            description: t('recipe_create_success_message'),
             color: 'success'
         })
     } catch (e) {
         toast.add({
-            title: 'Ошибка',
-            description: 'Не удалось создать рецепт',
+            title: t('recipe_create_error_title'),
+            description: t('recipe_create_error_message'),
             color: 'error'
         })
     }
@@ -68,16 +69,59 @@ const create = async (recipe) => {
         </div>
     </div>
 
-    <div class="container">
-        <div class="card">
-            <div class="card-title">Новый рецепт</div>
-            <div class="card-subtitle">Заполните поля ниже, чтобы опубликовать рецепт в блоге.</div>
+    <div class="breadcumb-nav">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <NuxtLink to="/">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            {{ $t('menu_home') }}
+                        </NuxtLink>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <NuxtLink to="/account">{{ $t('account') }}</NuxtLink>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $t('create_recipe_title') }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container recipe-create-page">
+        <div class="card recipe-create-card">
+            <div class="card-title">{{ $t('recipe_create_heading') }}</div>
+            <div class="card-subtitle">{{ $t('recipe_create_description') }}</div>
 
           <RecipeForm @create="create" />
         </div>
     </div>
 </template>
 
-<style>
+<style scoped>
+.recipe-create-page {
+    padding-top: 32px;
+    padding-bottom: 64px;
+}
 
+.recipe-create-card {
+    padding: clamp(20px, 4vw, 40px);
+    border: 1px solid rgb(0 0 0 / 8%);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 15px rgb(0 0 0 / 4%);
+}
+
+.card-title {
+    margin-bottom: 8px;
+    color: var(--site-heading);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.card-subtitle {
+    margin-bottom: 30px;
+    color: #888;
+    font-size: 14px;
+}
 </style>

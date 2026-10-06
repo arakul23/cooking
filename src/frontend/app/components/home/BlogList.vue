@@ -38,11 +38,15 @@ type RecipeItem = {
     description: string
 }
 
-const { data, pending, error } = await useFetch<RecipeItem[]>(
+type ApiResponse<T> = {
+    data: T
+}
+
+const { data, pending, error } = await useFetch<ApiResponse<RecipeItem[]>>(
     `${config.public.apiBase}/recipes`
 )
 
-const recipes = computed(() => data.value ?? [])
+const recipes = computed(() => data.value?.data ?? [])
 </script>
 
 <style scoped>

@@ -1,4 +1,4 @@
-import { getRequestHeaders, parseCookies, proxyRequest } from 'h3'
+import { getRequestHeaders, getRequestURL, parseCookies, proxyRequest } from 'h3'
 
 const decodeCookieValue = (value?: string) => {
     if (!value) {
@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
     const rawPath = event.context.params?.path
     const path = Array.isArray(rawPath) ? rawPath.join('/') : (rawPath || '')
     const base = config.apiInternalBase.replace(/\/+$/, '')
-    const target = `${base}/${path}`
+    const target = `${base}/${path}${getRequestURL(event).search}`
     const xsrfToken = decodeCookieValue(parseCookies(event)['XSRF-TOKEN'])
     const headers: Record<string, string> = {
         accept: 'application/json',

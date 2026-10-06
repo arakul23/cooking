@@ -1,54 +1,54 @@
 import { z } from 'zod'
 
-export const recipeSchema = z.object({
+export const createRecipeSchema = (t: (key: string) => string) => z.object({
     title: z
         .string()
-        .min(5, 'Введите название рецепта')
-        .max(255, 'Название слишком длинное (макс. 255 символов)'),
+        .min(5, t('recipe_validation_title_min'))
+        .max(255, t('recipe_validation_title_max')),
     
     description: z
         .string()
-        .min(10, 'Добавьте краткое описание')
-        .max(150, 'Описание слишком длинное (макс. 150 символов)'),
+        .min(10, t('recipe_validation_description_min'))
+        .max(150, t('recipe_validation_description_max')),
     
     content: z
         .string()
-        .min(1, 'Опишите шаги приготовления')
+        .min(1, t('recipe_validation_instructions_required'))
         .refine((val) => val.replace(/<[^>]*>/g, '').trim().length > 0, {
-            message: 'Шаги приготовления не могут быть пустыми',
+            message: t('recipe_validation_instructions_empty'),
         }),
     
     categories: z
         .array(z.number())
-        .min(1, 'Выберите хотя бы одну категорию'),
+        .min(1, t('recipe_validation_categories')),
     
     total_time_minutes: z.coerce
-        .number({ message: 'Введите время в минутах' })
+        .number({ message: t('recipe_validation_time_number') })
         .int()
-        .min(1, 'Время готовки должно быть больше 0')
-        .max(1440, 'Слишком большое значение (макс. 1440 мин)'),
+        .min(1, t('recipe_validation_time_min'))
+        .max(1440, t('recipe_validation_time_max')),
     
     portions: z.coerce
-        .number({ message: 'Укажите количество порций' })
+        .number({ message: t('recipe_validation_portions_number') })
         .int()
-        .min(1, 'Минимум 1 порция')
-        .max(100, 'Слишком большое количество порций'),
+        .min(1, t('recipe_validation_portions_min'))
+        .max(100, t('recipe_validation_portions_max')),
     
     calories: z.coerce
-        .number({ message: 'Укажите калорийность' })
+        .number({ message: t('recipe_validation_calories_number') })
         .int()
-        .min(0, 'Калории не могут быть отрицательными')
-        .max(10000, 'Слишком большое значение'),
+        .min(0, t('recipe_validation_calories_min'))
+        .max(10000, t('recipe_validation_calories_max')),
     
     logo: z
-        .instanceof(File, { message: 'Загрузите фото рецепта' })
-        .refine((file) => file.size <= 2 * 1024 * 1024, 'Файл должен быть меньше 2MB')
+        .instanceof(File, { message: t('recipe_validation_photo_required') })
+        .refine((file) => file.size <= 2 * 1024 * 1024, t('recipe_validation_photo_size'))
         .refine(
             (file) => ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type),
-            'Разрешены только PNG или JPG'
+            t('recipe_validation_photo_type')
         )
         .nullable()
-        .refine((file) => file !== null, 'Загрузите фото рецепта'),
+        .refine((file) => file !== null, t('recipe_validation_photo_required')),
 })
 
-export type RecipeSchema = z.output<typeof recipeSchema>
+export type RecipeSchema = z.output<ReturnType<typeof createRecipeSchema>>

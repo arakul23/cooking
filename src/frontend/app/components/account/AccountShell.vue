@@ -1,7 +1,4 @@
 <template>
-    <Preloader />
-    <Header />
-
     <div class="breadcumb-area">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
@@ -78,14 +75,9 @@
             </div>
         </div>
     </section>
-
-    <Footer />
 </template>
 
 <script setup lang="ts">
-import Preloader from '@/app/components/layout/Preloader.vue'
-import Header from '@/app/components/layout/Header.vue'
-import Footer from '@/app/components/layout/Footer.vue'
 import { useAuth } from '@/app/composables/useAuth'
 
 defineProps<{

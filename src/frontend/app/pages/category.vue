@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import Preloader from '@/app/components/layout/Preloader.vue'
-import Header from '@/app/components/layout/Header.vue'
-import Footer from '@/app/components/layout/Footer.vue'
-
 const route = useRoute()
 const config = useRuntimeConfig()
 const fallbackImage = 'https://placehold.co/640x420?text=Recipe'
@@ -18,24 +14,30 @@ type CategoryItem = {
     image: string | null;
     recipes_count?: number | null;
     recipesCount?: number | null;
+    recipes?: RecipeItem[]
 }
 
-const {data, pending, error} = await useFetch<{ data: CategoryItem[] }>(
+type RecipeItem = {
+    id: number
+    title: string
+    logo: string | null
+}
+
+const {data, pending, error} = await useFetch<{ data: CategoryItem }>(
     `${config.public.apiBase}/categories/${categoryId.value}`
 )
 
-const category = computed(() => data.value?.data ?? [])
+const category = computed(() => data.value?.data ?? null)
+const recipes = computed(() => category.value?.recipes ?? [])
 </script>
 
 <template>
-    <Preloader/>
-    <Header/>
     <div class="breadcumb-area">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>{{ category.name }}</h2>
+                        <h2>{{ category?.name }}</h2>
                     </div>
                 </div>
             </div>
@@ -49,13 +51,13 @@ const category = computed(() => data.value?.data ?? [])
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <NuxtLink to="/src/frontend/public">
+                                <NuxtLink to="/">
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                     Home
                                 </NuxtLink>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Categories</li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ category?.name }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -67,30 +69,49 @@ const category = computed(() => data.value?.data ?? [])
         <div class="container">
             <div v-if="pending" class="text-center">Loading category..</div>
             <div v-else-if="error" class="text-center">Failed to load category</div>
-            <div v-else class="row">
+            <div v-else-if="recipes.length" class="row">
                 <div
-                    v-for="recipe in category.recipes"
+                    v-for="recipe in recipes"
                     :key="recipe.id"
                     class="col-12 col-md-6 col-lg-4"
                 >
                     <NuxtLink :to="{ path: '/recipe', query: { id: recipe.id } }">
-                        <article class="single_catagory wow fadeInUp">
+                        <article class="single_catagory category-recipe-card wow fadeInUp">
                             <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
-                            <h5>{{ recipe.title }}</h5>
+                            <h5 class="category-recipe-title">{{ recipe.title }}</h5>
                         </article>
                     </NuxtLink>
                 </div>
-
             </div>
+            <div v-else class="text-center">No recipes in this category yet</div>
         </div>
     </section>
-
-    <Footer/>
 </template>
 
 <style scoped>
-.category-recipes {
-    margin-bottom: 0;
-    text-align: center;
+.category-recipe-card {
+    overflow: hidden;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 18px rgb(35 45 55 / 8%);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.category-recipe-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgb(35 45 55 / 12%);
+}
+
+.category-recipe-card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.category-recipe-title {
+    margin: 0;
+    padding: 16px;
+    color: #232d37;
+    font-size: 18px;
 }
 </style>
