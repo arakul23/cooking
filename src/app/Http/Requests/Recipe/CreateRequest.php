@@ -31,6 +31,7 @@ class CreateRequest extends FormRequest
             'calories' => 'nullable|integer',
             'total_time_minutes' => 'nullable|integer',
             'time_raw' => 'nullable|string|max:20',
+            'locale' => 'sometimes|string|in:en,uk',
             'categories' => 'required|array|min:1',
         ];
     }

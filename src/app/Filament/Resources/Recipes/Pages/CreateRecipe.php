@@ -32,10 +32,10 @@ class CreateRecipe extends CreateRecord
                 'locale' => $locale,
                 'key' => 'content',
                 'value' => data_get($this, 'data.content'),
-            ]
+            ],
         ],
         );
 
-        TranslateRecipeData::dispatch($model->id);
+        TranslateRecipeData::dispatch($model->id, $locale)->afterCommit();
     }
 }

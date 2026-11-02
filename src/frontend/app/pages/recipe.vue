@@ -8,6 +8,7 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const fallbackImage = 'https://placehold.co/960x640?text=Recipe'
 const { isAuthenticated } = useAuth()
+const { locale } = useI18n()
 const isFavorite = ref(false)
 const favoriteMessage = ref('')
 const rating = ref(0)
@@ -53,13 +54,21 @@ type ApiResponse<T> = {
 }
 
 const recipeUrl = computed(() =>
-    recipeId.value ? `${config.public.apiBase}/recipes/${recipeId.value}` : null
+    recipeId.value
+        ? `${config.public.apiBase}/recipes/${encodeURIComponent(recipeId.value)}?locale=${encodeURIComponent(locale.value)}`
+        : null
+)
+
+const recipePdfUrl = computed(() =>
+    recipeId.value
+        ? `${config.public.apiBase}/recipes/${encodeURIComponent(recipeId.value)}/pdf?locale=${encodeURIComponent(locale.value)}`
+        : null
 )
 
 const { data: recipe, pending, error } = await useFetch<RecipeItem | null>(
     recipeUrl,
     {
-        watch: [recipeId],
+        watch: [recipeId, locale],
         transform: (res: ApiResponse<RecipeItem>) => res.data,
         default: () => null
     }
@@ -219,19 +228,28 @@ const setRating = async () => {
                             </div>
                             <div class="recipe-title-row">
                                 <h4 class="post-headline">{{ recipe.title }}</h4>
-                                <button
-                                    class="favorite-toggle"
-                                    :class="{ active: isFavorite }"
-                                    type="button"
-                                    :aria-pressed="isFavorite"
-                                    :aria-label="isFavorite ? 'Убрать из избранного' : 'Добавить в избранное'"
-                                    @click="toggleFavorite"
-                                >
-                                    <span class="favorite-heart" aria-hidden="true">
-                                        {{ isFavorite ? '♥' : '♡' }}
-                                    </span>
-                                    <span>{{ isFavorite ? 'В избранном' : 'В избранное' }}</span>
-                                </button>
+                                <div class="recipe-actions">
+                                    <a
+                                        v-if="recipePdfUrl"
+                                        class="recipe-export"
+                                        :href="recipePdfUrl"
+                                    >
+                                        {{ $t('recipe_export_pdf') }}
+                                    </a>
+                                    <button
+                                        class="favorite-toggle"
+                                        :class="{ active: isFavorite }"
+                                        type="button"
+                                        :aria-pressed="isFavorite"
+                                        :aria-label="isFavorite ? 'Убрать из избранного' : 'Добавить в избранное'"
+                                        @click="toggleFavorite"
+                                    >
+                                        <span class="favorite-heart" aria-hidden="true">
+                                            {{ isFavorite ? '♥' : '♡' }}
+                                        </span>
+                                        <span>{{ isFavorite ? 'В избранном' : 'В избранное' }}</span>
+                                    </button>
+                                </div>
                             </div>
                             <p>{{ recipe.description }}</p>
                             <div v-if="recipeProducts.length > 0" class="recipe-products">
@@ -247,7 +265,7 @@ const setRating = async () => {
                                     </li>
                                 </ul>
                             </div>
-                            <p v-if="recipe.content" class="recipe-content">{{ recipe.content }}</p>
+                            <div v-if="recipe.content" class="recipe-content" v-html="recipe.content"></div>
                         </div>
                     </article>
                 </div>
@@ -267,6 +285,32 @@ const setRating = async () => {
 
 .recipe-title-row .post-headline {
     margin-bottom: 0;
+}
+
+.recipe-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.recipe-export {
+    display: inline-flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 9px 14px;
+    border: 1px solid #fc6c3f;
+    border-radius: 4px;
+    color: #fc6c3f;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.recipe-export:hover {
+    background: #fc6c3f;
+    color: #fff;
 }
 
 .favorite-toggle {
@@ -363,6 +407,10 @@ const setRating = async () => {
 @media only screen and (max-width: 767px) {
     .recipe-title-row {
         flex-direction: column;
+    }
+
+    .recipe-actions {
+        justify-content: flex-start;
     }
 }
 </style>

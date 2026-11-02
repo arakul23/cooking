@@ -4,21 +4,46 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Jobs\TranslateRecipeData;
 use App\Models\Recipe;
+use Illuminate\Support\Facades\DB;
 
 class RecipeService
 {
     public function createRecipe(array $data): Recipe
     {
-        $recipe = Recipe::create($data);
+        $locale = $data['locale'] ?? 'en';
+        $categories = $data['categories'] ?? [];
+        $translations = [
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'content' => $data['content'],
+        ];
 
-        $recipe->categories()->sync($data['categories']);
-        $recipe->translations()->createMany([
-            ['locale' => 'en', 'key' => 'title', 'value' => $data['title']],
-            ['locale' => 'en', 'key' => 'description', 'value' => 'Классический борщ'],
-            ['locale' => 'en', 'key' => 'content', 'value' => $data['description']],
-        ]);
+        unset(
+            $data['categories'],
+            $data['locale'],
+            $data['title'],
+            $data['description'],
+            $data['content'],
+        );
 
-        return $recipe;
+        return DB::transaction(function () use ($data, $categories, $translations, $locale): Recipe {
+            $recipe = Recipe::create($data);
+            $recipe->categories()->sync($categories);
+            $recipe->translations()->createMany(
+                collect($translations)
+                    ->map(fn (string $value, string $key) => [
+                        'locale' => $locale,
+                        'key' => $key,
+                        'value' => $value,
+                    ])
+                    ->all()
+            );
+
+            TranslateRecipeData::dispatch($recipe->id, $locale)->afterCommit();
+
+            return $recipe;
+        });
     }
 }

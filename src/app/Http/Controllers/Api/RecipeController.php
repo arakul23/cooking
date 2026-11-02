@@ -10,7 +10,6 @@ use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 use App\Service\RatingService;
 use App\Service\RecipeService;
-use http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -47,10 +46,26 @@ class RecipeController extends Controller
         );
     }
 
-    public function show(Recipe $recipe): RecipeResource
+    public function show(Request $request, Recipe $recipe): RecipeResource
     {
+        $validated = $request->validate([
+            'locale' => ['sometimes', 'string', 'in:en,uk'],
+        ]);
+        $locale = $validated['locale'] ?? app()->getLocale();
+        $fallbackLocale = config('app.fallback_locale');
+
         $recipe->increment('views');
-        $recipe->loadMissing(['categories', 'products', 'translations', 'recipe_ratings']);
+        $recipe->load([
+            'categories',
+            'products',
+            'recipe_ratings',
+            'translations' => function ($query) use ($locale, $fallbackLocale): void {
+                $query
+                    ->whereIn('locale', array_unique([$locale, $fallbackLocale]))
+                    ->reorder()
+                    ->orderByRaw('CASE WHEN locale = ? THEN 0 ELSE 1 END', [$locale]);
+            },
+        ]);
 
         return RecipeResource::make($recipe);
     }
@@ -60,7 +75,7 @@ class RecipeController extends Controller
         $dataArray = $request->validated();
 
         if ($request->hasFile('logo')) {
-            $dataArray['logo'] = $request->file('logo')->store('recipes/logos', 'public'); // сохранится что-то вроде "recipes/logos/abc123.jpg"
+            $dataArray['logo'] = $request->file('logo')->store('recipes/logos', 'public');
         }
 
         $recipe = $recipeService->createRecipe($dataArray);

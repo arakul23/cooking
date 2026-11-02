@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ContactUsController;
 use App\Http\Controllers\Api\RecipeCategoryController;
 use App\Http\Controllers\Api\RecipeController;
+use App\Http\Controllers\Api\RecipePdfController;
 use App\Http\Controllers\Api\UserFavoritesController;
 use App\Http\Controllers\GoogleAuthController;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ Route::prefix('/recipes')->controller(RecipeController::class)->group(function (
     Route::get('/', 'getRecipes');
     Route::get('/popular', 'getPopularRecipes');
     Route::get('/random', 'getRandomRecipe');
+    Route::get('/{recipe}/pdf', RecipePdfController::class)->whereNumber('recipe');
     Route::get('/{recipe}', 'show')->whereNumber('recipe');
     Route::post('/{recipe}/rating', 'setRating')->whereNumber('recipe');
     Route::post('/create', 'create');

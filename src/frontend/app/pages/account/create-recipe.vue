@@ -3,7 +3,7 @@ import RecipeForm from "~~/app/components/account/recipe/RecipeForm.vue";
 
 const toast = useToast()
 const config = useRuntimeConfig();
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 definePageMeta({
     middleware: 'auth',
@@ -17,6 +17,7 @@ const create = async (recipe) => {
             title: recipe.title,
             description: recipe.description,
             content: recipe.content,
+            locale: locale.value,
             total_time_minutes: recipe.total_time_minutes,
             portions: recipe.portions,
             calories: recipe.calories
