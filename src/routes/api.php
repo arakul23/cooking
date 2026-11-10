@@ -20,6 +20,9 @@ Route::prefix('/recipes')->controller(RecipeController::class)->group(function (
     Route::get('/', 'getRecipes');
     Route::get('/popular', 'getPopularRecipes');
     Route::get('/random', 'getRandomRecipe');
+    Route::get('/fridge-search/options', 'fridgeSearchOptions');
+    Route::get('/fridge-search/products', 'fridgeSearchProducts');
+    Route::post('/fridge-search', 'fridgeSearch');
     Route::get('/{recipe}/pdf', RecipePdfController::class)->whereNumber('recipe');
     Route::get('/{recipe}', 'show')->whereNumber('recipe');
     Route::post('/{recipe}/rating', 'setRating')->whereNumber('recipe');

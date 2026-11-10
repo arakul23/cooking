@@ -19,6 +19,7 @@ class RecipeResource extends JsonResource
     public function toArray(Request $request): array
     {
         $translations = $this->translations;
+        $locale = $request->input('locale', app()->getLocale());
         $translationValue = fn (string $key) => $translations->firstWhere('key', $key)?->value;
 
         return [
@@ -33,13 +34,17 @@ class RecipeResource extends JsonResource
             'rating_avg' => $this->rating_avg,
             'created_at' => $this->created_at,
             'categories' => RecipeCategoryResource::collection($this->whenLoaded('categories')),
-            'products' => $this->whenLoaded('products', function () {
-                return $this->products->map(function ($product) {
+            'missing_products' => $this->when(
+                $this->resource->getAttribute('missing_products') !== null,
+                $this->resource->getAttribute('missing_products')
+            ),
+            'products' => $this->whenLoaded('products', function () use ($locale) {
+                return $this->products->map(function ($product) use ($locale) {
                     return [
                         'id' => $product->id,
                         'name' => $product->name,
                         'amount' => $product->pivot->amount,
-                        'amount_unit' => $product->pivot->amount_unit,
+                        'amount_unit' => $product->pivot->amountUnitForLocale($locale),
                         'unit_id' => $product->pivot->unit_id,
                         'amount_base' => $product->pivot->amount_base,
                         'note' => $product->pivot->note,

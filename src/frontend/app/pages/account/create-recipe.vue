@@ -28,6 +28,11 @@ const create = async (recipe) => {
         }
 
         recipe.categories.forEach(id => formData.append('categories[]', String(id)))
+        recipe.ingredients.forEach((ingredient, index) => {
+            formData.append(`ingredients[${index}][product_id]`, String(ingredient.product_id))
+            formData.append(`ingredients[${index}][amount]`, String(ingredient.amount))
+            formData.append(`ingredients[${index}][unit_id]`, String(ingredient.unit_id))
+        })
 
         if (recipe.logo) {
             formData.append('logo', recipe.logo)

@@ -70,7 +70,7 @@ class RecipePdfController extends Controller
             'products' => $recipe->products->map(fn ($product) => [
                 'name' => $product->name,
                 'amount' => $product->pivot->amount,
-                'unit' => $product->pivot->unit?->name,
+                'unit' => $product->pivot->unit?->localizedName($locale),
                 'note' => $product->pivot->note,
             ]),
             'ratingCount' => $recipe->recipe_ratings->count(),

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Product;
 use Generator;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,7 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use App\Models\Product;
 
 class ProductParserJob implements ShouldQueue
 {
@@ -18,7 +18,6 @@ class ProductParserJob implements ShouldQueue
     private const int CHUNK_SIZE = 500;
 
     public int $timeout = 3600;
-
 
     private const string FILE_PATH = '/media/arakul/Новый том/products.jsonl';
 
@@ -38,12 +37,13 @@ class ProductParserJob implements ShouldQueue
 
             $product = json_decode($line, true);
 
-            if (json_last_error() !== JSON_ERROR_NONE || !is_array($product)) {
+            if (json_last_error() !== JSON_ERROR_NONE || ! is_array($product)) {
                 $stats['skipped_bad_json']++;
                 Log::warning('Продукт: невалидный JSON', [
                     'line' => $lineNumber,
                     'json_error' => json_last_error_msg(),
                 ]);
+
                 continue;
             }
 
@@ -62,7 +62,7 @@ class ProductParserJob implements ShouldQueue
             }
         }
 
-        if (!empty($chunk)) {
+        if (! empty($chunk)) {
             $this->insertChunk($chunk);
         }
 
@@ -78,6 +78,7 @@ class ProductParserJob implements ShouldQueue
         $externalId = $product['_id'] ?? $product['code'] ?? null;
 
         $name = $this->extractName($product);
+        $name = $name === null ? null : Product::sanitizeName($name);
 
         if (empty($name)) {
             $stats['skipped_no_name']++;
@@ -85,6 +86,7 @@ class ProductParserJob implements ShouldQueue
                 'line' => $lineNumber,
                 'external_id' => $externalId,
             ]);
+
             return null;
         }
 
@@ -99,6 +101,7 @@ class ProductParserJob implements ShouldQueue
                 'external_id' => $externalId,
                 'name' => $name,
             ]);
+
             return null;
         }
 
@@ -113,14 +116,14 @@ class ProductParserJob implements ShouldQueue
         }
 
         return [
-            'name'          => $name,
-            'brand'         => $product['brands'] ?? null,
-            'kcal'          => $nutrients['kcal'],
-            'protein'       => $nutrients['proteins'],
-            'fat'           => $nutrients['fat'],
+            'name' => $name,
+            'brand' => $product['brands'] ?? null,
+            'kcal' => $nutrients['kcal'],
+            'protein' => $nutrients['proteins'],
+            'fat' => $nutrients['fat'],
             'carbohydrates' => $nutrients['carbohydrates'],
-            'created_at'    => now(),
-            'updated_at'    => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 
@@ -131,20 +134,20 @@ class ProductParserJob implements ShouldQueue
     {
         $preferredLang = 'en';
 
-        if (!empty($product["product_name_{$preferredLang}"])) {
+        if (! empty($product["product_name_{$preferredLang}"])) {
             return $product["product_name_{$preferredLang}"];
         }
 
         $lc = $product['lc'] ?? null;
-        if ($lc && !empty($product["product_name_{$lc}"])) {
+        if ($lc && ! empty($product["product_name_{$lc}"])) {
             return $product["product_name_{$lc}"];
         }
 
-        if (!empty($product['product_name'])) {
+        if (! empty($product['product_name'])) {
             return $product['product_name'];
         }
 
-        if (!empty($product['generic_name'])) {
+        if (! empty($product['generic_name'])) {
             return $product['generic_name'];
         }
 
@@ -222,6 +225,7 @@ class ProductParserJob implements ShouldQueue
 
         if ($file === false) {
             Log::error('Не удалось открыть файл', ['path' => $filename]);
+
             return;
         }
 

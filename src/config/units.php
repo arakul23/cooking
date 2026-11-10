@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'translations' => [
+        'g' => ['en' => 'g', 'uk' => 'г'],
+        'gram' => ['en' => 'gram', 'uk' => 'г'],
+        'grams' => ['en' => 'grams', 'uk' => 'г'],
+        'kg' => ['en' => 'kg', 'uk' => 'кг'],
+        'kilogram' => ['en' => 'kilogram', 'uk' => 'кг'],
+        'kilograms' => ['en' => 'kilograms', 'uk' => 'кг'],
+        'mg' => ['en' => 'mg', 'uk' => 'мг'],
+        'ml' => ['en' => 'ml', 'uk' => 'мл'],
+        'milliliter' => ['en' => 'milliliter', 'uk' => 'мл'],
+        'milliliters' => ['en' => 'milliliters', 'uk' => 'мл'],
+        'l' => ['en' => 'l', 'uk' => 'л'],
+        'liter' => ['en' => 'liter', 'uk' => 'л'],
+        'liters' => ['en' => 'liters', 'uk' => 'л'],
+        'piece' => ['en' => 'piece', 'uk' => 'шт.'],
+        'pieces' => ['en' => 'pieces', 'uk' => 'шт.'],
+        'pc' => ['en' => 'pc', 'uk' => 'шт.'],
+        'pcs' => ['en' => 'pcs', 'uk' => 'шт.'],
+        'tsp' => ['en' => 'tsp', 'uk' => 'ч. л.'],
+        'teaspoon' => ['en' => 'teaspoon', 'uk' => 'ч. л.'],
+        'tbsp' => ['en' => 'tbsp', 'uk' => 'ст. л.'],
+        'tablespoon' => ['en' => 'tablespoon', 'uk' => 'ст. л.'],
+        'cup' => ['en' => 'cup', 'uk' => 'склянка'],
+        'pinch' => ['en' => 'pinch', 'uk' => 'дрібка'],
+        'clove' => ['en' => 'clove', 'uk' => 'зубчик'],
+        'slice' => ['en' => 'slice', 'uk' => 'скибка'],
+    ],
+];

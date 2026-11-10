@@ -22,11 +22,15 @@ class RecipeProduct extends Pivot
 
     public function getAmountUnitAttribute(): string
     {
-        // Вместо $this->amount берем напрямую из атрибутов
-        $amount = $this->attributes['amount'] ?? null;
-        $unitName = $this->unit?->name ?? '';
+        return $this->amountUnitForLocale();
+    }
 
-        return trim(floatval($amount) . ' ' . $unitName);
+    public function amountUnitForLocale(?string $locale = null): string
+    {
+        $amount = $this->attributes['amount'] ?? null;
+        $unitName = $this->unit?->localizedName($locale) ?? '';
+
+        return trim(floatval($amount).' '.$unitName);
     }
 
     public function getCalculatedAmountAttribute(): ?float

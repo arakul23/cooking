@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Recipes\Schemas;
 
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
 class RecipeForm
@@ -14,10 +14,7 @@ class RecipeForm
         return $schema
             ->components([
                 Select::make('locale')
-                    ->options([
-                        'en' => 'en',
-                        'uk' => 'uk',
-                    ]),
+                    ->options(config('app.available_locales')),
                 TextInput::make('title')
                     ->required(),
                 TextInput::make('logo'),

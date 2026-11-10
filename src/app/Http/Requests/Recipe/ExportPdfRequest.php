@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Recipe;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ExportPdfRequest extends FormRequest
 {
@@ -19,7 +20,7 @@ class ExportPdfRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'locale' => ['sometimes', 'string', 'in:en,uk'],
+            'locale' => ['sometimes', 'string', Rule::in(array_keys(config('app.available_locales')))],
         ];
     }
 }

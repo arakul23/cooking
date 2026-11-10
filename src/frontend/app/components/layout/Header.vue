@@ -84,6 +84,9 @@
                                 <li class="nav-item" :class="{ active: isActiveTab('/categories') || route.path === '/category' }">
                                     <NuxtLink class="nav-link" to="/categories">{{ $t('menu_categories') }}</NuxtLink>
                                 </li>
+                                <li class="nav-item" :class="{ active: isActiveTab('/fridge-search') }">
+                                    <NuxtLink class="nav-link" to="/fridge-search">{{ $t('menu_fridge_search') }}</NuxtLink>
+                                </li>
                                 <li class="nav-item" :class="{ active: isActiveTab('/contact') }">
                                     <NuxtLink to="/contact" class="nav-link">{{ $t('menu_contact') }}</NuxtLink>
                                 </li>
