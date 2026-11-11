@@ -42,7 +42,9 @@ class Recipe extends Model
 
     public function recipe_ratings(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'recipe_ratings')->withPivot('rating');
+        return $this->belongsToMany(User::class, 'recipe_ratings')
+            ->withPivot('rating')
+            ->withTimestamps();
     }
 
     public function products(): BelongsToMany
@@ -71,7 +73,9 @@ class Recipe extends Model
 
     public function ratingByUsers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'recipe_ratings');
+        return $this->belongsToMany(User::class, 'recipe_ratings')
+            ->withPivot('rating')
+            ->withTimestamps();
     }
 
     public function getTitleAttribute(): ?string

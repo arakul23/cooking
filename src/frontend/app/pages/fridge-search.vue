@@ -297,101 +297,108 @@ const searchRecipes = async () => {
                         />
                     </label>
 
-                    <div class="fridge-ingredients-heading">
-                        <h3>{{ $t('fridge_search_ingredients') }}</h3>
-                        <p>{{ $t('fridge_search_amount_hint') }}</p>
-                    </div>
-
-                    <div class="fridge-ingredient-list">
-                        <div
-                            v-for="(ingredient, index) in ingredients"
-                            :key="ingredient.key"
-                            class="fridge-ingredient-row"
-                        >
-                            <label class="fridge-field fridge-product-field">
-                                <span>{{ $t('fridge_search_product_number', { number: index + 1 }) }}</span>
-                                <USelectMenu
-                                    v-model="ingredient.product_id"
-                                    :items="productOptionsFor(ingredient)"
-                                    label-key="name"
-                                    color="neutral"
-                                    variant="outline"
-                                    value-key="id"
-                                    :placeholder="$t('fridge_search_choose_product')"
-                                    v-model:search-term="productSearchTerms[ingredient.key]"
-                                    :search-input="{
-                                        placeholder: $t('fridge_search_choose_product'),
-                                        loading: productSearchLoading[ingredient.key],
-                                    }"
-                                    ignore-filter
-                                    class="w-full"
-                                    size="xl"
-                                    @update:search-term="searchProducts(ingredient.key, $event)"
-                                />
-                                <span v-if="productSearchErrors[ingredient.key]" class="fridge-field-error">
-                                    {{ $t('fridge_search_products_error') }}
-                                </span>
-                                <span
-                                    v-else-if="(productSearchTerms[ingredient.key] ?? '').trim().length < 2"
-                                    class="fridge-field-hint"
-                                >
-                                    {{ $t('fridge_search_product_hint') }}
-                                </span>
-                                <span
-                                    v-else-if="!productSearchLoading[ingredient.key] && !productOptionsFor(ingredient).length"
-                                    class="fridge-field-hint"
-                                >
-                                    {{ $t('fridge_search_products_empty') }}
-                                </span>
-                            </label>
-                            <label class="fridge-field fridge-amount-field">
-                                <span>{{ $t('fridge_search_amount') }}</span>
-                                <UInputNumber
-                                    v-model="ingredient.amount"
-                                    :min="0.001"
-                                    :step="0.001"
-                                    :format-options="{ maximumFractionDigits: 3 }"
-                                    color="neutral"
-                                    variant="outline"
-                                    class="w-full"
-                                    size="xl"
-                                />
-                            </label>
-                            <label class="fridge-field fridge-unit-field">
-                                <span>{{ $t('fridge_search_unit') }}</span>
-                                <USelectMenu
-                                    v-model="ingredient.unit_id"
-                                    :items="unitOptions"
-                                    label-key="label"
-                                    color="neutral"
-                                    variant="outline"
-                                    value-key="id"
-                                    :placeholder="$t('fridge_search_choose_unit')"
-                                    class="w-full"
-                                    size="xl"
-                                />
-                            </label>
-                            <button
-                                v-if="ingredients.length > 1"
-                                type="button"
-                                class="fridge-remove-button"
-                                :aria-label="$t('fridge_search_remove_product')"
-                                @click="removeIngredient(ingredient.key)"
-                            >
-                                <i class="fa fa-times" aria-hidden="true"></i>
-                            </button>
+                    <section class="fridge-ingredients-section">
+                        <div class="fridge-ingredients-heading">
+                            <h3>{{ $t('fridge_search_ingredients') }}</h3>
+                            <p>{{ $t('fridge_search_amount_hint') }}</p>
                         </div>
-                    </div>
 
-                    <button
-                        type="button"
-                        class="fridge-add-button"
-                        :disabled="ingredients.length >= maxIngredients"
-                        @click="addIngredient"
-                    >
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                        {{ $t('fridge_search_add_product') }}
-                    </button>
+                        <div class="fridge-ingredient-list">
+                            <div
+                                v-for="(ingredient, index) in ingredients"
+                                :key="ingredient.key"
+                                class="fridge-ingredient-row"
+                            >
+                                <label class="fridge-field fridge-product-field">
+                                    <span>{{ $t('fridge_search_product_number', { number: index + 1 }) }}</span>
+                                    <USelectMenu
+                                        v-model="ingredient.product_id"
+                                        :items="productOptionsFor(ingredient)"
+                                        label-key="name"
+                                        color="neutral"
+                                        variant="outline"
+                                        value-key="id"
+                                        :placeholder="$t('fridge_search_choose_product')"
+                                        v-model:search-term="productSearchTerms[ingredient.key]"
+                                        :search-input="{
+                                            placeholder: $t('fridge_search_choose_product'),
+                                            loading: productSearchLoading[ingredient.key],
+                                        }"
+                                        ignore-filter
+                                        class="w-full"
+                                        size="xl"
+                                        @update:search-term="searchProducts(ingredient.key, $event)"
+                                    />
+                                    <span v-if="productSearchErrors[ingredient.key]" class="fridge-field-error">
+                                        {{ $t('fridge_search_products_error') }}
+                                    </span>
+                                    <span
+                                        v-else-if="(productSearchTerms[ingredient.key] ?? '').trim().length < 2"
+                                        class="fridge-field-hint"
+                                    >
+                                        {{ $t('fridge_search_product_hint') }}
+                                    </span>
+                                    <span
+                                        v-else-if="!productSearchLoading[ingredient.key] && !productOptionsFor(ingredient).length"
+                                        class="fridge-field-hint"
+                                    >
+                                        {{ $t('fridge_search_products_empty') }}
+                                    </span>
+                                </label>
+                                <label class="fridge-field fridge-amount-field">
+                                    <span>{{ $t('fridge_search_amount') }}</span>
+                                    <UInputNumber
+                                        v-model="ingredient.amount"
+                                        :min="0.001"
+                                        :step="0.001"
+                                        :format-options="{ maximumFractionDigits: 3 }"
+                                        color="neutral"
+                                        variant="outline"
+                                        class="w-full"
+                                        size="xl"
+                                    />
+                                </label>
+                                <label class="fridge-field fridge-unit-field">
+                                    <span>{{ $t('fridge_search_unit') }}</span>
+                                    <USelectMenu
+                                        v-model="ingredient.unit_id"
+                                        :items="unitOptions"
+                                        label-key="label"
+                                        color="neutral"
+                                        variant="outline"
+                                        value-key="id"
+                                        :placeholder="$t('fridge_search_choose_unit')"
+                                        class="w-full"
+                                        size="xl"
+                                    />
+                                </label>
+                                <button
+                                    v-if="ingredients.length > 1"
+                                    type="button"
+                                    class="fridge-remove-button"
+                                    :aria-label="$t('fridge_search_remove_product')"
+                                    :title="$t('fridge_search_remove_product')"
+                                    @click="removeIngredient(ingredient.key)"
+                                >
+                                    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                                        <path d="M6 6l12 12M18 6L6 18" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="fridge-add-button"
+                            :disabled="ingredients.length >= maxIngredients"
+                            @click="addIngredient"
+                        >
+                            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 5v14M5 12h14" />
+                            </svg>
+                            {{ $t('fridge_search_add_product') }}
+                        </button>
+                    </section>
 
                     <p v-if="submitError" class="fridge-search-message is-error" role="alert">
                         {{ submitError }}
@@ -522,49 +529,79 @@ const searchRecipes = async () => {
 }
 
 .fridge-field-error {
-    color: #b42318;
+    display: block;
+    margin-top: 6px;
+    color: #dc2626;
     font-size: 13px;
     font-weight: 400;
 }
 
 .fridge-field-hint {
-    color: var(--site-text, #51545f);
+    display: block;
+    margin-top: 6px;
+    color: #888;
     font-size: 13px;
     font-weight: 400;
 }
 
-.fridge-ingredients-heading {
-    margin-top: 6px;
+.fridge-ingredients-section {
+    margin: 24px 0;
 }
 
-.fridge-ingredients-heading h3,
+.fridge-ingredients-heading h3 {
+    margin: 0;
+    color: var(--site-heading, #232d37);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.fridge-ingredients-heading p {
+    color: #888;
+    font-size: 13px;
+}
+
+.fridge-ingredients-heading p {
+    margin: 4px 0 16px;
+}
+
 .fridge-results h3 {
-    margin-bottom: 6px;
+    margin-bottom: 22px;
     color: var(--site-heading, #232d37);
     font-size: 20px;
     font-weight: 700;
 }
 
-.fridge-ingredients-heading p {
-    margin-bottom: 0;
-    font-size: 14px;
-}
-
 .fridge-ingredient-list {
     display: flex;
     flex-direction: column;
-    gap: 14px;
 }
 
 .fridge-ingredient-row {
     display: grid;
-    grid-template-columns: minmax(180px, 1fr) minmax(100px, 0.35fr) minmax(130px, 0.55fr) 36px;
+    grid-template-columns: minmax(180px, 1fr) minmax(100px, 0.35fr) minmax(130px, 0.55fr) 40px;
     align-items: start;
     gap: 12px;
+    margin-bottom: 14px;
     padding: 16px;
     border: 1px solid var(--site-border, #ebebeb);
     border-radius: 8px;
     background: #faf9f8;
+}
+
+.fridge-ingredient-row :deep(button:not(.fridge-remove-button)),
+.fridge-ingredient-row :deep(input) {
+    min-height: 50px;
+    border-color: var(--site-border, #ebebeb);
+    border-radius: 4px;
+    color: var(--site-text, #51545f);
+    font: inherit;
+}
+
+.fridge-ingredient-row :deep(button:not(.fridge-remove-button):focus-visible),
+.fridge-ingredient-row :deep(input:focus-visible) {
+    border-color: var(--site-accent, #fc6c3f);
+    outline: 2px solid rgb(252 108 63 / 20%);
+    outline-offset: 1px;
 }
 
 .fridge-remove-button,
@@ -580,14 +617,43 @@ const searchRecipes = async () => {
 .fridge-remove-button {
     align-self: start;
     width: 36px;
+    min-height: 42px;
     margin-top: 30px;
+    padding: 0;
     border: 1px solid var(--site-border, #ebebeb);
     background: var(--site-surface, #fff);
     color: var(--site-text, #51545f);
 }
 
+.fridge-remove-button:hover {
+    border-color: var(--site-accent, #fc6c3f);
+    color: var(--site-accent, #fc6c3f);
+}
+
+.fridge-remove-button:focus-visible,
+.fridge-add-button:focus-visible {
+    outline: 2px solid rgb(252 108 63 / 25%);
+    outline-offset: 2px;
+}
+
+.fridge-remove-button svg,
+.fridge-add-button svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+}
+
 .fridge-add-button {
     align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
     padding: 0 16px;
     border: 1px solid var(--site-accent, #fc6c3f);
     background: var(--site-surface, #fff);
@@ -603,10 +669,6 @@ const searchRecipes = async () => {
 .fridge-add-button:not(:disabled):hover {
     background: var(--site-accent, #fc6c3f);
     color: #fff;
-}
-
-.fridge-add-button i {
-    margin-right: 6px;
 }
 
 .fridge-submit-button {
@@ -743,9 +805,9 @@ const searchRecipes = async () => {
     font-size: 12px;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 640px) {
     .fridge-ingredient-row {
-        grid-template-columns: 1fr 1fr 36px;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 36px;
     }
 
     .fridge-product-field {
@@ -762,7 +824,9 @@ const searchRecipes = async () => {
         grid-row: 2;
         margin-top: 30px;
     }
+}
 
+@media (max-width: 760px) {
     .fridge-submit-button {
         width: 100%;
     }

@@ -101,50 +101,6 @@
                 <div class="col-12 col-lg-8">
                     <div class="row">
 
-                        <div class="col-12">
-                            <div class="single-post wow fadeInUp" data-wow-delay=".2s">
-                                <!-- Post Thumb -->
-                                <div class="post-thumb">
-                                    <img src='https://placehold.co/1200x800?text=Temp+Image' alt=''>
-                                </div>
-                                <!-- Post Content -->
-                                <div class="post-content">
-                                    <div class="post-meta d-flex">
-                                        <div class="post-author-date-area d-flex">
-                                            <!-- Post Author -->
-                                            <div class="post-author">
-                                                <a href="#">By Marian</a>
-                                            </div>
-                                            <!-- Post Date -->
-                                            <div class="post-date">
-                                                <a href="#">{{ formatCreatedAt(recipe['created_at']) }}</a>
-                                            </div>
-                                        </div>
-                                        <!-- Post Comment & Share Area -->
-                                        <div class="post-comment-share-area d-flex">
-                                            <!-- Post Favourite -->
-                                            <div class="post-favourite">
-                                                <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i> 10</a>
-                                            </div>
-                                            <!-- Post Comments -->
-                                            <div class="post-comments">
-                                                <a href="#"><i class="fa fa-comment-o" aria-hidden="true"></i> 12</a>
-                                            </div>
-                                            <!-- Post Share -->
-                                            <div class="post-share">
-                                                <a href="#"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <NuxtLink :to="{ path: '/recipe', query: { id: recipe.id } }">
-                                        <h2 class="post-headline">{{ recipe['title'] }}</h2>
-                                        <p>{{ recipe['title'] }}</p>
-                                    </NuxtLink>
-
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- ******* List Blog Area Start ******* -->
 
                         <!-- Single Post -->

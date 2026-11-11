@@ -9,6 +9,7 @@ use App\Http\Requests\Recipe\CreateRequest;
 use App\Http\Requests\Recipe\FridgeSearchOptionsRequest;
 use App\Http\Requests\Recipe\FridgeSearchProductsRequest;
 use App\Http\Requests\Recipe\FridgeSearchRequest;
+use App\Http\Requests\Recipe\RatingRequest;
 use App\Http\Resources\RecipeResource;
 use App\Models\Product;
 use App\Models\Recipe;
@@ -61,6 +62,7 @@ class RecipeController extends Controller
         $locale = $validated['locale'] ?? app()->getLocale();
         $fallbackLocale = config('app.fallback_locale');
 
+        $recipe->rating_avg = $this->ratingService->refreshAverageRating($recipe);
         $recipe->increment('views');
         $recipe->load([
             'categories',
@@ -162,8 +164,19 @@ class RecipeController extends Controller
         return RecipeResource::collection($searchService->search($request->validated()));
     }
 
-    public function setRating(Request $request, Recipe $recipe)
+    public function setRating(RatingRequest $request, Recipe $recipe): JsonResponse
     {
-        $this->ratingService->updateAverageRating($recipe, $request->rating);
+        $rating = (float) $request->validated('rating');
+        $ratingAverage = $this->ratingService->updateAverageRating(
+            $recipe,
+            (int) $request->user()->getAuthIdentifier(),
+            $rating
+        );
+
+        return response()->json([
+            'rating_avg' => $ratingAverage,
+            'user_rating' => $rating,
+            'rating_available_at' => now()->addMinute()->toIso8601String(),
+        ]);
     }
 }

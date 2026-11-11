@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 const config = useRuntimeConfig()
+const { locale } = useI18n()
 const fallbackImage = 'https://placehold.co/640x420?text=Recipe'
 
 const categoryId = computed(() => {
@@ -21,6 +22,7 @@ type RecipeItem = {
     id: number
     title: string
     logo: string | null
+    rating_avg: number | string | null
 }
 
 const {data, pending, error} = await useFetch<{ data: CategoryItem }>(
@@ -29,6 +31,18 @@ const {data, pending, error} = await useFetch<{ data: CategoryItem }>(
 
 const category = computed(() => data.value?.data ?? null)
 const recipes = computed(() => category.value?.recipes ?? [])
+const sortMode = ref<'rating' | 'alphabetical'>('rating')
+const sortedRecipes = computed(() => [...recipes.value].sort((left, right) => {
+    if (sortMode.value === 'alphabetical') {
+        return left.title.localeCompare(right.title, locale.value, { sensitivity: 'base' })
+    }
+
+    return Number(right.rating_avg ?? 0) - Number(left.rating_avg ?? 0)
+}))
+const changeSortMode = (event: Event) => {
+    const selectedMode = (event.currentTarget as HTMLSelectElement).value
+    sortMode.value = selectedMode === 'alphabetical' ? 'alphabetical' : 'rating'
+}
 </script>
 
 <template>
@@ -69,26 +83,59 @@ const recipes = computed(() => category.value?.recipes ?? [])
         <div class="container">
             <div v-if="pending" class="text-center">Loading category..</div>
             <div v-else-if="error" class="text-center">Failed to load category</div>
-            <div v-else-if="recipes.length" class="row">
-                <div
-                    v-for="recipe in recipes"
-                    :key="recipe.id"
-                    class="col-12 col-md-6 col-lg-4"
-                >
-                    <NuxtLink :to="{ path: '/recipe', query: { id: recipe.id } }">
-                        <article class="single_catagory category-recipe-card wow fadeInUp">
-                            <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
-                            <h5 class="category-recipe-title">{{ recipe.title }}</h5>
-                        </article>
-                    </NuxtLink>
+            <template v-else-if="recipes.length">
+                <div class="category-recipes-sort">
+                    <label for="category-recipes-sort">{{$t('sort')}}</label>
+                    <select
+                        id="category-recipes-sort"
+                        :value="sortMode"
+                        aria-label="Сортировка рецептов"
+                        @change="changeSortMode"
+                    >
+                        <option value="rating">{{ $t('sort_by_rating') }}</option>
+                        <option value="alphabetical">{{ $t('sort_by_alphabet') }}</option>
+                    </select>
                 </div>
-            </div>
+                <div class="row">
+                    <div
+                        v-for="recipe in sortedRecipes"
+                        :key="`${sortMode}-${recipe.id}`"
+                        class="col-12 col-md-6 col-lg-4"
+                    >
+                        <NuxtLink :to="{ path: '/recipe', query: { id: recipe.id } }">
+                            <article class="single_catagory category-recipe-card wow fadeInUp">
+                                <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
+                                <h5 class="category-recipe-title">{{ recipe.title }}</h5>
+                            </article>
+                        </NuxtLink>
+                    </div>
+                </div>
+            </template>
             <div v-else class="text-center">No recipes in this category yet</div>
         </div>
     </section>
 </template>
 
 <style scoped>
+.category-recipes-sort {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: #727272;
+}
+
+.category-recipes-sort select {
+    min-height: 42px;
+    padding: 8px 12px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    background: #fff;
+    color: #232d37;
+    font: inherit;
+}
+
 .category-recipe-card {
     overflow: hidden;
     border-radius: 12px;

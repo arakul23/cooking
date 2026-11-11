@@ -44,6 +44,14 @@ class ProductNameAndUnitLocalizationTest extends TestCase
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        $unmappedCodeUnitId = DB::table('units')->insertGetId([
+            'code' => 'custom-g',
+            'name' => 'grams',
+            'type' => 'mass',
+            'to_base_factor' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
         $recipe = Recipe::create([]);
         $product = Product::create(['name' => 'Flour']);
         $recipe->products()->attach($product, [
@@ -54,7 +62,8 @@ class ProductNameAndUnitLocalizationTest extends TestCase
 
         $this->getJson('/api/recipes/fridge-search/options?locale=uk')
             ->assertOk()
-            ->assertJsonPath('units.0.name', 'кг');
+            ->assertJsonFragment(['id' => $unitId, 'name' => 'кг'])
+            ->assertJsonFragment(['id' => $unmappedCodeUnitId, 'name' => 'г']);
 
         $this->getJson("/api/recipes/{$recipe->id}?locale=uk")
             ->assertOk()

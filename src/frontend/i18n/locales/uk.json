@@ -28,6 +28,10 @@
     "loading": "Завантаження...",
     "rating": "Оцінка",
     "rate_recipe": "Оцінити цей рецепт",
+    "rating_saved": "Вашу оцінку збережено.",
+    "rating_rate_limit": "Оцінку можна змінювати раз на хвилину.",
+    "rating_save_error": "Не вдалося зберегти оцінку. Спробуйте ще раз.",
+    "rating_cooldown": "Оцінку можна змінити через {seconds} с.",
     "search_placeholder": "Пошук рецептів і категорій",
     "search_button": "Знайти",
     "search_categories": "Категорії",
@@ -125,5 +129,8 @@
     "recipe_validation_calories_max": "Кількість калорій не може перевищувати 10000.",
     "recipe_validation_photo_required": "Завантажте фото рецепта.",
     "recipe_validation_photo_size": "Розмір файлу має бути меншим за 2 МБ.",
-    "recipe_validation_photo_type": "Дозволені лише зображення PNG або JPG."
+    "recipe_validation_photo_type": "Дозволені лише зображення PNG або JPG.",
+    "sort_by_alphabet": "За алфавітом",
+    "sort_by_rating": "За рейтингом",
+    "sort": "Сортувати"
 }

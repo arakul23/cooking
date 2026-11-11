@@ -8,10 +8,13 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const fallbackImage = 'https://placehold.co/960x640?text=Recipe'
 const { isAuthenticated } = useAuth()
-const { locale } = useI18n()
+const api = useApi()
+const { locale, t } = useI18n()
 const isFavorite = ref(false)
 const favoriteMessage = ref('')
 const rating = ref(0)
+const isRatingSaving = ref(false)
+const ratingMessage = ref('')
 
 const recipeId = computed(() => {
     const id = route.query.id
@@ -34,6 +37,8 @@ type RecipeItem = {
     categories: RecipeCategory[];
     views: number;
     rating_avg: number;
+    user_rating: number | null;
+    rating_available_at: string | null;
     products?: Array<{
         id?: number;
         name?: string | null;
@@ -74,11 +79,37 @@ const { data: recipe, pending, error } = await useFetch<RecipeItem | null>(
     }
 )
 
-console.log('recipe.value', recipe.value);
+const ratingCooldownSeconds = ref(0)
+const updateRatingCooldown = () => {
+    const availableAt = recipe.value?.rating_available_at
+    const availableAtTimestamp = availableAt ? Date.parse(availableAt) : 0
 
-if (recipe.value?.rating_avg) {
-    rating.value = recipe.value.rating_avg
+    ratingCooldownSeconds.value = availableAtTimestamp > 0
+        ? Math.max(0, Math.ceil((availableAtTimestamp - Date.now()) / 1000))
+        : 0
 }
+
+watch(recipe, (currentRecipe) => {
+    rating.value = Number(currentRecipe?.user_rating ?? currentRecipe?.rating_avg ?? 0)
+    updateRatingCooldown()
+}, { immediate: true })
+
+let ratingCooldownInterval: ReturnType<typeof window.setInterval> | null = null
+
+onMounted(() => {
+    updateRatingCooldown()
+    ratingCooldownInterval = window.setInterval(updateRatingCooldown, 1000)
+})
+
+onBeforeUnmount(() => {
+    if (ratingCooldownInterval) {
+        window.clearInterval(ratingCooldownInterval)
+    }
+})
+
+const isRatingReadOnly = computed(() =>
+    isRatingSaving.value || ratingCooldownSeconds.value > 0
+)
 
 const recipeCategories = computed(() => recipe.value?.categories ?? [])
 const recipeProducts = computed(() => recipe.value?.products ?? [])
@@ -133,16 +164,65 @@ const toggleFavorite = async () => {
     }, 1800)
 }
 
-const setRating = async () => {
-    const {data, pending, error} = await useFetch<{ data: RecipeItem[] }>(
-        `${config.public.apiBase}/recipes/${recipeId.value}/rating`,
-        {
-            method: 'POST',
-            body: {
-                rating: rating.value,
+const setRating = async (selectedRating: number) => {
+    if (!isAuthenticated.value) {
+        rating.value = Number(recipe.value?.user_rating ?? recipe.value?.rating_avg ?? 0)
+        await navigateTo('/login')
+        return
+    }
+
+    if (isRatingSaving.value) {
+        rating.value = Number(recipe.value?.user_rating ?? recipe.value?.rating_avg ?? 0)
+        return
+    }
+
+    isRatingSaving.value = true
+    ratingMessage.value = ''
+
+    try {
+        const response = await api<{
+            rating_avg: number
+            user_rating: number
+            rating_available_at: string
+        }>(
+            `${config.public.apiBase}/recipes/${encodeURIComponent(recipeId.value)}/rating`,
+            {
+                method: 'POST',
+                body: {
+                    rating: selectedRating,
+                },
             },
+        )
+
+        if (recipe.value) {
+            recipe.value.rating_avg = response.rating_avg
+            recipe.value.user_rating = response.user_rating
+            recipe.value.rating_available_at = response.rating_available_at
         }
-    )
+        rating.value = selectedRating
+        ratingMessage.value = t('rating_saved')
+        updateRatingCooldown()
+    } catch (error: any) {
+        rating.value = Number(recipe.value?.user_rating ?? recipe.value?.rating_avg ?? 0)
+        const status = error?.status ?? error?.statusCode ?? error?.response?.status
+        if (status === 429 && recipe.value) {
+            const retryAfterHeader = error?.response?.headers?.get?.('retry-after')
+                ?? error?.response?.headers?.['retry-after']
+            const retryAfterSeconds = Number(retryAfterHeader)
+            const cooldownSeconds = Number.isFinite(retryAfterSeconds) && retryAfterSeconds > 0
+                ? Math.ceil(retryAfterSeconds)
+                : 60
+            recipe.value.rating_available_at = new Date(
+                Date.now() + cooldownSeconds * 1000
+            ).toISOString()
+            updateRatingCooldown()
+        }
+        ratingMessage.value = status === 429
+            ? t('rating_rate_limit')
+            : t('rating_save_error')
+    } finally {
+        isRatingSaving.value = false
+    }
 }
 
 </script>
@@ -190,7 +270,17 @@ const setRating = async () => {
                     <article class="single-post wow fadeInUp">
                         <ClientOnly>
                             {{ $t('rate_recipe') }}
-                            <StarRating v-model:rating="rating" :increment="0.01" class="recipe-rating" @click="setRating" disabled/>
+                            <StarRating
+                                v-model:rating="rating"
+                                :increment="0.01"
+                                :read-only="isRatingReadOnly"
+                                class="recipe-rating"
+                                @update:rating="setRating"
+                            />
+                            <p v-if="ratingCooldownSeconds" role="status">
+                                {{ $t('rating_cooldown', { seconds: ratingCooldownSeconds }) }}
+                            </p>
+                            <p v-else-if="ratingMessage" role="status">{{ ratingMessage }}</p>
                         </ClientOnly>
                         <div class="post-thumb">
                             <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
@@ -222,7 +312,7 @@ const setRating = async () => {
                                         <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('views')}}: {{ recipe.views }}</a>
                                     </div>
                                     <div class="post-comments">
-                                        <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('rating')}}: {{ rating }}</a>
+                                        <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('rating')}}: {{ recipe.rating_avg }}</a>
                                     </div>
                                 </div>
                             </div>

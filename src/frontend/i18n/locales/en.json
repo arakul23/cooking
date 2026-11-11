@@ -28,6 +28,10 @@
     "loading": "Loading...",
     "rating": "Rating",
     "rate_recipe": "Rate this recipe",
+    "rating_saved": "Your rating has been saved.",
+    "rating_rate_limit": "You can update your rating once per minute.",
+    "rating_save_error": "Could not save your rating. Please try again.",
+    "rating_cooldown": "You can update your rating in {seconds}s.",
     "search_placeholder": "Search recipes and categories",
     "search_button": "Search",
     "search_categories": "Categories",
@@ -125,5 +129,8 @@
     "recipe_validation_calories_max": "Calories cannot exceed 10000.",
     "recipe_validation_photo_required": "Upload a recipe photo.",
     "recipe_validation_photo_size": "The file must be smaller than 2 MB.",
-    "recipe_validation_photo_type": "Only PNG or JPG images are allowed."
+    "recipe_validation_photo_type": "Only PNG or JPG images are allowed.",
+    "sort": "Sort",
+    "sort_by_alphabet": "By alphabet",
+    "sort_by_rating": "By rating"
 }

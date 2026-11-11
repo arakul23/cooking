@@ -2,6 +2,7 @@
 
 return [
     'translations' => [
+        'amount' => ['en' => 'amount', 'uk' => 'кількість'],
         'g' => ['en' => 'g', 'uk' => 'г'],
         'gram' => ['en' => 'gram', 'uk' => 'г'],
         'grams' => ['en' => 'grams', 'uk' => 'г'],

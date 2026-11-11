@@ -21,6 +21,14 @@ class RecipeResource extends JsonResource
         $translations = $this->translations;
         $locale = $request->input('locale', app()->getLocale());
         $translationValue = fn (string $key) => $translations->firstWhere('key', $key)?->value;
+        $userRating = null;
+        $ratingAvailableAt = null;
+
+        if ($request->user() && $this->resource->relationLoaded('recipe_ratings')) {
+            $userVote = $this->recipe_ratings->firstWhere('id', $request->user()->getAuthIdentifier());
+            $userRating = $userVote?->pivot->rating;
+            $ratingAvailableAt = $userVote?->pivot?->updated_at?->copy()->addMinute()->toIso8601String();
+        }
 
         return [
             'id' => $this->id,
@@ -32,6 +40,8 @@ class RecipeResource extends JsonResource
             'calories' => $this->calories,
             'views' => $this->views,
             'rating_avg' => $this->rating_avg,
+            'user_rating' => $userRating,
+            'rating_available_at' => $ratingAvailableAt,
             'created_at' => $this->created_at,
             'categories' => RecipeCategoryResource::collection($this->whenLoaded('categories')),
             'missing_products' => $this->when(
