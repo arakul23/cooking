@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { useAuth } from '@/app/composables/useAuth'
+import { DEFAULT_RECIPE_IMAGE } from '@/app/utils/imageFallbacks'
 import { defineAsyncComponent } from 'vue'
 
 const StarRating = defineAsyncComponent(() => import('vue-star-rating'))
 
 const route = useRoute()
 const config = useRuntimeConfig()
-const fallbackImage = 'https://placehold.co/960x640?text=Recipe'
+const fallbackImage = DEFAULT_RECIPE_IMAGE
 const { isAuthenticated } = useAuth()
 const api = useApi()
 const { locale, t } = useI18n()
 const isFavorite = ref(false)
+const isFavoriteSaving = ref(false)
 const favoriteMessage = ref('')
+const favoriteMessageIsError = ref(false)
 const rating = ref(0)
 const isRatingSaving = ref(false)
 const ratingMessage = ref('')
@@ -37,6 +40,7 @@ type RecipeItem = {
     categories: RecipeCategory[];
     views: number;
     rating_avg: number;
+    rating_count: number;
     user_rating: number | null;
     rating_available_at: string | null;
     products?: Array<{
@@ -90,7 +94,7 @@ const updateRatingCooldown = () => {
 }
 
 watch(recipe, (currentRecipe) => {
-    rating.value = Number(currentRecipe?.user_rating ?? currentRecipe?.rating_avg ?? 0)
+    rating.value = Number(currentRecipe?.rating_avg ?? 0)
     updateRatingCooldown()
 }, { immediate: true })
 
@@ -150,29 +154,69 @@ const toggleFavorite = async () => {
         return
     }
 
-    isFavorite.value = !isFavorite.value
-    favoriteMessage.value = isFavorite.value
-        ? 'Рецепт добавлен в избранное'
-        : 'Рецепт удален из избранного'
+    if (isFavoriteSaving.value || !recipeId.value) {
+        return
+    }
+
+    isFavoriteSaving.value = true
+    const shouldAddFavorite = !isFavorite.value
+
+    try {
+        await api<void>(
+            `${config.public.apiBase}/recipes/favourite/${encodeURIComponent(recipeId.value)}`,
+            { method: shouldAddFavorite ? 'POST' : 'DELETE' },
+        )
+
+        isFavorite.value = shouldAddFavorite
+        favoriteMessage.value = t(shouldAddFavorite
+            ? 'recipe_favourite_added'
+            : 'recipe_favourite_removed')
+        favoriteMessageIsError.value = false
+    } catch (error) {
+        console.error('Failed to update favorite:', error)
+        favoriteMessage.value = t('recipe_favourite_error')
+        favoriteMessageIsError.value = true
+    } finally {
+        isFavoriteSaving.value = false
+    }
 
     if (favoriteMessageTimer) {
         window.clearTimeout(favoriteMessageTimer)
     }
-
     favoriteMessageTimer = window.setTimeout(() => {
         favoriteMessage.value = ''
     }, 1800)
 }
 
+watch([recipeId, isAuthenticated], async ([id, authenticated]) => {
+    if (!import.meta.client) {
+        return
+    }
+
+    if (!authenticated || !id) {
+        isFavorite.value = false
+        return
+    }
+
+    try {
+        const favorites = await api<Array<{ id: number }>>(
+            `${config.public.apiBase}/recipes/favourite`,
+        )
+        isFavorite.value = favorites.some((favorite) => String(favorite.id) === id)
+    } catch (error) {
+        console.error('Failed to load favorite status:', error)
+    }
+}, { immediate: true })
+
 const setRating = async (selectedRating: number) => {
     if (!isAuthenticated.value) {
-        rating.value = Number(recipe.value?.user_rating ?? recipe.value?.rating_avg ?? 0)
+        rating.value = Number(recipe.value?.rating_avg ?? 0)
         await navigateTo('/login')
         return
     }
 
     if (isRatingSaving.value) {
-        rating.value = Number(recipe.value?.user_rating ?? recipe.value?.rating_avg ?? 0)
+        rating.value = Number(recipe.value?.rating_avg ?? 0)
         return
     }
 
@@ -182,6 +226,7 @@ const setRating = async (selectedRating: number) => {
     try {
         const response = await api<{
             rating_avg: number
+            rating_count: number
             user_rating: number
             rating_available_at: string
         }>(
@@ -196,14 +241,15 @@ const setRating = async (selectedRating: number) => {
 
         if (recipe.value) {
             recipe.value.rating_avg = response.rating_avg
+            recipe.value.rating_count = response.rating_count
             recipe.value.user_rating = response.user_rating
             recipe.value.rating_available_at = response.rating_available_at
         }
-        rating.value = selectedRating
+        rating.value = response.rating_avg
         ratingMessage.value = t('rating_saved')
         updateRatingCooldown()
     } catch (error: any) {
-        rating.value = Number(recipe.value?.user_rating ?? recipe.value?.rating_avg ?? 0)
+        rating.value = Number(recipe.value?.rating_avg ?? 0)
         const status = error?.status ?? error?.statusCode ?? error?.response?.status
         if (status === 429 && recipe.value) {
             const retryAfterHeader = error?.response?.headers?.get?.('retry-after')
@@ -233,7 +279,7 @@ const setRating = async (selectedRating: number) => {
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>{{ recipe?.title || 'Recipe' }}</h2>
+                        <h2>{{ recipe?.title || $t('recipe_page_title') }}</h2>
                     </div>
                 </div>
             </div>
@@ -244,15 +290,15 @@ const setRating = async (selectedRating: number) => {
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <nav aria-label="breadcrumb">
+                    <nav :aria-label="$t('breadcrumb_navigation')">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <NuxtLink to="/">
                                     <i class="fa fa-home" aria-hidden="true"></i>
-                                    Home
+                                    {{ $t('menu_home') }}
                                 </NuxtLink>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Recipe</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $t('recipe_page_title') }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -262,9 +308,9 @@ const setRating = async (selectedRating: number) => {
 
     <section class="blog_area section_padding_80">
         <div class="container">
-            <div v-if="!recipeId" class="text-center">Recipe id is missing</div>
+            <div v-if="!recipeId" class="text-center">{{ $t('recipe_id_missing') }}</div>
             <div v-else-if="pending" class="text-center">{{ $t('loading') }}</div>
-            <div v-else-if="error" class="text-center">Error loading recipe {{ error }}</div>
+            <div v-else-if="error" class="text-center">{{ $t('recipe_load_error') }}</div>
             <div v-else-if="recipe" class="row justify-content-center">
                 <div class="col-12 col-lg-10">
                     <article class="single-post wow fadeInUp">
@@ -286,16 +332,23 @@ const setRating = async (selectedRating: number) => {
                             <img :src="recipe.logo || fallbackImage" :alt="recipe.title">
                         </div>
                         <div class="post-content">
-                            <div v-if="favoriteMessage" class="favorite-message" role="status">
-                                {{ favoriteMessage }}
-                            </div>
+                            <Transition name="favorite-message">
+                                <div
+                                    v-if="favoriteMessage"
+                                    class="favorite-message"
+                                    :class="{ 'favorite-message-error': favoriteMessageIsError }"
+                                    role="status"
+                                >
+                                    {{ favoriteMessage }}
+                                </div>
+                            </Transition>
                             <div class="post-meta d-flex flex-wrap align-items-center">
                                 <div class="post-author-date-area d-flex flex-wrap align-items-center">
                                     <div class="post-author" v-if="recipeCategories.length > 0">
                                         <a>{{ recipeCategories.map((category) => category.name).join(', ') }}</a>
                                     </div>
                                     <div class="post-author" v-else>
-                                        <a>No category</a>
+                                        <a>{{ $t('recipe_no_category') }}</a>
                                     </div>
                                     <div class="post-date" v-if="formattedCreatedAt">
                                         <a>{{ formattedCreatedAt }}</a>
@@ -312,7 +365,7 @@ const setRating = async (selectedRating: number) => {
                                         <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('views')}}: {{ recipe.views }}</a>
                                     </div>
                                     <div class="post-comments">
-                                        <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('rating')}}: {{ recipe.rating_avg }}</a>
+                                        <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('rating')}}: {{ recipe.rating_avg }} ({{ $t('rating_votes', { count: recipe.rating_count }) }})</a>
                                     </div>
                                 </div>
                             </div>
@@ -330,27 +383,28 @@ const setRating = async (selectedRating: number) => {
                                         class="favorite-toggle"
                                         :class="{ active: isFavorite }"
                                         type="button"
+                                        :disabled="isFavoriteSaving"
                                         :aria-pressed="isFavorite"
-                                        :aria-label="isFavorite ? 'Убрать из избранного' : 'Добавить в избранное'"
+                                        :aria-label="$t(isFavorite ? 'recipe_favorite_remove' : 'recipe_favorite_add')"
                                         @click="toggleFavorite"
                                     >
                                         <span class="favorite-heart" aria-hidden="true">
                                             {{ isFavorite ? '♥' : '♡' }}
                                         </span>
-                                        <span>{{ isFavorite ? 'В избранном' : 'В избранное' }}</span>
+                                        <span>{{ $t(isFavorite ? 'recipe_favorite_remove' : 'recipe_favorite_add') }}</span>
                                     </button>
                                 </div>
                             </div>
                             <p>{{ recipe.description }}</p>
                             <div v-if="recipeProducts.length > 0" class="recipe-products">
-                                <h5 class="recipe-products-title">Products</h5>
+                                <h5 class="recipe-products-title">{{ $t('recipe_products') }}</h5>
                                 <ul class="recipe-products-list">
                                     <li
                                         v-for="(product, index) in recipeProducts"
                                         :key="product.id ?? `${product.name}-${index}`"
                                         class="recipe-products-item"
                                     >
-                                        <span class="product-name">{{ product.name || `Product ${index + 1}` }}</span>
+                                        <span class="product-name">{{ product.name || $t('recipe_product_number', { number: index + 1 }) }}</span>
                                         <span class="product-amount">{{ product.amount_unit }}</span>
                                     </li>
                                 </ul>
@@ -404,21 +458,23 @@ const setRating = async (selectedRating: number) => {
 }
 
 .favorite-toggle {
-    display: inline-flex;
-    align-items: center;
     justify-content: center;
     flex: 0 0 auto;
     gap: 8px;
+    border-radius: 4px;
+
+    cursor: pointer;
+    transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+    display: inline-flex;
+    align-items: center;
     min-height: 42px;
     padding: 9px 14px;
-    border: 1px solid #f5c6b6;
+    border: 1px solid #fc6c3f;
     border-radius: 4px;
-    background: #fff4ef;
     color: #fc6c3f;
-    cursor: pointer;
     font-size: 14px;
     font-weight: 700;
-    transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+    text-decoration: none;
 }
 
 .favorite-toggle:hover {
@@ -439,12 +495,29 @@ const setRating = async (selectedRating: number) => {
 .favorite-message {
     margin-bottom: 18px;
     padding: 12px 14px;
-    border: 1px solid #f5c6b6;
+    border: 1px solid #5cfd77;
     border-radius: 6px;
-    background: #fff4ef;
-    color: #b84b24;
+    background: #5cfd77;
+    color: black;
     font-size: 14px;
     font-weight: 600;
+}
+
+.favorite-message-error {
+    border-color: #dc3545;
+    background: #f8d7da;
+    color: #842029;
+}
+
+.favorite-message-enter-active,
+.favorite-message-leave-active {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.favorite-message-enter-from,
+.favorite-message-leave-to {
+    opacity: 0;
+    transform: translateY(-8px);
 }
 
 .recipe-products {

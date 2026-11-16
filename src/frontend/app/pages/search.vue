@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { DEFAULT_CATEGORY_IMAGE, DEFAULT_RECIPE_IMAGE } from '@/app/utils/imageFallbacks'
+
 type CategoryItem = {
     id: number
     name: string
@@ -101,12 +103,12 @@ const hasResults = computed(() =>
 
     <div class="breadcumb-nav">
         <div class="container">
-            <nav aria-label="breadcrumb">
+            <nav :aria-label="$t('breadcrumb_navigation')">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <NuxtLink to="/">
                             <i class="fa fa-home" aria-hidden="true"></i>
-                            Home
+                            {{ $t('menu_home') }}
                         </NuxtLink>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $t('search_results') }}</li>
@@ -136,7 +138,7 @@ const hasResults = computed(() =>
                         <NuxtLink :to="{ path: '/category', query: { id: category.id } }" class="search-result-link">
                             <article class="single_catagory search-category-card">
                                 <img
-                                    :src="category.image || 'https://placehold.co/640x420?text=Category'"
+                                    :src="category.image || DEFAULT_CATEGORY_IMAGE"
                                     :alt="category.name"
                                 >
                                 <div class="catagory-title">
@@ -161,7 +163,7 @@ const hasResults = computed(() =>
                             <article class="single-post search-recipe-card">
                                 <div class="post-thumb">
                                     <img
-                                        :src="recipe.logo || 'https://placehold.co/640x420?text=Recipe'"
+                                        :src="recipe.logo || DEFAULT_RECIPE_IMAGE"
                                         :alt="recipe.title"
                                     >
                                 </div>

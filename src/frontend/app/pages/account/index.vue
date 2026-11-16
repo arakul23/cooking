@@ -1,9 +1,9 @@
 <template>
-    <AccountShell title="Главная">
+    <AccountShell :title="$t('account_home_title')">
         <div class="account-section">
-            <h2>Главная</h2>
+            <h2>{{ $t('account_home_title') }}</h2>
             <p>
-                Здесь будет основная информация личного кабинета.
+                {{ $t('account_home_description') }}
             </p>
         </div>
     </AccountShell>

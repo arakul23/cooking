@@ -175,6 +175,7 @@ class RecipeController extends Controller
 
         return response()->json([
             'rating_avg' => $ratingAverage,
+            'rating_count' => $recipe->ratingByUsers()->count(),
             'user_rating' => $rating,
             'rating_available_at' => now()->addMinute()->toIso8601String(),
         ]);

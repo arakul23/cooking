@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { DEFAULT_RECIPE_IMAGE } from '@/app/utils/imageFallbacks'
+
 const route = useRoute()
 const config = useRuntimeConfig()
 const { locale } = useI18n()
-const fallbackImage = 'https://placehold.co/640x420?text=Recipe'
+const fallbackImage = DEFAULT_RECIPE_IMAGE
 
 const categoryId = computed(() => {
     const id = route.query.id
@@ -62,15 +64,15 @@ const changeSortMode = (event: Event) => {
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <nav aria-label="breadcrumb">
+                    <nav :aria-label="$t('breadcrumb_navigation')">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <NuxtLink to="/">
                                     <i class="fa fa-home" aria-hidden="true"></i>
-                                    Home
+                                    {{ $t('menu_home') }}
                                 </NuxtLink>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Categories</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $t('menu_categories') }}</li>
                             <li class="breadcrumb-item active" aria-current="page">{{ category?.name }}</li>
                         </ol>
                     </nav>
@@ -81,15 +83,15 @@ const changeSortMode = (event: Event) => {
 
     <section class="categories_area">
         <div class="container">
-            <div v-if="pending" class="text-center">Loading category..</div>
-            <div v-else-if="error" class="text-center">Failed to load category</div>
+            <div v-if="pending" class="text-center">{{ $t('category_loading') }}</div>
+            <div v-else-if="error" class="text-center">{{ $t('category_load_error') }}</div>
             <template v-else-if="recipes.length">
                 <div class="category-recipes-sort">
                     <label for="category-recipes-sort">{{$t('sort')}}</label>
                     <select
                         id="category-recipes-sort"
                         :value="sortMode"
-                        aria-label="Сортировка рецептов"
+                        :aria-label="$t('category_sort_label')"
                         @change="changeSortMode"
                     >
                         <option value="rating">{{ $t('sort_by_rating') }}</option>
@@ -111,7 +113,7 @@ const changeSortMode = (event: Event) => {
                     </div>
                 </div>
             </template>
-            <div v-else class="text-center">No recipes in this category yet</div>
+            <div v-else class="text-center">{{ $t('category_recipes_empty') }}</div>
         </div>
     </section>
 </template>

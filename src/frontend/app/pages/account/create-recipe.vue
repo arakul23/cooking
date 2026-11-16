@@ -77,7 +77,7 @@ const create = async (recipe) => {
 
     <div class="breadcumb-nav">
         <div class="container">
-            <nav aria-label="breadcrumb">
+            <nav :aria-label="$t('breadcrumb_navigation')">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <NuxtLink to="/">

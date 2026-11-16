@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { DEFAULT_CATEGORY_IMAGE } from '@/app/utils/imageFallbacks'
+
 const config = useRuntimeConfig()
-const fallbackImage = 'https://placehold.co/640x420?text=Category'
+const fallbackImage = DEFAULT_CATEGORY_IMAGE
 
 type CategoryItem = {
     id: number;
@@ -28,7 +30,7 @@ const getRecipeCount = (category: CategoryItem) => {
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>Categories</h2>
+                        <h2>{{ $t('menu_categories') }}</h2>
                     </div>
                 </div>
             </div>
@@ -39,15 +41,15 @@ const getRecipeCount = (category: CategoryItem) => {
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <nav aria-label="breadcrumb">
+                    <nav :aria-label="$t('breadcrumb_navigation')">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <NuxtLink to="/">
                                     <i class="fa fa-home" aria-hidden="true"></i>
-                                    Home
+                                    {{ $t('menu_home') }}
                                 </NuxtLink>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Categories</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $t('menu_categories') }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -57,9 +59,9 @@ const getRecipeCount = (category: CategoryItem) => {
 
     <section class="categories_area">
         <div class="container">
-            <div v-if="pending" class="text-center">Loading categories...</div>
-            <div v-else-if="error" class="text-center">Failed to load categories</div>
-            <div v-else-if="categories.length === 0" class="text-center">No categories yet</div>
+            <div v-if="pending" class="text-center">{{ $t('categories_loading') }}</div>
+            <div v-else-if="error" class="text-center">{{ $t('categories_load_error') }}</div>
+            <div v-else-if="categories.length === 0" class="text-center">{{ $t('categories_empty') }}</div>
             <div v-else class="row">
                 <div
                     v-for="category in categories"
@@ -74,7 +76,7 @@ const getRecipeCount = (category: CategoryItem) => {
                                     <h5>{{ category.name }}</h5>
                                 </a>
                             </div>
-                            <p class="category-recipes">Recipes: {{ getRecipeCount(category) }}</p>
+                            <p class="category-recipes">{{ $t('category_recipes_count', { count: getRecipeCount(category) }) }}</p>
                         </article>
                     </NuxtLink>
                 </div>

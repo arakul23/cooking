@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { DEFAULT_RECIPE_IMAGE } from '@/app/utils/imageFallbacks'
+
 const config = useRuntimeConfig();
 
 type RecipeItem = {
     id: number;
     title: string;
     description: string;
-    logo: string;
+    logo: string | null;
     created_at: string;
     views: number
 }
@@ -37,12 +39,12 @@ const formatCreatedAt = (value: string) => {
             <h6>{{ $t('popular_posts') }}</h6>
         </div>
         <div v-for="(recipe, index) in recipes.data" class="single-populer-post d-flex">
-            <img :src="recipe.logo" alt=''>
+            <img :src="recipe.logo || DEFAULT_RECIPE_IMAGE" :alt="recipe.title">
             <div class="post-content">
                 <NuxtLink :to="{ path: '/recipe', query: { id: recipe.id } }">
                     <h6>{{ recipe.title }}</h6>
                 </NuxtLink>
-                <p>Views: {{recipe.views}}</p>
+                <p>{{ $t('views') }}: {{ recipe.views }}</p>
                 <p>{{formatCreatedAt(recipe.created_at)}}</p>
             </div>
         </div>

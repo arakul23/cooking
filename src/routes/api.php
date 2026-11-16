@@ -22,18 +22,19 @@ Route::prefix('/recipes')->controller(RecipeController::class)->group(function (
     Route::get('/random', 'getRandomRecipe');
     Route::get('/fridge-search/options', 'fridgeSearchOptions');
     Route::get('/fridge-search/products', 'fridgeSearchProducts');
-    Route::post('/fridge-search', 'fridgeSearch');
     Route::get('/{recipe}/pdf', RecipePdfController::class)->whereNumber('recipe');
     Route::get('/{recipe}', 'show')->whereNumber('recipe');
     Route::post('/{recipe}/rating', 'setRating')
         ->middleware(['auth:sanctum,api', 'throttle:recipe-rating'])
         ->whereNumber('recipe');
     Route::post('/create', 'create');
+    Route::post('/fridge-search', 'fridgeSearch');
 });
 
 Route::middleware('auth:api,sanctum')->prefix('/recipes/favourite')->controller(UserFavoritesController::class)->group(function () {
     Route::get('/', 'index');
     Route::post('/{recipe}', 'addFavouriteRecipeToUser')->whereNumber('recipe');
+    Route::delete('/{recipe}', 'removeFavouriteRecipeFromUser')->whereNumber('recipe');
 });
 
 Route::prefix('/categories')->controller(RecipeCategoryController::class)->group(function () {

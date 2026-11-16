@@ -4,7 +4,7 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>Login</h2>
+                        <h2>{{ $t('menu_login') }}</h2>
                     </div>
                 </div>
             </div>
@@ -15,15 +15,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <nav aria-label="breadcrumb">
+                    <nav :aria-label="$t('breadcrumb_navigation')">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <NuxtLink to="/">
                                     <i class="fa fa-home" aria-hidden="true"></i>
-                                    Home
+                                    {{ $t('menu_home') }}
                                 </NuxtLink>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Login</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $t('menu_login') }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -36,7 +36,7 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-8">
                     <div class="contact-form wow fadeInUpBig">
-                        <h2 class="contact-form-title mb-30">Welcome Back</h2>
+                        <h2 class="contact-form-title mb-30">{{ $t('auth_welcome_back') }}</h2>
 
                         <div v-if="errorMessage" class="status-message status-error" role="alert">
                             {{ errorMessage }}
@@ -49,7 +49,7 @@
                                     v-model="form.email"
                                     type="email"
                                     class="form-control"
-                                    placeholder="Email"
+                                    :placeholder="$t('auth_email')"
                                     autocomplete="email"
                                     required
                                 >
@@ -62,7 +62,7 @@
                                     v-model="form.password"
                                     type="password"
                                     class="form-control"
-                                    placeholder="Password"
+                                    :placeholder="$t('auth_password')"
                                     autocomplete="current-password"
                                     required
                                 >
@@ -78,16 +78,16 @@
                                         v-model="form.remember"
                                         type="checkbox"
                                     >
-                                    Remember me
+                                    {{ $t('auth_remember_me') }}
                                 </label>
 
                                 <NuxtLink to="/register" class="auth-link">
-                                    Create account
+                                    {{ $t('auth_create_account') }}
                                 </NuxtLink>
                             </div>
 
                             <button type="submit" class="btn contact-btn" :disabled="isSubmitting">
-                                {{ isSubmitting ? 'Signing in...' : 'Login' }}
+                                {{ isSubmitting ? $t('auth_signing_in') : $t('menu_login') }}
                             </button>
                         </form>
                         <div>
@@ -102,7 +102,7 @@
                                     <path fill="#EA4335"
                                           d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
                                 </svg>
-                                <span>Continue with Google</span>
+                                <span>{{ $t('auth_continue_google') }}</span>
                             </button>
                         </div>
 
@@ -115,6 +115,8 @@
 
 <script setup lang="ts">
 import {useAuth} from '~/composables/useAuth'
+
+const { t } = useI18n()
 
 definePageMeta({
     middleware: 'guest',
@@ -170,8 +172,8 @@ const handleLogin = async () => {
         console.error('Login failed:', error)
         validationErrors.value = error?.data?.errors ?? {}
         const responseStatus = error?.status ?? error?.statusCode ?? error?.response?.status
-        const status = responseStatus ? ` (status ${responseStatus})` : ''
-        errorMessage.value = error?.data?.message ?? `Unable to login right now${status}.`
+        const status = responseStatus ? t('auth_status_suffix', { status: responseStatus }) : ''
+        errorMessage.value = error?.data?.message ?? t('auth_login_error', { status })
     } finally {
         isSubmitting.value = false
     }

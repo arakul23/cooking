@@ -20,5 +20,5 @@ onMounted(async () => {
 </script>
 
 <template>
-    <p>Signing you in…</p>
+    <p>{{ $t('google_signing_in') }}</p>
 </template>

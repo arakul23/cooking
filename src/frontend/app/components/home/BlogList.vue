@@ -4,7 +4,7 @@
             <div v-if="pending" class="recipes-loading">
                 <div class="yummy-load"></div>
             </div>
-            <div v-else-if="error">Failed to load recipes</div>
+            <div v-else-if="error">{{ $t('blog_recipes_load_error') }}</div>
             <div v-else-if="recipes.length === 0">{{ $t('no_recipes_yet') }}</div>
             <div v-else class="row">
                 <div
@@ -28,8 +28,10 @@
 </template>
 
 <script setup lang="ts">
+import { DEFAULT_RECIPE_IMAGE } from '@/app/utils/imageFallbacks'
+
 const config = useRuntimeConfig()
-const fallbackImage = 'https://placehold.co/960x640?text=Recipe'
+const fallbackImage = DEFAULT_RECIPE_IMAGE
 
 type RecipeItem = {
     id: number

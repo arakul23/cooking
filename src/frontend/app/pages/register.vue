@@ -4,7 +4,7 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>Create Account</h2>
+                        <h2>{{ $t('menu_register') }}</h2>
                     </div>
                 </div>
             </div>
@@ -15,15 +15,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <nav aria-label="breadcrumb">
+                    <nav :aria-label="$t('breadcrumb_navigation')">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <NuxtLink to="/">
                                     <i class="fa fa-home" aria-hidden="true"></i>
-                                    Home
+                                    {{ $t('menu_home') }}
                                 </NuxtLink>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Register</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $t('menu_register') }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -36,7 +36,7 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-8">
                     <div class="contact-form wow fadeInUpBig">
-                        <h2 class="contact-form-title mb-30">Join Yummy Blog</h2>
+                        <h2 class="contact-form-title mb-30">{{ $t('auth_register_heading') }}</h2>
 
                         <div v-if="successMessage" class="status-message status-success" role="status" aria-live="polite">
                             {{ successMessage }}
@@ -52,7 +52,7 @@
                                     v-model="form.name"
                                     type="text"
                                     class="form-control"
-                                    placeholder="Name"
+                                    :placeholder="$t('auth_name')"
                                     autocomplete="name"
                                     required
                                 >
@@ -65,7 +65,7 @@
                                     v-model="form.email"
                                     type="email"
                                     class="form-control"
-                                    placeholder="Email"
+                                    :placeholder="$t('auth_email')"
                                     autocomplete="email"
                                     required
                                 >
@@ -78,7 +78,7 @@
                                     v-model="form.password"
                                     type="password"
                                     class="form-control"
-                                    placeholder="Password"
+                                    :placeholder="$t('auth_password')"
                                     autocomplete="new-password"
                                     required
                                 >
@@ -91,14 +91,14 @@
                                     v-model="form.password_confirmation"
                                     type="password"
                                     class="form-control"
-                                    placeholder="Confirm password"
+                                    :placeholder="$t('auth_confirm_password')"
                                     autocomplete="new-password"
                                     required
                                 >
                             </div>
 
                             <button type="submit" class="btn contact-btn" :disabled="isSubmitting">
-                                {{ isSubmitting ? 'Creating account...' : 'Create account' }}
+                                {{ isSubmitting ? $t('auth_creating_account') : $t('auth_create_account') }}
                             </button>
                         </form>
                     </div>
@@ -110,6 +110,8 @@
 
 <script setup lang="ts">
 import { useAuth } from '@/app/composables/useAuth'
+
+const { t } = useI18n()
 
 definePageMeta({
     middleware: 'guest',
@@ -153,7 +155,7 @@ const handleRegister = async () => {
             password_confirmation: form.password_confirmation,
         })
 
-        successMessage.value = 'Registration completed successfully.'
+        successMessage.value = t('auth_registration_success')
         form.name = ''
         form.email = ''
         form.password = ''
@@ -163,8 +165,8 @@ const handleRegister = async () => {
         console.error('Register failed:', error)
         validationErrors.value = error?.data?.errors ?? {}
         const responseStatus = error?.status ?? error?.statusCode ?? error?.response?.status
-        const status = responseStatus ? ` (status ${responseStatus})` : ''
-        errorMessage.value = error?.data?.message ?? `Unable to register right now${status}.`
+        const status = responseStatus ? t('auth_status_suffix', { status: responseStatus }) : ''
+        errorMessage.value = error?.data?.message ?? t('auth_register_error', { status })
     } finally {
         isSubmitting.value = false
     }

@@ -8,7 +8,7 @@
                         <div class="col-md-6 col-12">
                             <div class="logo_area text-md-left text-center">
                                 <NuxtLink to="/" class="yummy-logo">
-                                    <img alt="logo" src="@assets/images/logo_ua.svg" />
+                                    <img alt="logo" :src="logo" />
                                 </NuxtLink>
                             </div>
                         </div>
@@ -66,10 +66,10 @@
                             type="button"
                             aria-controls="yummyfood-nav"
                             :aria-expanded="mobileMenuOpen"
-                            aria-label="Toggle navigation"
+                            :aria-label="$t('nav_toggle')"
                             @click="mobileMenuOpen = !mobileMenuOpen"
                         >
-                            <i class="fa fa-bars" aria-hidden="true"></i> Menu
+                            <i class="fa fa-bars" aria-hidden="true"></i> {{ $t('nav_menu') }}
                         </button>
                         <!-- Menu Area Start -->
                         <div
@@ -114,10 +114,13 @@
 </template>
 
 <script setup lang="ts">
+import logoEn from '@assets/images/logo_en.svg'
+import logoUk from '@assets/images/logo_ua.svg'
 import { useAuth } from '../../composables/useAuth'
 
 const route = useRoute();
 const { locale, setLocale } = useI18n();
+const logo = computed(() => locale.value === 'en' ? logoEn : logoUk)
 const { isAuthenticated, logout } = useAuth()
 const searchText = ref(Array.isArray(route.query.q) ? route.query.q[0] ?? '' : route.query.q ?? '')
 const searchCategories = ref(route.query.categories !== '0')

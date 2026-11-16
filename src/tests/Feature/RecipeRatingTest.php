@@ -21,12 +21,14 @@ class RecipeRatingTest extends TestCase
         $this->actingAs($firstUser, 'api');
         $this->postJson("/api/recipes/{$recipe->id}/rating", ['rating' => 4.5])
             ->assertOk()
-            ->assertJsonPath('rating_avg', 4.5);
+            ->assertJsonPath('rating_avg', 4.5)
+            ->assertJsonPath('rating_count', 1);
 
         $this->actingAs($secondUser, 'api');
         $this->postJson("/api/recipes/{$recipe->id}/rating", ['rating' => 2.5])
             ->assertOk()
             ->assertJsonPath('rating_avg', 3.5)
+            ->assertJsonPath('rating_count', 2)
             ->assertJsonPath('user_rating', 2.5)
             ->assertJsonStructure(['rating_available_at']);
 
@@ -44,6 +46,7 @@ class RecipeRatingTest extends TestCase
 
         $recipeResponse = $this->getJson("/api/recipes/{$recipe->id}")
             ->assertOk()
+        ->assertJsonPath('data.rating_count', 2)
             ->assertJsonPath('data.user_rating', 2.5)
             ->assertJsonStructure(['data' => ['rating_available_at']]);
         $this->assertNotNull($recipeResponse->json('data.rating_available_at'));

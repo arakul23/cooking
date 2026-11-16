@@ -15,12 +15,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <nav aria-label="breadcrumb">
+                    <nav :aria-label="$t('breadcrumb_navigation')">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <NuxtLink to="/">
                                     <i class="fa fa-home" aria-hidden="true"></i>
-                                    Home
+                                    {{ $t('menu_home') }}
                                 </NuxtLink>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
@@ -37,31 +37,31 @@
                 <div class="col-12 col-lg-4">
                     <aside class="account-sidebar">
                         <div class="account-user">
-                            <h3>{{ user?.name || 'User' }}</h3>
+                            <h3>{{ user?.name || $t('account_user') }}</h3>
                             <p>{{ user?.email }}</p>
                         </div>
 
-                        <nav class="account-menu" aria-label="Account navigation">
+                        <nav class="account-menu" :aria-label="$t('account_navigation')">
                             <NuxtLink
                                 to="/account"
                                 class="account-menu-link"
                                 :class="{ active: route.path === '/account' }"
                             >
-                                Главная
+                                {{ $t('account_home_title') }}
                             </NuxtLink>
                             <NuxtLink
                                 to="/account/favorites"
                                 class="account-menu-link"
                                 :class="{ active: route.path === '/account/favorites' }"
                             >
-                                Любимые рецепты
+                                {{ $t('account_favorites_title') }}
                             </NuxtLink>
                             <NuxtLink
                                 to="/account/create-recipe"
                                 class="account-menu-link"
                                 :class="{ active: route.path === '/account/create-recipe' }"
                             >
-                                Добавить рецепт
+                                {{ $t('create_recipe_title') }}
                             </NuxtLink>
                         </nav>
                     </aside>

@@ -10,11 +10,11 @@
             <!-- Overlay Text -->
             <div class="project_title">
                 <div class="post-date-commnents d-flex">
-                    <a href="#">May 19, 2017</a>
-                    <a href="#">5 Comment</a>
+                    <a href="#">{{ $t('home_sample_date') }}</a>
+                    <a href="#">{{ $t('home_sample_comments', { count: 5 }) }}</a>
                 </div>
                 <a href="#">
-                    <h5>“I’ve Come and I’m Gone”: A Tribute to Istanbul’s Street</h5>
+                    <h5>{{ $t('home_sample_title') }}</h5>
                 </a>
             </div>
         </div>
@@ -26,11 +26,11 @@
             <!-- Overlay Text -->
             <div class="project_title">
                 <div class="post-date-commnents d-flex">
-                    <a href="#">May 19, 2017</a>
-                    <a href="#">5 Comment</a>
+                    <a href="#">{{ $t('home_sample_date') }}</a>
+                    <a href="#">{{ $t('home_sample_comments', { count: 5 }) }}</a>
                 </div>
                 <a href="#">
-                    <h5>“I’ve Come and I’m Gone”: A Tribute to Istanbul’s Street</h5>
+                    <h5>{{ $t('home_sample_title') }}</h5>
                 </a>
             </div>
         </div>
@@ -42,11 +42,11 @@
             <!-- Overlay Text -->
             <div class="project_title">
                 <div class="post-date-commnents d-flex">
-                    <a href="#">May 19, 2017</a>
-                    <a href="#">5 Comment</a>
+                    <a href="#">{{ $t('home_sample_date') }}</a>
+                    <a href="#">{{ $t('home_sample_comments', { count: 5 }) }}</a>
                 </div>
                 <a href="#">
-                    <h5>“I’ve Come and I’m Gone”: A Tribute to Istanbul’s Street</h5>
+                    <h5>{{ $t('home_sample_title') }}</h5>
                 </a>
             </div>
         </div>
@@ -58,11 +58,11 @@
             <!-- Overlay Text -->
             <div class="project_title">
                 <div class="post-date-commnents d-flex">
-                    <a href="#">May 19, 2017</a>
-                    <a href="#">5 Comment</a>
+                    <a href="#">{{ $t('home_sample_date') }}</a>
+                    <a href="#">{{ $t('home_sample_comments', { count: 5 }) }}</a>
                 </div>
                 <a href="#">
-                    <h5>“I’ve Come and I’m Gone”: A Tribute to Istanbul’s Street</h5>
+                    <h5>{{ $t('home_sample_title') }}</h5>
                 </a>
             </div>
         </div>
@@ -116,11 +116,11 @@
                                         <div class="post-author-date-area d-flex">
                                             <!-- Post Author -->
                                             <div class="post-author">
-                                                <a href="#">By Marian</a>
+                                                <a href="#">{{ $t('home_sample_author', { name: 'Marian' }) }}</a>
                                             </div>
                                             <!-- Post Date -->
                                             <div class="post-date">
-                                                <a href="#">May 19, 2017</a>
+                                                <a href="#">{{ $t('home_sample_date') }}</a>
                                             </div>
                                         </div>
                                         <!--                                        &lt;!&ndash; Post Comment & Share Area &ndash;&gt;
@@ -140,10 +140,9 @@
                                                                                 </div>-->
                                     </div>
                                     <a href="#">
-                                        <h4 class="post-headline">The 10 Best Bars By The Seaside In Blackpool, UK</h4>
+                                        <h4 class="post-headline">{{ $t('recipe_title_1') }}</h4>
                                     </a>
-                                    <p>Tiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                        veniam, quis nostrud exercitation</p>
+                                    <p>{{ $t('home_sample_excerpt') }}</p>
                                     <a href="#" class="read-more">{{ $t('continue_reading') }}</a>
                                 </div>
                             </div>
@@ -162,11 +161,11 @@
                                         <div class="post-author-date-area d-flex">
                                             <!-- Post Author -->
                                             <div class="post-author">
-                                                <a href="#">By Marian</a>
+                                                <a href="#">{{ $t('home_sample_author', { name: 'Marian' }) }}</a>
                                             </div>
                                             <!-- Post Date -->
                                             <div class="post-date">
-                                                <a href="#">May 19, 2017</a>
+                                                <a href="#">{{ $t('home_sample_date') }}</a>
                                             </div>
                                         </div>
                                         <!-- Post Comment & Share Area -->
@@ -186,10 +185,9 @@
                                         </div>
                                     </div>
                                     <a href="#">
-                                        <h4 class="post-headline">How To Get a Narcissist to Feel Empathy</h4>
+                                        <h4 class="post-headline">{{ $t('recipe_title_2') }}</h4>
                                     </a>
-                                    <p>Tiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                        veniam, quis nostrud exercitation</p>
+                                    <p>{{ $t('home_sample_excerpt') }}</p>
                                     <a href="#" class="read-more">{{ $t('continue_reading') }}</a>
                                 </div>
                             </div>
@@ -208,11 +206,11 @@
                                         <div class="post-author-date-area d-flex">
                                             <!-- Post Author -->
                                             <div class="post-author">
-                                                <a href="#">By Marian</a>
+                                                <a href="#">{{ $t('home_sample_author', { name: 'Marian' }) }}</a>
                                             </div>
                                             <!-- Post Date -->
                                             <div class="post-date">
-                                                <a href="#">May 19, 2017</a>
+                                                <a href="#">{{ $t('home_sample_date') }}</a>
                                             </div>
                                         </div>
                                         <!-- Post Comment & Share Area -->
@@ -232,11 +230,9 @@
                                         </div>
                                     </div>
                                     <a href="#">
-                                        <h4 class="post-headline">Bristol's 10 Amazing Weekend Brunches And Late
-                                            Breakfasts</h4>
+                                        <h4 class="post-headline">{{ $t('recipe_title_3') }}</h4>
                                     </a>
-                                    <p>Tiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                        veniam, quis nostrud exercitation</p>
+                                    <p>{{ $t('home_sample_excerpt') }}</p>
                                     <a href="#" class="read-more">{{ $t('continue_reading') }}</a>
                                 </div>
                             </div>
@@ -255,11 +251,11 @@
                                         <div class="post-author-date-area d-flex">
                                             <!-- Post Author -->
                                             <div class="post-author">
-                                                <a href="#">By Marian</a>
+                                                <a href="#">{{ $t('home_sample_author', { name: 'Marian' }) }}</a>
                                             </div>
                                             <!-- Post Date -->
                                             <div class="post-date">
-                                                <a href="#">May 19, 2017</a>
+                                                <a href="#">{{ $t('home_sample_date') }}</a>
                                             </div>
                                         </div>
                                         <!-- Post Comment & Share Area -->
@@ -282,8 +278,7 @@
                                         <h4 class="post-headline">10 Of The Best Places To Eat In Liverpool,
                                             England</h4>
                                     </a>
-                                    <p>Tiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                        veniam, quis nostrud exercitation</p>
+                                    <p>{{ $t('home_sample_excerpt') }}</p>
                                     <a href="#" class="read-more">{{ $t('continue_reading') }}</a>
                                 </div>
                             </div>
@@ -315,7 +310,7 @@
                 <div class="yummy-table">
                     <div class="yummy-table-cell">
                         <div class="follow-me text-center">
-                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> {{ $t('home_follow_me') }}</a>
                         </div>
                     </div>
                 </div>
@@ -331,7 +326,7 @@
                 <div class="yummy-table">
                     <div class="yummy-table-cell">
                         <div class="follow-me text-center">
-                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> {{ $t('home_follow_me') }}</a>
                         </div>
                     </div>
                 </div>
@@ -347,7 +342,7 @@
                 <div class="yummy-table">
                     <div class="yummy-table-cell">
                         <div class="follow-me text-center">
-                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> {{ $t('home_follow_me') }}</a>
                         </div>
                     </div>
                 </div>
@@ -363,7 +358,7 @@
                 <div class="yummy-table">
                     <div class="yummy-table-cell">
                         <div class="follow-me text-center">
-                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> {{ $t('home_follow_me') }}</a>
                         </div>
                     </div>
                 </div>
@@ -379,7 +374,7 @@
                 <div class="yummy-table">
                     <div class="yummy-table-cell">
                         <div class="follow-me text-center">
-                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> {{ $t('home_follow_me') }}</a>
                         </div>
                     </div>
                 </div>
@@ -395,7 +390,7 @@
                 <div class="yummy-table">
                     <div class="yummy-table-cell">
                         <div class="follow-me text-center">
-                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> {{ $t('home_follow_me') }}</a>
                         </div>
                     </div>
                 </div>
@@ -411,7 +406,7 @@
                 <div class="yummy-table">
                     <div class="yummy-table-cell">
                         <div class="follow-me text-center">
-                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> {{ $t('home_follow_me') }}</a>
                         </div>
                     </div>
                 </div>
@@ -427,7 +422,7 @@
                 <div class="yummy-table">
                     <div class="yummy-table-cell">
                         <div class="follow-me text-center">
-                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Follow me</a>
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> {{ $t('home_follow_me') }}</a>
                         </div>
                     </div>
                 </div>
@@ -473,8 +468,10 @@
 </template>
 
 <script setup lang="ts">
+import { DEFAULT_CATEGORY_IMAGE } from '@/app/utils/imageFallbacks'
+
 const config = useRuntimeConfig()
-const fallbackImage = 'https://placehold.co/640x420?text=Category'
+const fallbackImage = DEFAULT_CATEGORY_IMAGE
 
 type CategoryItem = {
     id: number

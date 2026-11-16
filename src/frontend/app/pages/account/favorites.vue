@@ -1,20 +1,21 @@
 <template>
-    <AccountShell title="Любимые рецепты">
+    <AccountShell :title="$t('account_favorites_title')">
         <div class="favorites-header">
             <div>
-                <h2>Любимые рецепты</h2>
-                <p>Сохраняйте рецепты, к которым хочется вернуться позже.</p>
+                <h2>{{ $t('account_favorites_title') }}</h2>
+                <p>{{ $t('account_favorites_description') }}</p>
             </div>
-            <span class="favorites-count">{{ favoriteRecipes.length }} рецепта</span>
+            <span class="favorites-count">{{ $t('account_favorites_count', { count: favoriteRecipes.length }) }}</span>
         </div>
+        <p v-if="favoriteError" class="favorites-error" role="alert">{{ favoriteError }}</p>
 
         <div v-if="favoriteRecipes.length === 0" class="favorites-empty">
             <div class="favorites-empty-icon">
                 <i class="fa fa-heart-o" aria-hidden="true"></i>
             </div>
-            <h3>Пока ничего нет</h3>
-            <p>Добавьте рецепты в любимые, и они появятся здесь.</p>
-            <NuxtLink to="/categories" class="btn contact-btn">Смотреть рецепты</NuxtLink>
+            <h3>{{ $t('account_favorites_empty_title') }}</h3>
+            <p>{{ $t('account_favorites_empty_description') }}</p>
+            <NuxtLink to="/categories" class="btn contact-btn">{{ $t('account_browse_recipes') }}</NuxtLink>
         </div>
 
         <div v-else class="favorites-grid">
@@ -24,16 +25,15 @@
                 class="favorite-card"
             >
                 <NuxtLink :to="{ path: '/recipe', query: { id: recipe.id } }" class="favorite-card-image">
-                    <img :src="recipe.logo" :alt="recipe.title">
-                    <span class="favorite-badge">
-                        <i class="fa fa-heart" aria-hidden="true"></i>
-                    </span>
+                    <img :src="recipe.logo || DEFAULT_RECIPE_IMAGE" :alt="recipe.title">
                 </NuxtLink>
 
                 <div class="favorite-card-body">
                     <div class="favorite-card-meta">
-                        <span>{{ recipe.category }}</span>
-                        <span>{{ recipe.cookingTime }}</span>
+                        <span>{{ recipe.categories.map((category) => category.name).join(', ') }}</span>
+                        <span v-if="recipe.total_time_minutes">
+                            {{ recipe.total_time_minutes }} {{ $t('minutes_short') }}
+                        </span>
                     </div>
 
                     <NuxtLink :to="{ path: '/recipe', query: { id: recipe.id } }" class="favorite-card-title">
@@ -45,15 +45,17 @@
                     <div class="favorite-card-footer">
                         <span class="favorite-rating">
                             <i class="fa fa-star" aria-hidden="true"></i>
-                            {{ recipe.rating }}
+                            {{ recipe.rating_avg ?? 0 }}
                         </span>
 
                         <div class="favorite-actions">
-                            <NuxtLink :to="{ path: '/recipe', query: { id: recipe.id } }" class="favorite-action">
-                                Открыть
-                            </NuxtLink>
-                            <button class="favorite-action favorite-action-muted" type="button">
-                                Убрать
+                            <button
+                                class="favorite-action favorite-action-muted"
+                                type="button"
+                                :disabled="removingFavoriteId !== null"
+                                @click="removeFavorite(recipe.id)"
+                            >
+                                {{ removingFavoriteId === recipe.id ? $t('account_remove_progress') : $t('recipe_favourite_remove') }}
                             </button>
                         </div>
                     </div>
@@ -65,11 +67,15 @@
 
 <script setup lang="ts">
 import AccountShell from '@/app/components/account/AccountShell.vue'
+import { DEFAULT_RECIPE_IMAGE } from '@/app/utils/imageFallbacks'
 import { useApi } from '../../composables/useApi'
 
 const config = useRuntimeConfig()
 const api = useApi()
+const { t } = useI18n()
 const favoriteRecipes = ref<FavoriteRecipe[]>([])
+const removingFavoriteId = ref<number | null>(null)
+const favoriteError = ref('')
 
 definePageMeta({
     middleware: 'auth',
@@ -79,10 +85,31 @@ type FavoriteRecipe = {
     id: number
     title: string
     description: string
-    logo: string
-    category: string
-    cookingTime: string
-    rating: string
+    logo: string | null
+    categories: Array<{ id: number; name: string }>
+    total_time_minutes: number | null
+    rating_avg: number | string | null
+}
+
+const removeFavorite = async (recipeId: number) => {
+    if (removingFavoriteId.value !== null) {
+        return
+    }
+
+    removingFavoriteId.value = recipeId
+    favoriteError.value = ''
+
+    try {
+        await api<void>(`${config.public.apiBase}/recipes/favourite/${recipeId}`, {
+            method: 'DELETE',
+        })
+        favoriteRecipes.value = favoriteRecipes.value.filter((recipe) => recipe.id !== recipeId)
+    } catch (error) {
+        console.error('Failed to remove favorite:', error)
+        favoriteError.value = t('account_remove_error')
+    } finally {
+        removingFavoriteId.value = null
+    }
 }
 
 onMounted(async () => {
@@ -91,7 +118,7 @@ onMounted(async () => {
         favoriteRecipes.value = data
     } catch (error) {
         console.error('Failed to load favorites:', error)
-        favoriteRecipes.value = []
+        favoriteError.value = t('account_favorites_load_error')
     }
 })
 </script>
@@ -125,6 +152,11 @@ onMounted(async () => {
     color: #fc6c3f;
     font-size: 13px;
     font-weight: 700;
+}
+
+.favorites-error {
+    margin: -12px 0 24px;
+    color: #b42318;
 }
 
 .favorites-grid {
@@ -252,7 +284,29 @@ onMounted(async () => {
 }
 
 .favorite-action-muted {
-    color: #888;
+    padding: 8px 12px;
+    border: 1px solid #d64545;
+    border-radius: 6px;
+    background: #fff1f0;
+    color: #b42318;
+    transition: color 160ms ease, background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.favorite-action-muted:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: #b42318;
+    color: #fff;
+    box-shadow: 0 3px 8px rgb(180 35 24 / 25%);
+}
+
+.favorite-action-muted:focus-visible {
+    outline: 3px solid rgb(180 35 24 / 35%);
+    outline-offset: 2px;
+}
+
+.favorite-action-muted:disabled {
+    cursor: wait;
+    opacity: 0.65;
 }
 
 .favorites-empty {

@@ -10,7 +10,7 @@
                     <article class="single_catagory home-category-card">
                         <img :src="cat.image" :alt="cat.title"/>
                         <div class="catagory-title">
-                            <h5>{{ cat.title }}</h5>
+                            <h5>{{ $t(cat.title) }}</h5>
                         </div>
                     </article>
                 </div>
@@ -20,10 +20,12 @@
 </template>
 
 <script setup>
+import { DEFAULT_CATEGORY_IMAGE } from '@/app/utils/imageFallbacks'
+
 const categories = [
-    { title: 'Food', image: 'https://placehold.co/640x420?text=Temp+Category' },
-    { title: 'Cooking', image: 'https://placehold.co/640x420?text=Temp+Category' },
-    { title: 'Lifestyle', image: 'https://placehold.co/640x420?text=Temp+Category' }
+    { title: 'home_category_food', image: DEFAULT_CATEGORY_IMAGE },
+    { title: 'home_category_cooking', image: DEFAULT_CATEGORY_IMAGE },
+    { title: 'home_category_lifestyle', image: DEFAULT_CATEGORY_IMAGE }
 ]
 </script>
 

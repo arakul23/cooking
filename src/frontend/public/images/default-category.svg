@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" fill="none">
+  <rect width="640" height="420" rx="28" fill="#EEF3E8"/>
+  <circle cx="320" cy="194" r="132" fill="#DDE8D2"/>
+  <path d="M190 215c8 80 59 123 130 123s122-43 130-123H190Z" fill="#FFFDF8" stroke="#6E8D62" stroke-width="9"/>
+  <path d="M208 216c35 28 72 42 112 42s77-14 112-42" stroke="#6E8D62" stroke-width="8" stroke-linecap="round"/>
+  <path d="M319 207c-49-33-64-70-44-111 42 14 67 49 67 101M321 205c12-54 42-82 89-83 2 45-22 78-73 98M311 213c-48-5-76-28-84-69 41-11 75 4 101 45" fill="#74945D"/>
+  <path d="M275 202c-3-47 10-78 40-94 18 35 15 69-10 102M336 199c23-40 51-59 86-55 0 38-20 65-61 80" fill="#91AE73"/>
+  <path d="M265 224c20-17 39-25 58-25 21 0 42 8 62 25" stroke="#E4A64E" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="275" cy="231" r="8" fill="#D96A4A"/>
+  <circle cx="365" cy="231" r="8" fill="#D96A4A"/>
+  <text x="320" y="385" text-anchor="middle" fill="#526B4B" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="5">CATEGORY</text>
+</svg>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { DEFAULT_RECIPE_IMAGE } from '@/app/utils/imageFallbacks'
+
 type ProductOption = {
     id: number
     name: string
@@ -52,7 +54,7 @@ type ApiCollection<T> = {
 const config = useRuntimeConfig()
 const { t, locale } = useI18n()
 const api = useApi()
-const fallbackImage = 'https://placehold.co/640x420?text=Recipe'
+const fallbackImage = DEFAULT_RECIPE_IMAGE
 const maxIngredients = 30
 const optionsUrl = computed(() =>
     `${config.public.apiBase}/recipes/fridge-search/options?locale=${encodeURIComponent(locale.value)}`,
@@ -256,7 +258,7 @@ const searchRecipes = async () => {
 
     <div class="breadcumb-nav">
         <div class="container">
-            <nav aria-label="breadcrumb">
+            <nav :aria-label="$t('breadcrumb_navigation')">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <NuxtLink to="/">
