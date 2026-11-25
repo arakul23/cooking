@@ -10,18 +10,19 @@ use App\Http\Requests\Recipe\FridgeSearchOptionsRequest;
 use App\Http\Requests\Recipe\FridgeSearchProductsRequest;
 use App\Http\Requests\Recipe\FridgeSearchRequest;
 use App\Http\Requests\Recipe\RatingRequest;
+use App\Http\Requests\Recipe\ShowRequest;
 use App\Http\Resources\RecipeResource;
 use App\Models\Product;
 use App\Models\Recipe;
 use App\Models\RecipeCategory;
 use App\Models\Unit;
 use App\Service\RatingService;
+use App\Service\RecipeDetailService;
 use App\Service\RecipeFridgeSearchService;
 use App\Service\RecipeService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Validation\Rule;
 
 class RecipeController extends Controller
 {
@@ -54,29 +55,12 @@ class RecipeController extends Controller
         );
     }
 
-    public function show(Request $request, Recipe $recipe): RecipeResource
-    {
-        $validated = $request->validate([
-            'locale' => ['sometimes', 'string', Rule::in(array_keys(config('app.available_locales')))],
-        ]);
-        $locale = $validated['locale'] ?? app()->getLocale();
-        $fallbackLocale = config('app.fallback_locale');
-
-        $recipe->rating_avg = $this->ratingService->refreshAverageRating($recipe);
-        $recipe->increment('views');
-        $recipe->load([
-            'categories',
-            'products',
-            'recipe_ratings',
-            'translations' => function ($query) use ($locale, $fallbackLocale): void {
-                $query
-                    ->whereIn('locale', array_unique([$locale, $fallbackLocale]))
-                    ->reorder()
-                    ->orderByRaw('CASE WHEN locale = ? THEN 0 ELSE 1 END', [$locale]);
-            },
-        ]);
-
-        return RecipeResource::make($recipe);
+    public function show(
+        ShowRequest $request,
+        Recipe $recipe,
+        RecipeDetailService $recipeDetailService,
+    ): RecipeResource {
+        return RecipeResource::make($recipeDetailService->prepareForShow($request, $recipe));
     }
 
     public function create(CreateRequest $request, RecipeService $recipeService): JsonResponse

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,7 +17,7 @@ class Recipe extends Model
     use HasFactory;
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 
     protected static function boot()
@@ -60,10 +61,15 @@ class Recipe extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    public function uniqueViews(): HasMany
+    {
+        return $this->hasMany(RecipeUniqueView::class);
+    }
+
     public function translations(): MorphMany
     {
         return $this->morphMany(Translation::class, 'translatable')
-            ->orderByRaw("CASE WHEN locale = ? THEN 0 ELSE 1 END", [App()->getLocale()]);
+            ->orderByRaw('CASE WHEN locale = ? THEN 0 ELSE 1 END', [App()->getLocale()]);
     }
 
     public function favouriteByUsers(): BelongsToMany

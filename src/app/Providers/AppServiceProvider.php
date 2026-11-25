@@ -36,5 +36,12 @@ class AppServiceProvider extends ServiceProvider
 
             return Limit::perMinute(1)->by($userId.':'.$recipeId);
         });
+
+        RateLimiter::for('recipe-pdf', function (Request $request) {
+            $userId = $request->user()?->getAuthIdentifier();
+            $key = $userId === null ? 'ip:'.$request->ip() : 'user:'.$userId;
+
+            return Limit::perMinute(10)->by($key);
+        });
     }
 }

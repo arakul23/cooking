@@ -75,6 +75,10 @@ return [
 
     'home' => '/home',
 
+    'redirects' => [
+        'email-verification' => config('app.frontend_url').'/dashboard',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Fortify Routes Prefix / Subdomain
@@ -165,8 +169,8 @@ return [
         Features::registration(),
         Features::resetPasswords(),
         Features::emailVerification(),
-        //Features::updateProfileInformation(),
-        //Features::updatePasswords(),
+        // Features::updateProfileInformation(),
+        // Features::updatePasswords(),
         /*Features::twoFactorAuthentication([
             'confirm' => true,
             'confirmPassword' => true,

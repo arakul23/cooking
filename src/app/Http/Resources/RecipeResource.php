@@ -40,6 +40,7 @@ class RecipeResource extends JsonResource
             'calories' => $this->calories,
             'total_time_minutes' => $this->total_time_minutes,
             'views' => $this->views,
+            'unique_views' => $this->whenCounted('uniqueViews'),
             'rating_avg' => $this->rating_avg,
             'rating_count' => $this->whenLoaded('recipe_ratings', fn () => $this->recipe_ratings->count()),
             'user_rating' => $userRating,

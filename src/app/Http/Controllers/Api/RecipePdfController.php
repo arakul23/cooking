@@ -6,16 +6,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Recipe\ExportPdfRequest;
+use App\Models\Product;
 use App\Models\Recipe;
+use App\Models\Unit;
 use Barryvdh\DomPDF\Facade\Pdf;
 use DOMDocument;
 use DOMNode;
+use Illuminate\Database\Eloquent\Collection;
 use RuntimeException;
 
 class RecipePdfController extends Controller
 {
     private const array LABELS = [
         'en' => [
+            'untitled' => 'Recipe',
             'categories' => 'Categories',
             'portions' => 'Portions',
             'calories' => 'Calories',
@@ -26,6 +30,7 @@ class RecipePdfController extends Controller
             'instructions' => 'Instructions',
         ],
         'uk' => [
+            'untitled' => 'Рецепт',
             'categories' => 'Категорії',
             'portions' => 'Порції',
             'calories' => 'Калорії',
@@ -48,28 +53,38 @@ class RecipePdfController extends Controller
             'translations',
             'recipe_ratings',
         ]);
+        $this->loadProductUnits($recipe->products);
 
         $translations = $recipe->translations->groupBy('locale');
         $selectedTranslations = $translations->get($locale, collect())->keyBy('key');
         $fallbackTranslations = $translations->get(config('app.fallback_locale'), collect())->keyBy('key');
-        $translation = static fn (string $key): string => (string) (
-            $selectedTranslations->get($key)?->value
-            ?? $fallbackTranslations->get($key)?->value
-            ?? ''
-        );
+        $translation = static function (string $key) use ($selectedTranslations, $fallbackTranslations, $recipe): string {
+            foreach ([
+                $selectedTranslations->get($key)?->value,
+                $fallbackTranslations->get($key)?->value,
+                $recipe->translations->firstWhere('key', $key)?->value,
+            ] as $value) {
+                if (is_string($value) && trim($value) !== '') {
+                    return $value;
+                }
+            }
+
+            return '';
+        };
+        $title = $translation('title') ?: self::LABELS[$locale]['untitled'];
 
         $content = $this->sanitizeContent($translation('content'));
 
         return Pdf::loadView('recipes.pdf', [
             'recipe' => $recipe,
-            'title' => $translation('title'),
+            'title' => $title,
             'description' => $translation('description'),
             'content' => $content,
             'locale' => $locale,
             'categories' => $recipe->categories->pluck('name'),
             'products' => $recipe->products->map(fn ($product) => [
                 'name' => $product->name,
-                'amount' => $product->pivot->amount,
+                'amount' => $this->formatAmount($product->pivot->amount),
                 'unit' => $product->pivot->unit?->localizedName($locale),
                 'note' => $product->pivot->note,
             ]),
@@ -77,7 +92,47 @@ class RecipePdfController extends Controller
             'labels' => self::LABELS[$locale],
         ])
             ->setPaper('a4')
-            ->download("{$translation('title')}.pdf");
+            ->download($this->downloadFilename($title, $recipe->getKey()));
+    }
+
+    /**
+     * @param  Collection<int, Product>  $products
+     */
+    private function loadProductUnits(Collection $products): void
+    {
+        $unitIds = $products->pluck('pivot.unit_id')->filter()->unique();
+
+        if ($unitIds->isEmpty()) {
+            return;
+        }
+
+        $units = Unit::query()
+            ->whereIn('id', $unitIds)
+            ->get()
+            ->keyBy('id');
+
+        foreach ($products as $product) {
+            $product->pivot->setRelation('unit', $units->get($product->pivot->unit_id));
+        }
+    }
+
+    private function downloadFilename(string $title, int|string $recipeId): string
+    {
+        $safeTitle = preg_replace('/[\/\\\\\x00-\x1F\x7F]/u', '_', $title);
+        $safeTitle = trim($safeTitle ?? '', ' .');
+
+        return ($safeTitle !== '' ? $safeTitle : "recipe-{$recipeId}").'.pdf';
+    }
+
+    private function formatAmount(string|int|float|null $amount): ?string
+    {
+        if ($amount === null) {
+            return null;
+        }
+
+        $formatted = rtrim(rtrim(number_format((float) $amount, 3, '.', ''), '0'), '.');
+
+        return $formatted !== '' ? $formatted : '0';
     }
 
     private function sanitizeContent(string $content): string

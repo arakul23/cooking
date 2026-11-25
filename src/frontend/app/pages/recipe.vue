@@ -9,6 +9,11 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const fallbackImage = DEFAULT_RECIPE_IMAGE
 const { isAuthenticated } = useAuth()
+const visitorId = useCookie('recipe_visitor_id', {
+    default: () => crypto.randomUUID(),
+    maxAge: 60 * 60 * 24 * 365,
+    sameSite: 'lax',
+})
 const api = useApi()
 const { locale, t } = useI18n()
 const isFavorite = ref(false)
@@ -39,6 +44,7 @@ type RecipeItem = {
     created_at: string;
     categories: RecipeCategory[];
     views: number;
+    unique_views: number;
     rating_avg: number;
     rating_count: number;
     user_rating: number | null;
@@ -77,6 +83,7 @@ const recipePdfUrl = computed(() =>
 const { data: recipe, pending, error } = await useFetch<RecipeItem | null>(
     recipeUrl,
     {
+        headers: { 'X-Visitor-Id': visitorId.value },
         watch: [recipeId, locale],
         transform: (res: ApiResponse<RecipeItem>) => res.data,
         default: () => null
@@ -363,6 +370,9 @@ const setRating = async (selectedRating: number) => {
                                     </div>
                                     <div class="post-comments">
                                         <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('views')}}: {{ recipe.views }}</a>
+                                    </div>
+                                    <div class="post-comments">
+                                        <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('unique_views')}}: {{ recipe.unique_views }}</a>
                                     </div>
                                     <div class="post-comments">
                                         <a><i class="fa fa-eye" aria-hidden="true"></i> {{$t('rating')}}: {{ recipe.rating_avg }} ({{ $t('rating_votes', { count: recipe.rating_count }) }})</a>

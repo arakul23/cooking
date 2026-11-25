@@ -16,11 +16,24 @@
 
         h1 {
             margin-bottom: 8px;
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
+
+        h1, .content {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
 
         h2 {
             margin: 22px 0 8px;
             font-size: 16px;
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
+
+        p, li {
+            page-break-inside: avoid;
         }
 
         ul {
@@ -46,14 +59,11 @@
             color: #727272;
         }
 
-        .content {
-            overflow-wrap: break-word;
-        }
     </style>
 </head>
 <body>
     <h1>{{ $title }}</h1>
-    @if ($description !== '')
+    @if (trim($description) !== '')
         <p>{{ $description }}</p>
     @endif
 
@@ -61,20 +71,22 @@
         <p><strong>{{ $labels['categories'] }}:</strong> {{ $categories->implode(', ') }}</p>
     @endif
 
-    <p class="metadata">
-        @if ($recipe->portions)
-            {{ $labels['portions'] }}: {{ $recipe->portions }}
-        @endif
-        @if ($recipe->calories)
-            &nbsp; {{ $labels['calories'] }}: {{ $recipe->calories }}
-        @endif
-        @if ($recipe->total_time_minutes)
-            &nbsp; {{ $labels['cooking_time'] }}: {{ $recipe->total_time_minutes }} {{ $labels['minutes'] }}
-        @endif
-        @if ($recipe->rating_avg)
-            &nbsp; {{ $labels['rating'] }}: {{ number_format((float) $recipe->rating_avg, 1) }} ({{ $ratingCount }})
-        @endif
-    </p>
+    @if ($recipe->portions !== null || $recipe->calories !== null || $recipe->total_time_minutes !== null || $ratingCount > 0)
+        <p class="metadata">
+            @if ($recipe->portions !== null)
+                {{ $labels['portions'] }}: {{ $recipe->portions }}
+            @endif
+            @if ($recipe->calories !== null)
+                &nbsp; {{ $labels['calories'] }}: {{ $recipe->calories }}
+            @endif
+            @if ($recipe->total_time_minutes !== null)
+                &nbsp; {{ $labels['cooking_time'] }}: {{ $recipe->total_time_minutes }} {{ $labels['minutes'] }}
+            @endif
+            @if ($ratingCount > 0)
+                &nbsp; {{ $labels['rating'] }}: {{ number_format((float) $recipe->rating_avg, 1) }} ({{ $ratingCount }})
+            @endif
+        </p>
+    @endif
 
     @if ($products->isNotEmpty())
         <h2>{{ $labels['ingredients'] }}</h2>
@@ -83,7 +95,7 @@
                 <li>
                     {{ $product['name'] }}
                     @if ($product['amount'] !== null)
-                        — {{ rtrim(rtrim((string) $product['amount'], '0'), '.') }} {{ $product['unit'] }}
+                        — {{ $product['amount'] }}@if ($product['unit'] !== '') {{ ' '.$product['unit'] }}@endif
                     @endif
                     @if ($product['note'])
                         ({{ $product['note'] }})

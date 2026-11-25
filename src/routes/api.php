@@ -22,7 +22,9 @@ Route::prefix('/recipes')->controller(RecipeController::class)->group(function (
     Route::get('/random', 'getRandomRecipe');
     Route::get('/fridge-search/options', 'fridgeSearchOptions');
     Route::get('/fridge-search/products', 'fridgeSearchProducts');
-    Route::get('/{recipe}/pdf', RecipePdfController::class)->whereNumber('recipe');
+    Route::get('/{recipe}/pdf', RecipePdfController::class)
+        ->middleware('throttle:recipe-pdf')
+        ->whereNumber('recipe');
     Route::get('/{recipe}', 'show')->whereNumber('recipe');
     Route::post('/{recipe}/rating', 'setRating')
         ->middleware(['auth:sanctum,api', 'throttle:recipe-rating'])

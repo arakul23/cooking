@@ -14,7 +14,7 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->post('/login', [
+        $response = $this->postJson('/api/auth/login', [
             'email' => $user->email,
             'password' => 'password',
         ]);
@@ -27,10 +27,10 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->post('/login', [
+        $this->postJson('/api/auth/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
-        ]);
+        ])->assertUnprocessable();
 
         $this->assertGuest();
     }
@@ -39,7 +39,7 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post('/logout');
+        $response = $this->actingAs($user)->postJson('/api/auth/logout');
 
         $this->assertGuest();
         $response->assertNoContent();
